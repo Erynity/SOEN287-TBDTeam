@@ -1,0 +1,380 @@
+/* ============================================================
+   SMART CAMPUS EVENT PLANNER - SHARED STYLESHEET
+   SOEN 287 Summer 2026 - Team: Joy, Eryne, Karina, Marie
+
+   RULES FOR THE TEAM:
+   1. Every page links this file. Do not write your own copies
+      of these styles inside your page.
+   2. Use the CSS variables (the --something values below) for
+      all colors. Never hard-code a hex color in your page.
+   3. If you need a new shared component (used on 2+ pages),
+      ask in the group chat and we add it HERE, once.
+   4. Page-specific tweaks can go in a <style> block on your
+      own page, but keep them small.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. DESIGN TOKENS (CSS variables)
+   Defined once on :root, used everywhere with var(--name).
+   Change a value here and the whole site updates. This is
+   also how we would add dark mode later: swap these values.
+   Palette: Concordia maroon + warm paper neutrals.
+   ------------------------------------------------------------ */
+:root {
+  /* Brand */
+  --maroon: #912338;        /* Concordia maroon - primary actions, links */
+  --maroon-dark: #6e1a2b;   /* hover state for maroon */
+  --gold: #e5a712;          /* accent - highlights, focus rings */
+
+  /* Neutrals */
+  --bg: #faf8f5;            /* page background (warm off-white) */
+  --surface: #ffffff;       /* cards, nav, tables sit on this */
+  --border: #e6e0d8;        /* hairline borders */
+  --text: #2b2723;          /* main text (soft black) */
+  --muted: #6f675e;         /* secondary text, labels, captions */
+
+  /* Event status colors (used by .badge-* below) */
+  --status-open: #1d7a3e;
+  --status-full: #b25b00;
+  --status-cancelled: #b3261e;
+  --status-completed: #4a5568;
+
+  /* Spacing scale - use these instead of random pixel values */
+  --space-1: 0.25rem;   /* 4px  */
+  --space-2: 0.5rem;    /* 8px  */
+  --space-3: 1rem;      /* 16px */
+  --space-4: 1.5rem;    /* 24px */
+  --space-5: 2.5rem;    /* 40px */
+
+  --radius: 10px;
+  --shadow: 0 1px 3px rgba(43, 39, 35, 0.08), 0 4px 14px rgba(43, 39, 35, 0.06);
+  --maxwidth: 1080px;   /* content never gets wider than this */
+}
+
+/* ------------------------------------------------------------
+   2. RESET + BASE
+   Browsers ship with inconsistent default styles. We flatten
+   them so every page starts from the same place.
+   ------------------------------------------------------------ */
+*, *::before, *::after {
+  box-sizing: border-box;   /* width includes padding + border. See Lesson 1. */
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Public Sans", -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;   /* lets the footer stick to the bottom */
+}
+
+main {
+  flex: 1;                  /* main grows to push footer down */
+  width: 100%;
+  max-width: var(--maxwidth);
+  margin: 0 auto;           /* centers the content column */
+  padding: var(--space-5) var(--space-3);
+}
+
+img { max-width: 100%; display: block; }
+
+/* ------------------------------------------------------------
+   3. TYPOGRAPHY
+   ------------------------------------------------------------ */
+h1, h2, h3 {
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+h1 { font-size: 2rem;    margin-bottom: var(--space-3); }
+h2 { font-size: 1.4rem;  margin-bottom: var(--space-2); margin-top: var(--space-4); }
+h3 { font-size: 1.1rem;  margin-bottom: var(--space-2); }
+p  { margin-bottom: var(--space-3); }
+
+a {
+  color: var(--maroon);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+a:hover { color: var(--maroon-dark); }
+
+.muted { color: var(--muted); font-size: 0.9rem; }
+
+/* Small uppercase label above headings, e.g. "STUDENT DASHBOARD" */
+.eyebrow {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--maroon);
+  margin-bottom: var(--space-1);
+}
+
+/* ------------------------------------------------------------
+   4. NAVIGATION BAR
+   Same markup on every page. See template.html.
+   ------------------------------------------------------------ */
+.navbar {
+  background: var(--surface);
+  border-bottom: 3px solid var(--maroon);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.navbar-inner {
+  max-width: var(--maxwidth);
+  margin: 0 auto;
+  padding: var(--space-2) var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;          /* wraps gracefully on small screens */
+}
+
+.navbar-brand {
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--maroon);
+  text-decoration: none;
+}
+.navbar-brand:hover { color: var(--maroon-dark); }
+
+.navbar-links {
+  display: flex;
+  gap: var(--space-1);
+  list-style: none;
+  padding: 0;
+  margin-left: auto;        /* pushes links to the right side */
+  flex-wrap: wrap;
+}
+
+.navbar-links a {
+  display: block;
+  padding: var(--space-1) var(--space-2);
+  border-radius: 6px;
+  text-decoration: none;
+  color: var(--text);
+  font-size: 0.92rem;
+}
+.navbar-links a:hover { background: var(--bg); color: var(--maroon); }
+
+/* Add class="active" to the link for the CURRENT page */
+.navbar-links a.active {
+  background: var(--maroon);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ------------------------------------------------------------
+   5. BUTTONS
+   Use <button class="btn"> or <a class="btn">.
+   ------------------------------------------------------------ */
+.btn {
+  display: inline-block;
+  padding: 0.55rem 1.1rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: var(--maroon);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.btn:hover { background: var(--maroon-dark); color: #fff; }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--maroon);
+  border-color: var(--maroon);
+}
+.btn-secondary:hover { background: var(--maroon); color: #fff; }
+
+.btn-danger { background: var(--status-cancelled); }
+.btn-danger:hover { background: #8f1e18; }
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Visible keyboard focus - accessibility, do not remove */
+.btn:focus-visible, a:focus-visible, input:focus-visible,
+select:focus-visible, textarea:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------
+   6. CARDS
+   The workhorse component: event cards, dashboard stat cards.
+   ------------------------------------------------------------ */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: var(--space-4);
+}
+
+.card h3 { margin-top: 0; }
+
+/* Dashboard stat card: big number, small label */
+.stat-card {
+  text-align: left;
+  border-left: 4px solid var(--maroon);
+}
+.stat-number { font-size: 2.2rem; font-weight: 800; line-height: 1.1; }
+.stat-label  { color: var(--muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; }
+
+/* ------------------------------------------------------------
+   7. GRID
+   Responsive card grids without media queries: auto-fit makes
+   columns collapse automatically as the screen narrows.
+   ------------------------------------------------------------ */
+.grid {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+/* ------------------------------------------------------------
+   8. STATUS BADGES
+   Event statuses from the project spec: open, full, cancelled,
+   completed. Usage: <span class="badge badge-open">Open</span>
+   ------------------------------------------------------------ */
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.badge-open      { background: var(--status-open); }
+.badge-full      { background: var(--status-full); }
+.badge-cancelled { background: var(--status-cancelled); }
+.badge-completed { background: var(--status-completed); }
+
+/* ------------------------------------------------------------
+   9. FORMS
+   Login, register, create event - all forms look like this.
+   ------------------------------------------------------------ */
+.form-group { margin-bottom: var(--space-3); }
+
+label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: var(--space-1);
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font: inherit;
+  background: var(--surface);
+  color: var(--text);
+}
+input:focus, select:focus, textarea:focus { border-color: var(--maroon); }
+
+/* Frontend validation message. Hidden by default; your page JS
+   removes the "hidden" attribute or toggles this class. */
+.form-error {
+  color: var(--status-cancelled);
+  font-size: 0.85rem;
+  margin-top: var(--space-1);
+}
+
+/* Narrow centered form (login / register pages) */
+.form-narrow { max-width: 420px; margin: 0 auto; }
+
+/* ------------------------------------------------------------
+   10. TABLES
+   Registrations list, manage events, attendance.
+   ------------------------------------------------------------ */
+.table-wrap { overflow-x: auto; }   /* table scrolls sideways on phones */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  font-size: 0.93rem;
+}
+th, td {
+  padding: var(--space-2) var(--space-3);
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+th {
+  background: var(--maroon);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: var(--bg); }
+
+/* ------------------------------------------------------------
+   11. FOOTER
+   ------------------------------------------------------------ */
+.footer {
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  padding: var(--space-3);
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+/* ------------------------------------------------------------
+   12. UTILITIES
+   ------------------------------------------------------------ */
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+.mt-3 { margin-top: var(--space-3); }
+.mt-4 { margin-top: var(--space-4); }
+.text-center { text-align: center; }
+
+/* ------------------------------------------------------------
+   13. RESPONSIVE ADJUSTMENTS
+   Most of the layout is already responsive (flex-wrap, grid
+   auto-fit). These are the few things that need explicit rules.
+   ------------------------------------------------------------ */
+@media (max-width: 640px) {
+  h1 { font-size: 1.5rem; }
+  main { padding: var(--space-4) var(--space-3); }
+  .navbar-links { margin-left: 0; width: 100%; }
+}
+
+/* Respect users who turn off animations in their OS settings */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; }
+}
