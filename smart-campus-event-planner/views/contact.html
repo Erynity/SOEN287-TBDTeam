@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- ==========================================================
+       PAGE TEMPLATE - Smart Campus Event Planner (SOEN 287)
+
+       HOW TO USE:
+       1. Copy this file, rename it (e.g. events.html).
+       2. Change the <title> below.
+       3. In the nav, move class="active" to YOUR page's link.
+       4. Build your page inside <main>. Use classes from
+          /public/css/style.css (cards, buttons, forms, tables).
+       5. Do NOT edit the navbar structure or the stylesheet
+          without telling the group.
+       ========================================================== -->
+    <meta charset="UTF-8">
+    <!-- viewport tag = required for responsive design on phones -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PAGE NAME - Smart Campus Event Planner</title>
+
+    <!-- Shared font + stylesheet. Path is relative to /views/. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../public/css/style.css">
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR (same on every page) ============
+       During Deliverable 1 we show ALL links so the prof can
+       navigate everything. In Deliverable 2, the backend will
+       decide which links to show based on who is logged in.  -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a class="navbar-brand" href="index.html">Campus Events</a>
+            <ul class="navbar-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="student-dashboard.html">Student</a></li>
+                <li><a href="my-registrations.html">My Registrations</a></li>
+                <li><a href="admin-dashboard.html">Admin</a></li>
+                <li><a href="contact.html">About</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a class="btn" href="register.html" style="padding:0.3rem 0.9rem;">Sign up</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ================= YOUR PAGE CONTENT ====================== -->
+    <main>
+        <div>
+            <h1>Contact Us</h1>
+            <p>We'd ove to hear from you!<br>Send us a message and we'll<br>get back to you as soon as possible.</p>
+            <p>
+                <b>Email</b><br>info@smartcampus.ca
+            </p>
+            <p><b>Phone</b><br>(514)-123-4567</p>
+            <p><b>Address</b><br>1455 De Maisonneuve Blvd. W.,<br>Montreal, QC H3G 1M8</p>
+            <p><b>Office Hours</b><br>Mon-Fri 9:00AM - 5:00PM</p>
+        </div>
+        <div class="card">
+            <form action="../routes/registrationRoutes.js"></form>
+            <h2>Send us a Message</h2>
+            <br>
+            <lable for="fullname"><b>Full Name</b></lable>
+            <input type="text" id="fullname" name="fullname">
+
+            <lable for="email"><b>Email Address</b></lable>
+            <input type="email" id="email" name="email">
+
+            <lable for="subject"><b>Subject</b></lable>
+            <input type="text" id="subject" name="subject" placeholder="">
+
+            <label for="message"><b>Message</b></label>
+            <textarea id="message" name="message" style="height: 125px;"
+                placeholder="Type your message here..."></textarea>
+
+
+
+            <a href="mailto:"><button class="btn">Send Message</button></a>
+            <p style="text-align:center">We typically respond within 24 hours.</p>
+            </form>
+        </div>
+    </main>
+
+    <!-- ================= FOOTER (same on every page) ============ -->
+    <footer class="footer">
+        Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 3
+    </footer>
+
+</body>
+
+</html>
