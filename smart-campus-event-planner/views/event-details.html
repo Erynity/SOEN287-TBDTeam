@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ==========================================================
+       PAGE TEMPLATE - Smart Campus Event Planner (SOEN 287)
+
+       HOW TO USE:
+       1. Copy this file, rename it (e.g. events.html).
+       2. Change the <title> below.
+       3. In the nav, move class="active" to YOUR page's link.
+       4. Build your page inside <main>. Use classes from
+          /public/css/style.css (cards, buttons, forms, tables).
+       5. Do NOT edit the navbar structure or the stylesheet
+          without telling the group.
+       ========================================================== -->
+  <meta charset="UTF-8">
+  <!-- viewport tag = required for responsive design on phones -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Event Details - Smart Campus Event Planner</title>
+
+  <!-- Shared font + stylesheet. Path is relative to /views/. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../public/css/style.css">
+</head>
+<body>
+
+  <!-- ================= NAVBAR (same on every page) ============
+       During Deliverable 1 we show ALL links so the prof can
+       navigate everything. In Deliverable 2, the backend will
+       decide which links to show based on who is logged in.  -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a class="navbar-brand" href="index.html">Campus Events</a>
+      <ul class="navbar-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="student-dashboard.html">Student</a></li>
+        <li><a href="my-registrations.html">My Registrations</a></li>
+        <li><a href="admin-dashboard.html">Admin</a></li>
+        <li><a href="contact.html">About</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a class="btn" href="register.html" style="padding:0.3rem 0.9rem;">Sign up</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ================= YOUR PAGE CONTENT ====================== -->
+  <main>
+
+    <!-- Delete everything between here and the "END EXAMPLES"
+         comment. It exists only to show you the components. -->
+
+    <span class="eyebrow">Event Details</span>
+    
+    <div class="card">
+        <div class="flex-between">
+        <h1>Event Title</h1>
+        <span class="badge badge-open">Open</span>
+        </div>
+        <div class="flex-between">
+        <!-- category-->
+        <p class="badge badge-open">Academic Workshop</p>
+        <!--organizer-->
+        <p>organized by The Hive</p>
+
+        </div>
+    
+        <!-- date, start and end time-->
+        <p class="muted">July 21, 2026 · 18:00 to 19:00</p>
+        
+        <!--location-->
+        <p class="muted">at The Hive · address</p>
+        
+        <!-- event description-->
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis placerat ex. Donec porta urna massa, in congue nisi commodo eu. Integer vitae purus erat. Aenean suscipit, eros ac tincidunt venenatis, diam turpis fringilla purus, in ultricies orci dolor in leo. Suspendisse molestie sapien ac felis consequat, at tincidunt nisi consequat. Pellentesque imperdiet augue quis dolor maximus efficitur. Aenean sollicitudin quis eros ac ullamcorper. Aliquam non rhoncus mauris. Praesent et lobortis risus. Ut non ante tempus, pulvinar leo sed, porta diam. Fusce sem erat, dictum eu est eu, suscipit volutpat metus. Integer euismod nulla magna. Ut sed laoreet ante, nec posuere dolor. Praesent magna nunc, consequat non faucibus a, varius quis magna.</p>
+
+        <div class="flex-between">
+        <!--capacity-->
+        <p class="muted">4/10 spots filled</p>
+    
+        <!--status-->
+        <p class="btn">Register</p>
+        </div>
+</div>
+
+    <!-- END EXAMPLES -->
+
+  </main>
+
+  <!-- ================= FOOTER (same on every page) ============ -->
+  <footer class="footer">
+    Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 3
+  </footer>
+
+</body>
+</html>

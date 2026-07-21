@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ==========================================================
+       PAGE TEMPLATE - Smart Campus Event Planner (SOEN 287)
+
+       HOW TO USE:
+       1. Copy this file, rename it (e.g. events.html).
+       2. Change the <title> below.
+       3. In the nav, move class="active" to YOUR page's link.
+       4. Build your page inside <main>. Use classes from
+          /public/css/style.css (cards, buttons, forms, tables).
+       5. Do NOT edit the navbar structure or the stylesheet
+          without telling the group.
+       ========================================================== -->
+  <meta charset="UTF-8">
+  <!-- viewport tag = required for responsive design on phones -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Student Dashboard - Smart Campus Event Planner</title>
+
+  <!-- Shared font + stylesheet. Path is relative to /views/. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../public/css/style.css">
+</head>
+<body>
+
+  <!-- ================= NAVBAR (same on every page) ============
+       During Deliverable 1 we show ALL links so the prof can
+       navigate everything. In Deliverable 2, the backend will
+       decide which links to show based on who is logged in.  -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a class="navbar-brand" href="index.html">Campus Events</a>
+      <ul class="navbar-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a class="active" href="student-dashboard.html">Student</a></li>
+        <li><a href="my-registrations.html">My Registrations</a></li>
+        <li><a href="admin-dashboard.html">Admin</a></li>
+        <li><a href="contact.html">About</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a class="btn" href="register.html" style="padding:0.3rem 0.9rem;">Sign up</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ================= YOUR PAGE CONTENT ====================== -->
+  <main>
+
+    <span class="eyebrow">Student Dashboard</span>
+    <h1>Jane Doe</h1>
+
+    <!-- dashboard stats -->
+    <h2>Your Satistics</h2>
+    <div class="grid">
+      <div class="card stat-card">
+        <div class="stat-number">7</div>
+        <div class="stat-label">Registered Events</div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-number">2</div>
+        <div class="stat-label">Upcoming Events</div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-number">4</div>
+        <div class="stat-label">Events Attended</div>
+      </div>
+      
+    </div>
+
+    <!-- Upcoming Events -->
+    <h2>Upcoming</h2>
+    <div class="grid">
+      <div class="card">
+        <div class="flex-between">
+          <h3>Intro to Rock Climbing</h3>
+          <span class="badge badge-open">Open</span>
+        </div>
+        <p class="muted">Sports · July 20, 2026 · 6:00 PM · Le Gym</p>
+        <p>Beginner-friendly session run by the climbing club. Shoes provided.</p>
+        <div class="flex-between">
+          <span class="muted">18 / 25 spots filled</span>
+          <a class="btn" href="event-details.html">View details</a>
+        </div>
+      </div>
+      <div class="card">
+        <div class="flex-between">
+          <h3>Resume Workshop</h3>
+          <span class="badge badge-full">Full</span>
+        </div>
+        <p class="muted">Career · July 22, 2026 · 1:00 PM · H-110</p>
+        <p>Bring your resume for live feedback from co-op advisors.</p>
+        <div class="flex-between">
+          <span class="muted">40 / 40 spots filled</span>
+          <button class="btn" disabled>Event full</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Suggested upcoming events -->
+    <h2>Suggested Events For You</h2>
+    <div class="grid">
+      <div class="card">
+        <div class="flex-between">
+          <h3>Intro to Rock Climbing</h3>
+          <span class="badge badge-open">Open</span>
+        </div>
+        <p class="muted">Sports · July 20, 2026 · 6:00 PM · Le Gym</p>
+        <p>Beginner-friendly session run by the climbing club. Shoes provided.</p>
+        <div class="flex-between">
+          <span class="muted">18 / 25 spots filled</span>
+          <a class="btn" href="event-details.html">View details</a>
+        </div>
+      </div>
+      <div class="card">
+        <div class="flex-between">
+          <h3>Resume Workshop</h3>
+          <span class="badge badge-full">Full</span>
+        </div>
+        <p class="muted">Career · July 22, 2026 · 1:00 PM · H-110</p>
+        <p>Bring your resume for live feedback from co-op advisors.</p>
+        <div class="flex-between">
+          <span class="muted">40 / 40 spots filled</span>
+          <button class="btn" disabled>Event full</button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Table -->
+    <h2>Registered Events</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Upcoming Events</th><th>Date</th><th>Status</th><th>Action</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Intro to Rock Climbing</td>
+            <td>July 20, 2026</td>
+            <td><span class="badge badge-open">Registered</span></td>
+            <td><button class="btn btn-danger" style="padding:0.3rem 0.8rem;">Cancel</button></td>
+          </tr>
+          <tr>
+            <th>Past Events</th><th>Date</th><th>Status</th><th>Action</th>
+          </tr>
+          <tr>
+            <td>AI Guest Lecture</td>
+            <td>July 15, 2026</td>
+            <td><span class="badge badge-completed">Attended</span></td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td>Art Therapy Workshop</td>
+            <td>July 10, 2026</td>
+            <td><span class="badge badge-completed">Cancelled</span></td>
+            <td>-</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- END EXAMPLES -->
+
+  </main>
+
+  <!-- ================= FOOTER (same on every page) ============ -->
+  <footer class="footer">
+    Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 3
+  </footer>
+
+</body>
+</html>
