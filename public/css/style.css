@@ -82,6 +82,7 @@ main {
   max-width: var(--maxwidth);
   margin: 0 auto;           /* centers the content column */
   padding: var(--space-5) var(--space-3);
+  padding-top: var(--space-3);
 }
 
 img { max-width: 100%; display: block; }
@@ -126,7 +127,7 @@ a:hover { color: var(--maroon-dark); }
 .navbar {
   background: var(--surface);
   border-bottom: 3px solid var(--maroon);
-  position: sticky;
+  position: relative;
   top: 0;
   z-index: 50;
 }
@@ -137,8 +138,10 @@ a:hover { color: var(--maroon-dark); }
   padding: var(--space-2) var(--space-3);
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: var(--space-3);
   flex-wrap: wrap;          /* wraps gracefully on small screens */
+  position: relative;
 }
 
 .navbar-brand {
@@ -178,6 +181,49 @@ a:hover { color: var(--maroon-dark); }
   font-weight: 600;
 }
 
+.nav-toggle {
+  display: flex; flex-direction: column; justify-content: center;
+  gap: 5px; width: 44px; height: 44px; padding: 10px;
+  background: none; border: none; border-radius: var(--radius);
+  cursor: pointer; transition: background 0.2s;
+}
+.nav-toggle:hover { background: rgba(0,0,0,0.05); }
+.nav-toggle span {
+  display: block; height: 3px; width: 100%; border-radius: 2px;
+  background: var(--maroon); transition: transform 0.3s, opacity 0.3s;
+}
+.nav-toggle.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; }
+.nav-toggle.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+.navbar-links {
+  position: absolute;
+  right: 18px;
+  top: 64px;
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 180px;
+  list-style: none;
+  margin: 0;
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 20;
+}
+.navbar-links.open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+
 /* ------------------------------------------------------------
    5. BUTTONS
    Use <button class="btn"> or <a class="btn">.
@@ -211,6 +257,11 @@ a:hover { color: var(--maroon-dark); }
 .btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.back-btn {
+  display: inline-block;
+  margin-bottom: var(--space-3);   /* space under the button */
 }
 
 /* Visible keyboard focus - accessibility, do not remove */

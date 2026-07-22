@@ -26,6 +26,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="public/css/style.css">
     <link rel="icon" href="public/images/favicon.svg" type="image/svg+xml">
+    <script src="public/js/main.js" defer></script>
 
 </head>
 
@@ -37,7 +38,15 @@
        decide which links to show based on who is logged in.  -->
     <nav class="navbar">
         <div class="navbar-inner">
-            <a class="navbar-brand" href="index.html">Campus Events</a>
+            <a class="navbar-brand" href="index.html">
+                <img src="public/images/logo.svg" alt="" width="28" height="28">
+                Campus Events
+            </a>
+
+            <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+
             <ul class="navbar-links">
                 <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="views/events.html">Events</a></li>
