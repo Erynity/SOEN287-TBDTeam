@@ -18,7 +18,7 @@
     <!-- viewport tag = required for responsive design on phones -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>PAGE NAME - Smart Campus Event Planner</title>
+    <title>Contact - Smart Campus Event Planner</title>
 
     <!-- Shared font + stylesheet. Path is relative to /views/. -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -42,7 +42,7 @@
                 <li><a href="student-dashboard.html">Student</a></li>
                 <li><a href="my-registrations.html">My Registrations</a></li>
                 <li><a href="admin-dashboard.html">Admin</a></li>
-                <li><a href="contact.html">About</a></li>
+                <li><a href="contact.html" class="active">About</a></li>
                 <li><a href="login.html">Login</a></li>
                 <li><a class="btn" href="register.html" style="padding:0.3rem 0.9rem;">Sign up</a></li>
             </ul>
@@ -53,7 +53,7 @@
     <main>
         <div>
             <h1>Contact Us</h1>
-            <p>We'd ove to hear from you!<br>Send us a message and we'll<br>get back to you as soon as possible.</p>
+            <p>We'd love to hear from you!<br>Send us a message and we'll<br>get back to you as soon as possible.</p>
             <p>
                 <b>Email</b><br>info@smartcampus.ca
             </p>
@@ -65,13 +65,13 @@
             <form action="../routes/registrationRoutes.js"></form>
             <h2>Send us a Message</h2>
             <br>
-            <lable for="fullname"><b>Full Name</b></lable>
+            <label for="fullname"><b>Full Name</b></label>
             <input type="text" id="fullname" name="fullname">
 
-            <lable for="email"><b>Email Address</b></lable>
+            <label for="email"><b>Email Address</b></label>
             <input type="email" id="email" name="email">
 
-            <lable for="subject"><b>Subject</b></lable>
+            <label for="subject"><b>Subject</b></label>
             <input type="text" id="subject" name="subject" placeholder="">
 
             <label for="message"><b>Message</b></label>
@@ -80,7 +80,7 @@
 
 
 
-            <a href="mailto:"><button class="btn">Send Message</button></a>
+            <button class="btn" type="submit" a href="mailto:">Send Message</button>
             <p style="text-align:center">We typically respond within 24 hours.</p>
             </form>
         </div>
@@ -88,7 +88,7 @@
 
     <!-- ================= FOOTER (same on every page) ============ -->
     <footer class="footer">
-        Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 3
+        Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 13
     </footer>
 
 </body>
