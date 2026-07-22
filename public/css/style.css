@@ -271,6 +271,14 @@ select:focus-visible, textarea:focus-visible {
   outline-offset: 2px;
 }
 
+#login-form button {
+  margin-top: var(--space-3);
+}
+
+#register-form button {
+  margin-top: var(--space-3);
+}
+
 /* ------------------------------------------------------------
    6. CARDS
    The workhorse component: event cards, dashboard stat cards.
