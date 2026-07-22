@@ -10,8 +10,8 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     setupNavToggle();
-    updateNavForRole();
     setupLoginForm();
+    addBackButton();
 });
 
 function setupNavToggle() {
@@ -39,5 +39,41 @@ function setupNavToggle() {
   // Press Escape to close
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') setMenu(false);
+  });
+}
+
+function addBackButton() {
+  const main = document.querySelector('main');
+  if (!main) return;
+  if (document.body.dataset.page === 'home') return;   // skip home
+
+  const back = document.createElement('button');
+  back.innerHTML = '<span style="font-size:1.5em; line-height:1;">←</span> Back';
+  back.className = 'btn btn-secondary back-btn';
+  back.addEventListener('click', () => {
+    if (history.length > 1) history.back();
+    else window.location.href = '../index.html';
+  });
+  main.prepend(back);
+}
+
+const TEST_ACCOUNTS = [
+  { email: 'student@campus.ca', password: 'student123', redirect: 'student-dashboard.html' },
+  { email: 'admin@campus.ca',   password: 'admin123',   redirect: 'admin-dashboard.html'  },
+];
+
+function setupLoginForm() {
+  const form = document.querySelector('#login-form');
+  if (!form) return;
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = document.querySelector('#email').value.trim().toLowerCase();
+    const password = document.querySelector('#password').value;
+    const error = document.querySelector('#login-error');
+
+    const match = TEST_ACCOUNTS.find(a => a.email === email && a.password === password);
+    if (match) window.location.href = match.redirect;
+    else { error.textContent = 'Invalid username or password.'; error.hidden = false; }
   });
 }

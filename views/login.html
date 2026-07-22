@@ -71,18 +71,38 @@
             </div>
         </div>
         <div class="card">
-            <form action="../routes/registrationRoutes.js"></form>
-            <h2>Log In</h2>
-            <p>Enter your credentials to access your account</p>
+            <form id="login-form">
+                <h2>Log In</h2>
+                <p>Enter your credentials to access your account</p>
 
-            <label for="email">Email Address</label>
-            <input type="email" id="email" name="email">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email">
 
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password">
 
-            <button class="btn" type="submit">Log In</button>
-            <p>Don't have an account? <a href="register.html" style="color:maroon">Create one</a></p>
+                <p id="login-error" hidden style="color: var(--status-cancelled);"></p>
+
+              <button class="btn" type="submit">Log In</button>
+              <p>Don't have an account? <a href="register.html" style="color:maroon">Create one</a></p>
+
+              <p class="muted" style="font-size:0.9rem; margin-top:1rem;">
+               Demo accounts —<br>
+                Student: student@campus.ca / student123<br>
+                Admin: admin@campus.ca / admin123
+                </p>
+            </form>
+                <h2>Log In</h2>
+                <p>Enter your credentials to access your account</p>
+
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email">
+
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password">
+
+                <button class="btn" type="submit">Log In</button>
+                <p>Don't have an account? <a href="register.html" style="color:maroon">Create one</a></p>
             </form>
 
         </div>
