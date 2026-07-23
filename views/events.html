@@ -26,6 +26,7 @@
   <link rel="stylesheet" href="../public/css/style.css">
   <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml">
   <script src="../public/js/main.js" defer></script>
+  
 </head>
 
 <body data-back="auto">
@@ -62,48 +63,52 @@
   <!-- ================= YOUR PAGE CONTENT ====================== -->
   <main>
 
-    <!-- Delete everything between here and the "END EXAMPLES"
-         comment. It exists only to show you the components. -->
 
     <span class="eyebrow">Events</span>
-    <h1>Every component in one place</h1>
+    <h1>Every Event in one place</h1>
 
-    <!--Add filters and search function
-        filters for category, date, location and organizer-->
+    <!--filters and search function
+        filters for category, date, location and organizer
+        FINISH PLUGGING IT IN WITH JS-->
+    <div class="filters">
+      <input type="text" id="searchInput" placeholder="Search events...">
 
-    <!-- Event list -->
-    <div class="grid">
-      <div class="card">
-        <div class="flex-between">
-          <h3>Intro to Rock Climbing</h3>
-          <span class="badge badge-open">Open</span>
-        </div>
-        <p class="muted">Sports · July 20, 2026 · 6:00 PM · Le Gym</p>
-        <p>Beginner-friendly session run by the climbing club. Shoes provided.</p>
-        <div class="flex-between">
-          <span class="muted">18 / 25 spots filled</span>
-          <a class="btn" href="event-details.html">View details</a>
-        </div>
-      </div>
-      <div class="card">
-        <div class="flex-between">
-          <h3>Resume Workshop</h3>
-          <span class="badge badge-full">Full</span>
-        </div>
-        <p class="muted">Career · July 22, 2026 · 1:00 PM · H-110</p>
-        <p>Bring your resume for live feedback from co-op advisors.</p>
-        <div class="flex-between">
-          <span class="muted">40 / 40 spots filled</span>
-          <button class="btn" disabled>Event full</button>
-        </div>
-      </div>
+      <select id="categoryFilter">
+          <option value="">All Categories</option>
+          <option>Academic workshops</option>
+          <option>Career events</option>
+          <option>Club activities</option>
+          <option>Sports events</option>
+          <option>Cultural events</option>
+          <option>Volunteering events</option>
+          <option>Social events</option>
+          <option>Guest lectures</option>
+          <option>Networking events</option>
+          <option>Other</option>
+      </select>
+
+      <select id="organizerFilter">
+          <option value="">All Organizers</option>
+      </select>
+
+      <select id="statusFilter">
+          <option value="">All Statuses</option>
+          <option>Open</option>
+          <option>Full</option>
+          <option>Cancelled</option>
+          <option>Completed</option>
+      </select>
     </div>
 
+    <div class="grid" id="EVENT_GRID"></div>
 
+    <!--events populated by js in main.js-->
+    <div class="grid" id="EVENT_GRID"></div>
 
-    <!-- END EXAMPLES -->
 
   </main>
+
+
 
   <!-- ================= FOOTER (same on every page) ============ -->
   <footer class="footer">

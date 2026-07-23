@@ -70,38 +70,32 @@
 
     <div class="card">
       <div class="flex-between">
-        <h1>Event Title</h1>
-        <span class="badge badge-open">Open</span>
+        <h1 id="eventTitle"></h1>
+        <span id="eventStatus" class="badge badge-open"></span>
       </div>
       <div class="flex-between">
         <!-- category-->
-        <p class="badge badge-open">Academic Workshop</p>
+        <p id="eventCategory" class="badge badge-open"></p>
         <!--organizer-->
-        <p>organized by The Hive</p>
+        <p>organized by <span id="eventOrganizer"></span></p>
 
       </div>
 
       <!-- date, start and end time-->
-      <p class="muted">July 21, 2026 · 18:00 to 19:00</p>
+      <p id="eventDateTime" class="muted"></p>
 
       <!--location-->
-      <p class="muted">at The Hive · address</p>
+      <p id="eventLocation" class="muted"></p>
 
       <!-- event description-->
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis placerat ex. Donec porta urna massa, in
-        congue nisi commodo eu. Integer vitae purus erat. Aenean suscipit, eros ac tincidunt venenatis, diam turpis
-        fringilla purus, in ultricies orci dolor in leo. Suspendisse molestie sapien ac felis consequat, at tincidunt
-        nisi consequat. Pellentesque imperdiet augue quis dolor maximus efficitur. Aenean sollicitudin quis eros ac
-        ullamcorper. Aliquam non rhoncus mauris. Praesent et lobortis risus. Ut non ante tempus, pulvinar leo sed, porta
-        diam. Fusce sem erat, dictum eu est eu, suscipit volutpat metus. Integer euismod nulla magna. Ut sed laoreet
-        ante, nec posuere dolor. Praesent magna nunc, consequat non faucibus a, varius quis magna.</p>
+      <p id="eventDescription"></p>
 
       <div class="flex-between">
         <!--capacity-->
-        <p class="muted">4/10 spots filled</p>
+        <p id="eventCapacity" class="muted"></p>
 
         <!--status-->
-        <p class="btn">Register</p>
+        <button id="registerButton" class="btn"></button>
       </div>
     </div>
 
