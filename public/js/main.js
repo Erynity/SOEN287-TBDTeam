@@ -453,6 +453,7 @@ function getBadgeClass(status) {
     }
 }
 
+//EVENTS.HTML
 //to populate event grid on events.html
 const EVENT_GRID = document.getElementById("EVENT_GRID");
 
@@ -500,6 +501,8 @@ if(EVENT_GRID) {
   });
 }
 
+
+// EVENTS-DETAILS.HTML
 //to populate event-details.html for each event
 const title = document.getElementById("eventTitle");
 
@@ -514,11 +517,8 @@ if (title) {
         title.textContent = event.title;
 
         const badge = document.getElementById("eventStatus");
-
         badge.textContent = event.status;
         badge.className = `badge ${getBadgeClass(event.status)}`;
-
-        
 
         document.getElementById("eventCategory").textContent = event.category;
 
