@@ -61,32 +61,110 @@
     </nav>
 
     <!-- ================= YOUR PAGE CONTENT ====================== -->
+
+    <style>
+        main {
+            padding: 0;
+        }
+
+        .hero {
+            height: 570px;
+            margin-top: 0;
+            background-image: linear-gradient(to right, var(--bg), 70%, transparent),
+                url('https://www.mtlblog.com/media-library/concordia-university-in-montreal.jpg?id=32250443&width=1245&height=700');
+
+        }
+
+        .hero-content {
+            padding-top: 180px;
+            padding-left: 50px
+        }
+
+        .features {
+            width: 1080px;
+            text-align: left;
+            /* background-color: rgb(203, 224, 255); */
+            /* border: 3px solid var(--maroon); */
+            border-radius: 2em;
+            padding: 0;
+            box-sizing: border-box;
+            margin-top: 10px;
+
+        }
+
+        .features .event {
+            color: white;
+            display: inline-block;
+            margin: 1.79em;
+            margin-top: 0;
+            width: 300px;
+            background-color: var(--maroon);
+            border: 2px solid black;
+            border-radius: 1em;
+
+        }
+
+        .features .icon {
+            vertical-align: middle;
+            margin: 5%;
+            padding: 5%;
+            vertical-align: middle;
+            display: inline-block;
+            background-color: white;
+            border: 2px solid black;
+            border-radius: 50%;
+            position: relative;
+            bottom: 1.7em;
+
+        }
+
+        .features .text {
+            display: inline-block;
+        }
+    </style>
+
+
+
     <main>
-        <div class="card">
-            <img
-                src="https://www.mtlblog.com/media-library/concordia-university-in-montreal.jpg?id=32250443&width=1245&height=700&quality=85&coordinates=0%2C182%2C0%2C182">
-            <h1>Your Campus. <br>All Events. <span style="color:maroon">One Place</span> </h1>
-            <p>Discover campus events, register with ease, <br>and stay connected to what matters</p>
-            <a class="btn" href="views/events.html">Browse Events</a>
-            <a class="btn" href="views/register.html">Create Account</a>
 
-        </div>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Your Campus. <br>All Events. <span style="color:maroon">One Place</span> </h1>
+                <p>Discover campus events, register with ease, <br>and stay connected to what matters</p>
 
-        <div class="card">
-            <div>
-                <h2>Find Events</h2>
-                <p>Explore workshops, clubs, <br>lectures and more.</p>
+                <a class="btn" href="views/events.html">Browse Events</a>
+                <a class="btn" href="views/register.html">Create Account</a>
             </div>
-            <div>
-                <h2>Register Easily</h2>
-                <p>Sign up for events in <br>just a few clicks.</p>
-            </div>
-            <div>
-                <h2>Stay Updated</h2>
-                <p>Never miss an event <br> that matters to you.</p>
-            </div>
-        </div>
 
+        </section>
+
+        <section class="features">
+
+            <div class="event">
+                <div class="icon">📅</div>
+                <div class="text">
+                    <h2>Find Events</h2>
+                    <p>Explore workshops, clubs,<br>lectures and more.</p>
+                </div>
+            </div>
+
+            <div class="event">
+                <div class="icon">👤</div>
+                <div class="text">
+                    <h2>Register Easily</h2>
+                    <p>Sign up for events in<br>just a few clicks.</p>
+                </div>
+            </div>
+
+            <div class="event">
+                <div class="icon">🔔</div>
+                <div class="text">
+                    <h2>Stay Updated</h2>
+                    <p>Never miss an event<br>that matters to you.</p>
+                </div>
+            </div>
+
+        </section>
     </main>
 
     <!-- ================= FOOTER (same on every page) ============ -->
