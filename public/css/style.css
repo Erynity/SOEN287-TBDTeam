@@ -22,16 +22,24 @@
    ------------------------------------------------------------ */
 :root {
   /* Brand */
-  --maroon: #912338;        /* Concordia maroon - primary actions, links */
-  --maroon-dark: #6e1a2b;   /* hover state for maroon */
-  --gold: #e5a712;          /* accent - highlights, focus rings */
+  --maroon: #912338;
+  /* Concordia maroon - primary actions, links */
+  --maroon-dark: #6e1a2b;
+  /* hover state for maroon */
+  --gold: #e5a712;
+  /* accent - highlights, focus rings */
 
   /* Neutrals */
-  --bg: #faf8f5;            /* page background (warm off-white) */
-  --surface: #ffffff;       /* cards, nav, tables sit on this */
-  --border: #e6e0d8;        /* hairline borders */
-  --text: #2b2723;          /* main text (soft black) */
-  --muted: #6f675e;         /* secondary text, labels, captions */
+  --bg: #faf8f5;
+  /* page background (warm off-white) */
+  --surface: #ffffff;
+  /* cards, nav, tables sit on this */
+  --border: #e6e0d8;
+  /* hairline borders */
+  --text: #2b2723;
+  /* main text (soft black) */
+  --muted: #6f675e;
+  /* secondary text, labels, captions */
 
   /* Event status colors (used by .badge-* below) */
   --status-open: #1d7a3e;
@@ -40,15 +48,21 @@
   --status-completed: #4a5568;
 
   /* Spacing scale - use these instead of random pixel values */
-  --space-1: 0.25rem;   /* 4px  */
-  --space-2: 0.5rem;    /* 8px  */
-  --space-3: 1rem;      /* 16px */
-  --space-4: 1.5rem;    /* 24px */
-  --space-5: 2.5rem;    /* 40px */
+  --space-1: 0.25rem;
+  /* 4px  */
+  --space-2: 0.5rem;
+  /* 8px  */
+  --space-3: 1rem;
+  /* 16px */
+  --space-4: 1.5rem;
+  /* 24px */
+  --space-5: 2.5rem;
+  /* 40px */
 
   --radius: 10px;
   --shadow: 0 1px 3px rgba(43, 39, 35, 0.08), 0 4px 14px rgba(43, 39, 35, 0.06);
-  --maxwidth: 1080px;   /* content never gets wider than this */
+  --maxwidth: 1080px;
+  /* content never gets wider than this */
 }
 
 /* ------------------------------------------------------------
@@ -56,8 +70,11 @@
    Browsers ship with inconsistent default styles. We flatten
    them so every page starts from the same place.
    ------------------------------------------------------------ */
-*, *::before, *::after {
-  box-sizing: border-box;   /* width includes padding + border. See Lesson 1. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  /* width includes padding + border. See Lesson 1. */
   margin: 0;
 }
 
@@ -73,41 +90,71 @@ body {
   background: var(--bg);
   min-height: 100vh;
   display: flex;
-  flex-direction: column;   /* lets the footer stick to the bottom */
+  flex-direction: column;
+  /* lets the footer stick to the bottom */
 }
 
 main {
-  flex: 1;                  /* main grows to push footer down */
+  flex: 1;
+  /* main grows to push footer down */
   width: 100%;
   max-width: var(--maxwidth);
-  margin: 0 auto;           /* centers the content column */
+  margin: 0 auto;
+  /* centers the content column */
   padding: var(--space-5) var(--space-3);
   padding-top: var(--space-3);
 }
 
-img { max-width: 100%; display: block; }
+img {
+  max-width: 100%;
+  display: block;
+}
 
 /* ------------------------------------------------------------
    3. TYPOGRAPHY
    ------------------------------------------------------------ */
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   line-height: 1.2;
   font-weight: 700;
   letter-spacing: -0.01em;
 }
-h1 { font-size: 2rem;    margin-bottom: var(--space-3); }
-h2 { font-size: 1.4rem;  margin-bottom: var(--space-2); margin-top: var(--space-4); }
-h3 { font-size: 1.1rem;  margin-bottom: var(--space-2); }
-p  { margin-bottom: var(--space-3); }
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: var(--space-3);
+}
+
+h2 {
+  font-size: 1.4rem;
+  margin-bottom: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+h3 {
+  font-size: 1.1rem;
+  margin-bottom: var(--space-2);
+}
+
+p {
+  margin-bottom: var(--space-3);
+}
 
 a {
   color: var(--maroon);
   text-decoration-thickness: 1px;
   text-underline-offset: 2px;
 }
-a:hover { color: var(--maroon-dark); }
 
-.muted { color: var(--muted); font-size: 0.9rem; }
+a:hover {
+  color: var(--maroon-dark);
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
 
 /* Small uppercase label above headings, e.g. "STUDENT DASHBOARD" */
 .eyebrow {
@@ -140,7 +187,8 @@ a:hover { color: var(--maroon-dark); }
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
-  flex-wrap: wrap;          /* wraps gracefully on small screens */
+  flex-wrap: wrap;
+  /* wraps gracefully on small screens */
   position: relative;
 }
 
@@ -153,7 +201,10 @@ a:hover { color: var(--maroon-dark); }
   align-items: center;
   gap: 8px;
 }
-.navbar-brand:hover { color: var(--maroon-dark); }
+
+.navbar-brand:hover {
+  color: var(--maroon-dark);
+}
 
 
 .navbar-links {
@@ -161,7 +212,8 @@ a:hover { color: var(--maroon-dark); }
   gap: var(--space-1);
   list-style: none;
   padding: 0;
-  margin-left: auto;        /* pushes links to the right side */
+  margin-left: auto;
+  /* pushes links to the right side */
   flex-wrap: wrap;
   position: absolute;
   right: 18px;
@@ -169,7 +221,7 @@ a:hover { color: var(--maroon-dark); }
   background: var(--surface);
   border: 0.5px solid var(--border);
   border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   padding: 12px 16px;
   display: flex;
   flex-direction: column;
@@ -192,7 +244,11 @@ a:hover { color: var(--maroon-dark); }
   color: var(--text);
   font-size: 0.92rem;
 }
-.navbar-links a:hover { background: var(--bg); color: var(--maroon); }
+
+.navbar-links a:hover {
+  background: var(--bg);
+  color: var(--maroon);
+}
 
 /* Add class="active" to the link for the CURRENT page */
 .navbar-links a.active {
@@ -202,19 +258,44 @@ a:hover { color: var(--maroon-dark); }
 }
 
 .nav-toggle {
-  display: flex; flex-direction: column; justify-content: center;
-  gap: 5px; width: 44px; height: 44px; padding: 10px;
-  background: none; border: none; border-radius: var(--radius);
-  cursor: pointer; transition: background 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  background: none;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.2s;
 }
-.nav-toggle:hover { background: rgba(0,0,0,0.05); }
+
+.nav-toggle:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
 .nav-toggle span {
-  display: block; height: 3px; width: 100%; border-radius: 2px;
-  background: var(--maroon); transition: transform 0.3s, opacity 0.3s;
+  display: block;
+  height: 3px;
+  width: 100%;
+  border-radius: 2px;
+  background: var(--maroon);
+  transition: transform 0.3s, opacity 0.3s;
 }
-.nav-toggle.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-.nav-toggle.open span:nth-child(2) { opacity: 0; }
-.nav-toggle.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+.nav-toggle.open span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.nav-toggle.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle.open span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
 
 
 .navbar-links.open {
@@ -242,17 +323,30 @@ a:hover { color: var(--maroon-dark); }
   cursor: pointer;
   transition: background 0.15s ease;
 }
-.btn:hover { background: var(--maroon-dark); color: #fff; }
+
+.btn:hover {
+  background: var(--maroon-dark);
+  color: #fff;
+}
 
 .btn-secondary {
   background: transparent;
   color: var(--maroon);
   border-color: var(--maroon);
 }
-.btn-secondary:hover { background: var(--maroon); color: #fff; }
 
-.btn-danger { background: var(--status-cancelled); }
-.btn-danger:hover { background: #8f1e18; }
+.btn-secondary:hover {
+  background: var(--maroon);
+  color: #fff;
+}
+
+.btn-danger {
+  background: var(--status-cancelled);
+}
+
+.btn-danger:hover {
+  background: #8f1e18;
+}
 
 .btn:disabled {
   opacity: 0.5;
@@ -261,22 +355,28 @@ a:hover { color: var(--maroon-dark); }
 
 .back-btn {
   display: inline-block;
-  margin-bottom: var(--space-3);   /* space under the button */
+  margin-bottom: var(--space-3);
+  /* space under the button */
 }
 
 /* Visible keyboard focus - accessibility, do not remove */
-.btn:focus-visible, a:focus-visible, input:focus-visible,
-select:focus-visible, textarea:focus-visible {
+.btn:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
   outline: 3px solid var(--gold);
   outline-offset: 2px;
 }
 
 #login-form button {
   margin-top: var(--space-3);
+  margin-bottom: var(--space-3);
 }
 
 #register-form button {
   margin-top: var(--space-3);
+  margin-bottom: var(--space-3);
 }
 
 /* ------------------------------------------------------------
@@ -291,15 +391,28 @@ select:focus-visible, textarea:focus-visible {
   padding: var(--space-4);
 }
 
-.card h3 { margin-top: 0; }
+.card h3 {
+  margin-top: 0;
+}
 
 /* Dashboard stat card: big number, small label */
 .stat-card {
   text-align: left;
   border-left: 4px solid var(--maroon);
 }
-.stat-number { font-size: 2.2rem; font-weight: 800; line-height: 1.1; }
-.stat-label  { color: var(--muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; }
+
+.stat-number {
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.stat-label {
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
 
 /* ------------------------------------------------------------
    7. GRID
@@ -327,16 +440,30 @@ select:focus-visible, textarea:focus-visible {
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
-.badge-open      { background: var(--status-open); }
-.badge-full      { background: var(--status-full); }
-.badge-cancelled { background: var(--status-cancelled); }
-.badge-completed { background: var(--status-completed); }
+
+.badge-open {
+  background: var(--status-open);
+}
+
+.badge-full {
+  background: var(--status-full);
+}
+
+.badge-cancelled {
+  background: var(--status-cancelled);
+}
+
+.badge-completed {
+  background: var(--status-completed);
+}
 
 /* ------------------------------------------------------------
    9. FORMS
    Login, register, create event - all forms look like this.
    ------------------------------------------------------------ */
-.form-group { margin-bottom: var(--space-3); }
+.form-group {
+  margin-bottom: var(--space-3);
+}
 
 label {
   display: block;
@@ -345,7 +472,9 @@ label {
   margin-bottom: var(--space-1);
 }
 
-input, select, textarea {
+input,
+select,
+textarea {
   width: 100%;
   padding: 0.6rem 0.8rem;
   border: 1px solid var(--border);
@@ -354,7 +483,12 @@ input, select, textarea {
   background: var(--surface);
   color: var(--text);
 }
-input:focus, select:focus, textarea:focus { border-color: var(--maroon); }
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--maroon);
+}
 
 /* Frontend validation message. Hidden by default; your page JS
    removes the "hidden" attribute or toggles this class. */
@@ -365,13 +499,20 @@ input:focus, select:focus, textarea:focus { border-color: var(--maroon); }
 }
 
 /* Narrow centered form (login / register pages) */
-.form-narrow { max-width: 420px; margin: 0 auto; }
+.form-narrow {
+  max-width: 420px;
+  margin: 0 auto;
+}
 
 /* ------------------------------------------------------------
    10. TABLES
    Registrations list, manage events, attendance.
    ------------------------------------------------------------ */
-.table-wrap { overflow-x: auto; }   /* table scrolls sideways on phones */
+.table-wrap {
+  overflow-x: auto;
+}
+
+/* table scrolls sideways on phones */
 
 table {
   width: 100%;
@@ -382,11 +523,14 @@ table {
   overflow: hidden;
   font-size: 0.93rem;
 }
-th, td {
+
+th,
+td {
   padding: var(--space-2) var(--space-3);
   text-align: left;
   border-bottom: 1px solid var(--border);
 }
+
 th {
   background: var(--maroon);
   color: #fff;
@@ -395,8 +539,14 @@ th {
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
-tr:last-child td { border-bottom: none; }
-tbody tr:hover { background: var(--bg); }
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background: var(--bg);
+}
 
 /* ------------------------------------------------------------
    11. FOOTER
@@ -420,9 +570,18 @@ tbody tr:hover { background: var(--bg); }
   gap: var(--space-2);
   flex-wrap: wrap;
 }
-.mt-3 { margin-top: var(--space-3); }
-.mt-4 { margin-top: var(--space-4); }
-.text-center { text-align: center; }
+
+.mt-3 {
+  margin-top: var(--space-3);
+}
+
+.mt-4 {
+  margin-top: var(--space-4);
+}
+
+.text-center {
+  text-align: center;
+}
 
 /* ------------------------------------------------------------
    13. RESPONSIVE ADJUSTMENTS
@@ -430,13 +589,27 @@ tbody tr:hover { background: var(--bg); }
    auto-fit). These are the few things that need explicit rules.
    ------------------------------------------------------------ */
 @media (max-width: 640px) {
-  h1 { font-size: 1.5rem; }
-  main { padding: var(--space-4) var(--space-3); }
-  .navbar-links { margin-left: 0; width: 100%; }
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  main {
+    padding: var(--space-4) var(--space-3);
+  }
+
+  .navbar-links {
+    margin-left: 0;
+    width: 100%;
+  }
 }
 
 /* Respect users who turn off animations in their OS settings */
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  * { transition: none !important; }
+  html {
+    scroll-behavior: auto;
+  }
+
+  * {
+    transition: none !important;
+  }
 }

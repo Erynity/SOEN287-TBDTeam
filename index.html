@@ -72,36 +72,43 @@
             margin-top: 0;
             background-image: linear-gradient(to right, var(--bg), 70%, transparent),
                 url('https://www.mtlblog.com/media-library/concordia-university-in-montreal.jpg?id=32250443&width=1245&height=700');
+            background-position: center;
 
         }
 
         .hero-content {
             padding-top: 180px;
-            padding-left: 50px
+            padding-left: 50px;
         }
 
         .features {
-            width: 1080px;
+            max-width: 1080px;
             text-align: left;
-            /* background-color: rgb(203, 224, 255); */
-            /* border: 3px solid var(--maroon); */
+
             border-radius: 2em;
             padding: 0;
             box-sizing: border-box;
             margin-top: 30px;
             margin-left: 20px;
 
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+
+
         }
 
         .features .event {
             color: white;
             display: inline-block;
-            margin: 1.79em;
+            gap: 10px;
             margin-top: 0;
             width: 300px;
             background-color: var(--maroon);
             border: 2px solid black;
             border-radius: 1em;
+
 
         }
 
