@@ -443,6 +443,7 @@ const EVENTS = [
 ];
 
 //helper function for the status badge switch
+//translates the event status to the right badge class
 function getBadgeClass(status) {
   switch (status) {
     case "Open":
@@ -460,18 +461,21 @@ function getBadgeClass(status) {
 
 //EVENTS.HTML
 //to populate event grid on events.html
+
+//get container where all event cards are displayed
 const EVENT_GRID = document.getElementById("EVENT_GRID");
 
+//function to display the event list in the event grid
 function displayEvents(eventList) {
-
+    //stop if the page doesnt containe an event grid
     if (!EVENT_GRID) return;
-
+    //clear existing event cards
     EVENT_GRID.innerHTML = "";
-
+    //create one card for each event in the list
     eventList.forEach(event => {
-
+        //use the right badge class with the helper function
         const badgeClass = getBadgeClass(event.status);
-
+        //add event card to the page, pulling event data from the array 
         EVENT_GRID.innerHTML += `
         <div class="card">
 
@@ -508,23 +512,24 @@ function displayEvents(eventList) {
         `;
     });
 }
-
+//display every event when the page first loads
 displayEvents(EVENTS);
 
 //Events search/filter function
 
+//get references to all search and filter controls
 const searchInput = document.getElementById("searchInput");
 const categoryFilter = document.getElementById("categoryFilter");
 const organizerFilter = document.getElementById("organizerFilter");
 const statusFilter = document.getElementById("statusFilter");
 
-//populate organizer filter automatically
+//populate organizer filter automatically using event data
 if (organizerFilter) {
-
+    //create array of organizer names
     const organizers = [...new Set(EVENTS.map(event => event.organizer))];
-
+    //sort organizers alphabetically
     organizers.sort();
-
+    //add each organizer option in the dropdown
     organizers.forEach(org => {
 
         organizerFilter.innerHTML +=
@@ -535,35 +540,37 @@ if (organizerFilter) {
 }
 
 //filter function
+
+//filter events list based on selections
 function filterEvents() {
-
+    //keep only what matches every filter
     let filtered = EVENTS.filter(event => {
-
+        //search by event title not case sensitive
         const matchesSearch =
             event.title.toLowerCase().includes(searchInput.value.toLowerCase());
-
+        //match category
         const matchesCategory =
             categoryFilter.value === "" ||
             event.category === categoryFilter.value;
-
+        //match organizer
         const matchesOrganizer =
             organizerFilter.value === "" ||
             event.organizer === organizerFilter.value;
-
+        //match event status
         const matchesStatus =
             statusFilter.value === "" ||
             event.status === statusFilter.value;
-
+        //only keep events that match with every selection
         return matchesSearch &&
                matchesCategory &&
                matchesOrganizer &&
                matchesStatus;
     });
-
+    //get sorting dropdown
     const sortFilter = document.getElementById("sortFilter");
 
     if (sortFilter) {
-
+        //sort alphabetically by title
         if (sortFilter.value === "title") {
 
             filtered.sort((a, b) =>
@@ -571,7 +578,7 @@ function filterEvents() {
             );
 
         }
-
+        //sort events by date
         if (sortFilter.value === "date") {
 
             filtered.sort((a, b) =>
@@ -580,11 +587,13 @@ function filterEvents() {
 
         }
     }
-
+    //display filtered events
     displayEvents(filtered);
 }
 
-//watch for changes in the filters
+//event listeners
+
+//run filterEvents whenever the selection changes so that the event list updates automatically
 searchInput.addEventListener("input", filterEvents);
 
 categoryFilter.addEventListener("change", filterEvents);
@@ -592,7 +601,7 @@ categoryFilter.addEventListener("change", filterEvents);
 organizerFilter.addEventListener("change", filterEvents);
 
 statusFilter.addEventListener("change", filterEvents);
-
+//refilter when sorting option changes
 const sortFilter = document.getElementById("sortFilter");
 
 if (sortFilter) {
@@ -603,16 +612,19 @@ if (sortFilter) {
 
 // EVENTS-DETAILS.HTML
 //to populate event-details.html for each event
+
+//check to see if were on event-details.html
 const title = document.getElementById("eventTitle");
 
 if (title) {
-
+  //read event id from url
   const params = new URLSearchParams(window.location.search);
   const id = Number(params.get("id"));
+  //find matching event id in events array
   const event = EVENTS.find(e => e.id === id);
 
   if (event) {
-
+    //fill page with selected event info
     title.textContent = event.title;
 
     const badge = document.getElementById("eventStatus");
