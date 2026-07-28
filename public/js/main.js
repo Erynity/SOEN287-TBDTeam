@@ -462,48 +462,143 @@ function getBadgeClass(status) {
 //to populate event grid on events.html
 const EVENT_GRID = document.getElementById("EVENT_GRID");
 
-if (EVENT_GRID) {
+function displayEvents(eventList) {
 
-  EVENTS.forEach(event => {
+    if (!EVENT_GRID) return;
 
-    const badgeClass = getBadgeClass(event.status);
+    EVENT_GRID.innerHTML = "";
 
-    EVENT_GRID.innerHTML += `
-          <div class="card">
+    eventList.forEach(event => {
 
-              <div class="flex-between">
-                  <h3>${event.title}</h3>
+        const badgeClass = getBadgeClass(event.status);
 
-                  <span class="badge ${badgeClass}">
-                      ${event.status}
-                  </span>
-              </div>
+        EVENT_GRID.innerHTML += `
+        <div class="card">
 
-              <p class="muted">
-                  ${event.category} ·
-                  ${event.date} ·
-                  ${event.startTime} ·
-                  ${event.location}
-              </p>
+            <div class="flex-between">
+                <h3>${event.title}</h3>
 
-              <p>${event.description}</p>
+                <span class="badge ${badgeClass}">
+                    ${event.status}
+                </span>
+            </div>
 
-              <div class="flex-between">
-                  <span class="muted">
-                      ${event.registered} / ${event.capacity} spots filled
-                  </span>
+            <p class="muted">
+                ${event.category} ·
+                ${event.date} ·
+                ${event.startTime} ·
+                ${event.location}
+            </p>
 
-                  ${event.status === "Full"
-        ? `<button class="btn" disabled>Event Full</button>`
-        : `<a class="btn" href="event-details.html?id=${event.id}">View Details</a>`
-      }
+            <p>${event.description}</p>
 
-              </div>
+            <div class="flex-between">
+                <span class="muted">
+                    ${event.registered}/${event.capacity} spots filled
+                </span>
 
-          </div>
-      `;
-  });
+                ${
+                    event.status === "Full"
+                    ? `<button class="btn" disabled>Event Full</button>`
+                    : `<a class="btn" href="event-details.html?id=${event.id}">View Details</a>`
+                }
+            </div>
+
+        </div>
+        `;
+    });
 }
+
+displayEvents(EVENTS);
+
+//Events search/filter function
+
+const searchInput = document.getElementById("searchInput");
+const categoryFilter = document.getElementById("categoryFilter");
+const organizerFilter = document.getElementById("organizerFilter");
+const statusFilter = document.getElementById("statusFilter");
+
+//populate organizer filter automatically
+if (organizerFilter) {
+
+    const organizers = [...new Set(EVENTS.map(event => event.organizer))];
+
+    organizers.sort();
+
+    organizers.forEach(org => {
+
+        organizerFilter.innerHTML +=
+            `<option value="${org}">${org}</option>`;
+
+    });
+
+}
+
+//filter function
+function filterEvents() {
+
+    let filtered = EVENTS.filter(event => {
+
+        const matchesSearch =
+            event.title.toLowerCase().includes(searchInput.value.toLowerCase());
+
+        const matchesCategory =
+            categoryFilter.value === "" ||
+            event.category === categoryFilter.value;
+
+        const matchesOrganizer =
+            organizerFilter.value === "" ||
+            event.organizer === organizerFilter.value;
+
+        const matchesStatus =
+            statusFilter.value === "" ||
+            event.status === statusFilter.value;
+
+        return matchesSearch &&
+               matchesCategory &&
+               matchesOrganizer &&
+               matchesStatus;
+    });
+
+    const sortFilter = document.getElementById("sortFilter");
+
+    if (sortFilter) {
+
+        if (sortFilter.value === "title") {
+
+            filtered.sort((a, b) =>
+                a.title.localeCompare(b.title)
+            );
+
+        }
+
+        if (sortFilter.value === "date") {
+
+            filtered.sort((a, b) =>
+                new Date(a.date) - new Date(b.date)
+            );
+
+        }
+    }
+
+    displayEvents(filtered);
+}
+
+//watch for changes in the filters
+searchInput.addEventListener("input", filterEvents);
+
+categoryFilter.addEventListener("change", filterEvents);
+
+organizerFilter.addEventListener("change", filterEvents);
+
+statusFilter.addEventListener("change", filterEvents);
+
+const sortFilter = document.getElementById("sortFilter");
+
+if (sortFilter) {
+    sortFilter.addEventListener("change", filterEvents);
+}
+
 
 
 // EVENTS-DETAILS.HTML
