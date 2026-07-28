@@ -8,10 +8,11 @@
 //   { id: 1, title: "Intro to Rock Climbing", category: "Sports", ... },
 // ];
 
+
 document.addEventListener('DOMContentLoaded', () => {
-    setupNavToggle();
-    setupLoginForm();
-    addBackButton();
+  setupNavToggle();
+  setupLoginForm();
+  addBackButton();
 });
 
 function setupNavToggle() {
@@ -59,7 +60,7 @@ function addBackButton() {
 
 const TEST_ACCOUNTS = [
   { email: 'student@campus.ca', password: 'student123', redirect: 'student-dashboard.html' },
-  { email: 'admin@campus.ca',   password: 'admin123',   redirect: 'admin-dashboard.html'  },
+  { email: 'admin@campus.ca', password: 'admin123', redirect: 'admin-dashboard.html' },
 ];
 
 function setupLoginForm() {
@@ -77,8 +78,12 @@ function setupLoginForm() {
     else { error.textContent = 'Invalid username or password.'; error.hidden = false; }
   });
 }
+// --------------------------------------------------------------------- Home Page ---------------------------------------------------------------------
 
-//events code!!
+
+
+
+// --------------------------------------------------------------------- Events ---------------------------------------------------------------------
 
 // Event categories:
 // Academic workshops, Career events, Club activities, Sports events,
@@ -439,31 +444,31 @@ const EVENTS = [
 
 //helper function for the status badge switch
 function getBadgeClass(status) {
-    switch (status) {
-        case "Open":
-            return "badge-open";
-        case "Full":
-            return "badge-full";
-        case "Cancelled":
-            return "badge-cancelled";
-        case "Completed":
-            return "badge-completed";
-        default:
-            return "";
-    }
+  switch (status) {
+    case "Open":
+      return "badge-open";
+    case "Full":
+      return "badge-full";
+    case "Cancelled":
+      return "badge-cancelled";
+    case "Completed":
+      return "badge-completed";
+    default:
+      return "";
+  }
 }
 
 //EVENTS.HTML
 //to populate event grid on events.html
 const EVENT_GRID = document.getElementById("EVENT_GRID");
 
-if(EVENT_GRID) {
+if (EVENT_GRID) {
 
   EVENTS.forEach(event => {
 
-      const badgeClass = getBadgeClass(event.status);
+    const badgeClass = getBadgeClass(event.status);
 
-      EVENT_GRID.innerHTML += `
+    EVENT_GRID.innerHTML += `
           <div class="card">
 
               <div class="flex-between">
@@ -488,11 +493,10 @@ if(EVENT_GRID) {
                       ${event.registered} / ${event.capacity} spots filled
                   </span>
 
-                  ${
-                      event.status === "Full"
-                          ? `<button class="btn" disabled>Event Full</button>`
-                          : `<a class="btn" href="event-details.html?id=${event.id}">View Details</a>`
-                  }
+                  ${event.status === "Full"
+        ? `<button class="btn" disabled>Event Full</button>`
+        : `<a class="btn" href="event-details.html?id=${event.id}">View Details</a>`
+      }
 
               </div>
 
@@ -508,40 +512,51 @@ const title = document.getElementById("eventTitle");
 
 if (title) {
 
-    const params = new URLSearchParams(window.location.search);
-    const id = Number(params.get("id"));
-    const event = EVENTS.find(e => e.id === id);
+  const params = new URLSearchParams(window.location.search);
+  const id = Number(params.get("id"));
+  const event = EVENTS.find(e => e.id === id);
 
-    if (event) {
+  if (event) {
 
-        title.textContent = event.title;
+    title.textContent = event.title;
 
-        const badge = document.getElementById("eventStatus");
-        badge.textContent = event.status;
-        badge.className = `badge ${getBadgeClass(event.status)}`;
+    const badge = document.getElementById("eventStatus");
+    badge.textContent = event.status;
+    badge.className = `badge ${getBadgeClass(event.status)}`;
 
-        document.getElementById("eventCategory").textContent = event.category;
+    document.getElementById("eventCategory").textContent = event.category;
 
-        document.getElementById("eventOrganizer").textContent = event.organizer;
+    document.getElementById("eventOrganizer").textContent = event.organizer;
 
-        document.getElementById("eventDateTime").textContent =
-            `${event.date} · ${event.startTime} to ${event.endTime}`;
+    document.getElementById("eventDateTime").textContent =
+      `${event.date} · ${event.startTime} to ${event.endTime}`;
 
-        document.getElementById("eventLocation").textContent =
-            `at ${event.location}`;
+    document.getElementById("eventLocation").textContent =
+      `at ${event.location}`;
 
-        document.getElementById("eventDescription").textContent =
-            event.description;
+    document.getElementById("eventDescription").textContent =
+      event.description;
 
-        document.getElementById("eventCapacity").textContent =
-            `${event.registered}/${event.capacity} spots filled`;
+    document.getElementById("eventCapacity").textContent =
+      `${event.registered}/${event.capacity} spots filled`;
 
-        document.getElementById("registerButton").textContent =
-            event.status === "Full" ? "Event Full" : "Register";
+    document.getElementById("registerButton").textContent =
+      event.status === "Full" ? "Event Full" : "Register";
 
-        document.getElementById("registerButton").disabled =
-            event.status === "Full";
+    document.getElementById("registerButton").disabled =
+      event.status === "Full";
 
-    }
+  }
 
 }
+
+// --------------------------------------------------------------------- Student ---------------------------------------------------------------------
+
+
+// --------------------------------------------------------------------- Registration  ---------------------------------------------------------------------
+
+
+// --------------------------------------------------------------------- Admin ---------------------------------------------------------------------
+
+
+// --------------------------------------------------------------------- About ---------------------------------------------------------------------
