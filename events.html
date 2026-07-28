@@ -70,7 +70,8 @@
     <!--filters and search function
         filters for category, date, location and organizer
         FINISH PLUGGING IT IN WITH JS-->
-    <div class="filters">
+    <section class="filters">
+      <label for="searchInput">Search Events</label>
       <input type="text" id="searchInput" placeholder="Search events...">
 
       <select id="categoryFilter">
@@ -98,9 +99,12 @@
           <option>Cancelled</option>
           <option>Completed</option>
       </select>
-    </div>
-
-    <div class="grid" id="EVENT_GRID"></div>
+      <select id="sortFilter">
+          <option value="">Sort By</option>
+          <option value="title">Title</option>
+          <option value="date">Date</option>
+      </select>
+    </section>
 
     <!--events populated by js in main.js-->
     <div class="grid" id="EVENT_GRID"></div>
