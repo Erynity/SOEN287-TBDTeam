@@ -8,80 +8,90 @@
 //   { id: 1, title: "Intro to Rock Climbing", category: "Sports", ... },
 // ];
 
-
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   setupNavToggle();
   setupLoginForm();
   addBackButton();
 });
 
 function setupNavToggle() {
-  const toggle = document.querySelector('.nav-toggle');
-  const links = document.querySelector('.navbar-links');
+  const toggle = document.querySelector(".nav-toggle");
+  const links = document.querySelector(".navbar-links");
   if (!toggle || !links) return;
 
   function setMenu(open) {
-    toggle.classList.toggle('open', open);
-    links.classList.toggle('open', open);
-    toggle.setAttribute('aria-expanded', open);
+    toggle.classList.toggle("open", open);
+    links.classList.toggle("open", open);
+    toggle.setAttribute("aria-expanded", open);
   }
 
   // Click the button to open/close
-  toggle.addEventListener('click', (e) => {
+  toggle.addEventListener("click", (e) => {
     e.stopPropagation();
-    setMenu(!toggle.classList.contains('open'));
+    setMenu(!toggle.classList.contains("open"));
   });
 
   // Click anywhere outside the menu to close it
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('.navbar')) setMenu(false);
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".navbar")) setMenu(false);
   });
 
   // Press Escape to close
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') setMenu(false);
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") setMenu(false);
   });
 }
 
 function addBackButton() {
-  const main = document.querySelector('main');
+  const main = document.querySelector("main");
   if (!main) return;
-  if (document.body.dataset.page === 'home') return;   // skip home
+  if (document.body.dataset.page === "home") return; // skip home
 
-  const back = document.createElement('button');
-  back.innerHTML = '<span style="font-size:1.5em; line-height:1;">←</span> Back';
-  back.className = 'btn btn-secondary back-btn';
-  back.addEventListener('click', () => {
+  const back = document.createElement("button");
+  back.innerHTML =
+    '<span style="font-size:1.5em; line-height:1;">←</span> Back';
+  back.className = "btn btn-secondary back-btn";
+  back.addEventListener("click", () => {
     if (history.length > 1) history.back();
-    else window.location.href = '../index.html';
+    else window.location.href = "../index.html";
   });
   main.prepend(back);
 }
 
 const TEST_ACCOUNTS = [
-  { email: 'student@campus.ca', password: 'student123', redirect: 'student-dashboard.html' },
-  { email: 'admin@campus.ca', password: 'admin123', redirect: 'admin-dashboard.html' },
+  {
+    email: "student@campus.ca",
+    password: "student123",
+    redirect: "student-dashboard.html",
+  },
+  {
+    email: "admin@campus.ca",
+    password: "admin123",
+    redirect: "admin-dashboard.html",
+  },
 ];
 
 function setupLoginForm() {
-  const form = document.querySelector('#login-form');
+  const form = document.querySelector("#login-form");
   if (!form) return;
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener("submit", (e) => {
     e.preventDefault();
-    const email = document.querySelector('#email').value.trim().toLowerCase();
-    const password = document.querySelector('#password').value;
-    const error = document.querySelector('#login-error');
+    const email = document.querySelector("#email").value.trim().toLowerCase();
+    const password = document.querySelector("#password").value;
+    const error = document.querySelector("#login-error");
 
-    const match = TEST_ACCOUNTS.find(a => a.email === email && a.password === password);
+    const match = TEST_ACCOUNTS.find(
+      (a) => a.email === email && a.password === password,
+    );
     if (match) window.location.href = match.redirect;
-    else { error.textContent = 'Invalid username or password.'; error.hidden = false; }
+    else {
+      error.textContent = "Invalid username or password.";
+      error.hidden = false;
+    }
   });
 }
 // --------------------------------------------------------------------- Home Page ---------------------------------------------------------------------
-
-
-
 
 // --------------------------------------------------------------------- Events ---------------------------------------------------------------------
 
@@ -105,7 +115,8 @@ const EVENTS = [
   {
     id: 1,
     title: "Introduction to Web Development",
-    description: "Build your first responsive webpage using HTML, CSS, and JavaScript.",
+    description:
+      "Build your first responsive webpage using HTML, CSS, and JavaScript.",
     category: "Academic workshops",
     date: "2026-09-08",
     startTime: "1:00 PM",
@@ -116,12 +127,13 @@ const EVENTS = [
     status: "Full",
     registered: 40,
     image: "images/web-development.jpg",
-    rating: null
+    rating: null,
   },
   {
     id: 2,
     title: "Study Skills Bootcamp",
-    description: "Learn effective note-taking, time management, and exam preparation strategies.",
+    description:
+      "Learn effective note-taking, time management, and exam preparation strategies.",
     category: "Academic workshops",
     date: "2026-09-14",
     startTime: "10:00 AM",
@@ -132,14 +144,15 @@ const EVENTS = [
     status: "Open",
     registered: 31,
     image: "images/study-skills.jpg",
-    rating: null
+    rating: null,
   },
 
   // Career Events
   {
     id: 3,
     title: "Tech Industry Career Fair",
-    description: "Meet recruiters from leading technology companies and explore internships.",
+    description:
+      "Meet recruiters from leading technology companies and explore internships.",
     category: "Career events",
     date: "2026-09-18",
     startTime: "11:00 AM",
@@ -150,12 +163,13 @@ const EVENTS = [
     status: "Open",
     registered: 214,
     image: "images/career-fair.jpg",
-    rating: null
+    rating: null,
   },
   {
     id: 4,
     title: "Resume & LinkedIn Clinic",
-    description: "Receive personalized feedback on your resume and LinkedIn profile.",
+    description:
+      "Receive personalized feedback on your resume and LinkedIn profile.",
     category: "Career events",
     date: "2026-09-21",
     startTime: "2:00 PM",
@@ -166,7 +180,7 @@ const EVENTS = [
     status: "Open",
     registered: 48,
     image: "images/resume-clinic.jpg",
-    rating: null
+    rating: null,
   },
 
   // Club Activities
@@ -184,12 +198,13 @@ const EVENTS = [
     status: "Open",
     registered: 45,
     image: "images/board-games.jpg",
-    rating: null
+    rating: null,
   },
   {
     id: 6,
     title: "Photography Walk",
-    description: "Explore campus while learning composition and photography techniques.",
+    description:
+      "Explore campus while learning composition and photography techniques.",
     category: "Club activities",
     date: "2026-09-24",
     startTime: "4:00 PM",
@@ -200,14 +215,15 @@ const EVENTS = [
     status: "Open",
     registered: 18,
     image: "images/photography.jpg",
-    rating: null
+    rating: null,
   },
 
   // Sports Events
   {
     id: 7,
     title: "Campus Soccer Tournament",
-    description: "Compete with fellow students in a friendly soccer tournament.",
+    description:
+      "Compete with fellow students in a friendly soccer tournament.",
     category: "Sports events",
     date: "2026-09-26",
     startTime: "9:00 AM",
@@ -218,7 +234,7 @@ const EVENTS = [
     status: "Open",
     registered: 96,
     image: "images/soccer.jpg",
-    rating: null
+    rating: null,
   },
   {
     id: 8,
@@ -234,14 +250,15 @@ const EVENTS = [
     status: "Open",
     registered: 22,
     image: "images/yoga.jpg",
-    rating: null
+    rating: null,
   },
 
   // Cultural Events
   {
     id: 9,
     title: "International Food Festival",
-    description: "Celebrate cultures from around the world with food and performances.",
+    description:
+      "Celebrate cultures from around the world with food and performances.",
     category: "Cultural events",
     date: "2026-10-03",
     startTime: "12:00 PM",
@@ -252,7 +269,7 @@ const EVENTS = [
     status: "Open",
     registered: 287,
     image: "images/food-festival.jpg",
-    rating: null
+    rating: null,
   },
   {
     id: 10,
@@ -268,7 +285,7 @@ const EVENTS = [
     status: "Open",
     registered: 112,
     image: "images/dance-night.jpg",
-    rating: null
+    rating: null,
   },
 
   // Volunteering Events
@@ -286,7 +303,7 @@ const EVENTS = [
     status: "Open",
     registered: 41,
     image: "images/cleanup.jpg",
-    rating: null
+    rating: null,
   },
   {
     id: 12,
@@ -302,7 +319,7 @@ const EVENTS = [
     status: "Open",
     registered: 36,
     image: "images/food-bank.jpg",
-    rating: null
+    rating: null,
   },
 
   // Social Events
@@ -320,7 +337,7 @@ const EVENTS = [
     status: "Open",
     registered: 184,
     image: "images/movie-night.jpg",
-    rating: null
+    rating: null,
   },
   {
     id: 14,
@@ -336,14 +353,15 @@ const EVENTS = [
     status: "Open",
     registered: 325,
     image: "images/bbq.jpg",
-    rating: null
+    rating: null,
   },
 
   // Guest Lectures
   {
     id: 15,
     title: "The Future of Artificial Intelligence",
-    description: "A keynote presentation discussing recent advances in AI research.",
+    description:
+      "A keynote presentation discussing recent advances in AI research.",
     category: "Guest lectures",
     date: "2026-10-08",
     startTime: "5:00 PM",
@@ -354,7 +372,7 @@ const EVENTS = [
     status: "Open",
     registered: 172,
     image: "images/ai-lecture.jpg",
-    rating: null
+    rating: null,
   },
   {
     id: 16,
@@ -370,7 +388,7 @@ const EVENTS = [
     status: "Open",
     registered: 95,
     image: "images/climate-lecture.jpg",
-    rating: null
+    rating: null,
   },
 
   // Networking Events
@@ -388,12 +406,13 @@ const EVENTS = [
     status: "Open",
     registered: 73,
     image: "images/networking.jpg",
-    rating: null
+    rating: null,
   },
   {
     id: 18,
     title: "Women in STEM Networking Evening",
-    description: "Connect with professionals, alumni, and students in STEM fields.",
+    description:
+      "Connect with professionals, alumni, and students in STEM fields.",
     category: "Networking events",
     date: "2026-10-13",
     startTime: "5:30 PM",
@@ -404,7 +423,7 @@ const EVENTS = [
     status: "Open",
     registered: 69,
     image: "images/women-stem.jpg",
-    rating: null
+    rating: null,
   },
 
   // Other
@@ -422,12 +441,13 @@ const EVENTS = [
     status: "Open",
     registered: 54,
     image: "images/blood-drive.jpg",
-    rating: null
+    rating: null,
   },
   {
     id: 20,
     title: "Campus Sustainability Expo",
-    description: "Discover green initiatives, eco-friendly organizations, and sustainability projects.",
+    description:
+      "Discover green initiatives, eco-friendly organizations, and sustainability projects.",
     category: "Other",
     date: "2026-10-20",
     startTime: "11:00 AM",
@@ -438,8 +458,8 @@ const EVENTS = [
     status: "Open",
     registered: 88,
     image: "images/sustainability.jpg",
-    rating: null
-  }
+    rating: null,
+  },
 ];
 
 //helper function for the status badge switch
@@ -467,16 +487,16 @@ const EVENT_GRID = document.getElementById("EVENT_GRID");
 
 //function to display the event list in the event grid
 function displayEvents(eventList) {
-    //stop if the page doesnt containe an event grid
-    if (!EVENT_GRID) return;
-    //clear existing event cards
-    EVENT_GRID.innerHTML = "";
-    //create one card for each event in the list
-    eventList.forEach(event => {
-        //use the right badge class with the helper function
-        const badgeClass = getBadgeClass(event.status);
-        //add event card to the page, pulling event data from the array 
-        EVENT_GRID.innerHTML += `
+  //stop if the page doesnt containe an event grid
+  if (!EVENT_GRID) return;
+  //clear existing event cards
+  EVENT_GRID.innerHTML = "";
+  //create one card for each event in the list
+  eventList.forEach((event) => {
+    //use the right badge class with the helper function
+    const badgeClass = getBadgeClass(event.status);
+    //add event card to the page, pulling event data from the array
+    EVENT_GRID.innerHTML += `
         <div class="card">
 
             <div class="flex-between">
@@ -502,7 +522,7 @@ function displayEvents(eventList) {
                 </span>
 
                 ${
-                    event.status === "Full"
+                  event.status === "Full"
                     ? `<button class="btn" disabled>Event Full</button>`
                     : `<a class="btn" href="event-details.html?id=${event.id}">View Details</a>`
                 }
@@ -510,7 +530,7 @@ function displayEvents(eventList) {
 
         </div>
         `;
-    });
+  });
 }
 //display every event when the page first loads
 displayEvents(EVENTS);
@@ -518,99 +538,83 @@ displayEvents(EVENTS);
 //Events search/filter function
 
 if (EVENT_GRID) {
+  //get references to all search and filter controls
+  const searchInput = document.getElementById("searchInput");
+  const categoryFilter = document.getElementById("categoryFilter");
+  const organizerFilter = document.getElementById("organizerFilter");
+  const statusFilter = document.getElementById("statusFilter");
 
-//get references to all search and filter controls
-const searchInput = document.getElementById("searchInput");
-const categoryFilter = document.getElementById("categoryFilter");
-const organizerFilter = document.getElementById("organizerFilter");
-const statusFilter = document.getElementById("statusFilter");
-
-//populate organizer filter automatically using event data
-if (organizerFilter) {
+  //populate organizer filter automatically using event data
+  if (organizerFilter) {
     //create array of organizer names
-    const organizers = [...new Set(EVENTS.map(event => event.organizer))];
+    const organizers = [...new Set(EVENTS.map((event) => event.organizer))];
     //sort organizers alphabetically
     organizers.sort();
     //add each organizer option in the dropdown
-    organizers.forEach(org => {
-
-        organizerFilter.innerHTML +=
-            `<option value="${org}">${org}</option>`;
-
+    organizers.forEach((org) => {
+      organizerFilter.innerHTML += `<option value="${org}">${org}</option>`;
     });
+  }
 
-}
+  //filter function
 
-//filter function
-
-//filter events list based on selections
-function filterEvents() {
+  //filter events list based on selections
+  function filterEvents() {
     //keep only what matches every filter
-    let filtered = EVENTS.filter(event => {
-        //search by event title not case sensitive
-        const matchesSearch =
-            event.title.toLowerCase().includes(searchInput.value.toLowerCase());
-        //match category
-        const matchesCategory =
-            categoryFilter.value === "" ||
-            event.category === categoryFilter.value;
-        //match organizer
-        const matchesOrganizer =
-            organizerFilter.value === "" ||
-            event.organizer === organizerFilter.value;
-        //match event status
-        const matchesStatus =
-            statusFilter.value === "" ||
-            event.status === statusFilter.value;
-        //only keep events that match with every selection
-        return matchesSearch &&
-               matchesCategory &&
-               matchesOrganizer &&
-               matchesStatus;
+    let filtered = EVENTS.filter((event) => {
+      //search by event title not case sensitive
+      const matchesSearch = event.title
+        .toLowerCase()
+        .includes(searchInput.value.toLowerCase());
+      //match category
+      const matchesCategory =
+        categoryFilter.value === "" || event.category === categoryFilter.value;
+      //match organizer
+      const matchesOrganizer =
+        organizerFilter.value === "" ||
+        event.organizer === organizerFilter.value;
+      //match event status
+      const matchesStatus =
+        statusFilter.value === "" || event.status === statusFilter.value;
+      //only keep events that match with every selection
+      return (
+        matchesSearch && matchesCategory && matchesOrganizer && matchesStatus
+      );
     });
     //get sorting dropdown
     const sortFilter = document.getElementById("sortFilter");
 
     if (sortFilter) {
-        //sort alphabetically by title
-        if (sortFilter.value === "title") {
-
-            filtered.sort((a, b) =>
-                a.title.localeCompare(b.title)
-            );
-
-        }
-        //sort events by date
-        if (sortFilter.value === "date") {
-
-            filtered.sort((a, b) =>
-                new Date(a.date) - new Date(b.date)
-            );
-
-        }
+      //sort alphabetically by title
+      if (sortFilter.value === "title") {
+        filtered.sort((a, b) => a.title.localeCompare(b.title));
+      }
+      //sort events by date
+      if (sortFilter.value === "date") {
+        filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
+      }
     }
     //display filtered events
     displayEvents(filtered);
-}
+  }
 
-//event listeners
+  //event listeners
 
-//run filterEvents whenever the selection changes so that the event list updates automatically
-searchInput.addEventListener("input", filterEvents);
+  //run filterEvents whenever the selection changes so that the event list updates automatically
+  searchInput.addEventListener("input", filterEvents);
 
-categoryFilter.addEventListener("change", filterEvents);
+  categoryFilter.addEventListener("change", filterEvents);
 
-organizerFilter.addEventListener("change", filterEvents);
+  organizerFilter.addEventListener("change", filterEvents);
 
-statusFilter.addEventListener("change", filterEvents);
-//refilter when sorting option changes
-const sortFilter = document.getElementById("sortFilter");
+  statusFilter.addEventListener("change", filterEvents);
+  //refilter when sorting option changes
+  const sortFilter = document.getElementById("sortFilter");
 
-if (sortFilter) {
+  if (sortFilter) {
     sortFilter.addEventListener("change", filterEvents);
+  }
 }
-}
-
 
 // EVENTS-DETAILS.HTML
 //to populate event-details.html for each event
@@ -623,7 +627,7 @@ if (title) {
   const params = new URLSearchParams(window.location.search);
   const id = Number(params.get("id"));
   //find matching event id in events array
-  const event = EVENTS.find(e => e.id === id);
+  const event = EVENTS.find((e) => e.id === id);
 
   if (event) {
     //fill page with selected event info
@@ -643,8 +647,7 @@ if (title) {
     document.getElementById("eventLocation").textContent =
       `at ${event.location}`;
 
-    document.getElementById("eventDescription").textContent =
-      event.description;
+    document.getElementById("eventDescription").textContent = event.description;
 
     document.getElementById("eventCapacity").textContent =
       `${event.registered}/${event.capacity} spots filled`;
@@ -654,18 +657,13 @@ if (title) {
 
     document.getElementById("registerButton").disabled =
       event.status === "Full";
-
   }
-
 }
 
 // --------------------------------------------------------------------- Student ---------------------------------------------------------------------
 
-
 // --------------------------------------------------------------------- Registration  ---------------------------------------------------------------------
 
-
 // --------------------------------------------------------------------- Admin ---------------------------------------------------------------------
-
 
 // --------------------------------------------------------------------- About ---------------------------------------------------------------------

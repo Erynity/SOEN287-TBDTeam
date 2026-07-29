@@ -1,8 +1,7 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-  <!-- ==========================================================
+  <head>
+    <!-- ==========================================================
        PAGE TEMPLATE - Smart Campus Event Planner (SOEN 287)
 
        HOW TO USE:
@@ -14,100 +13,105 @@
        5. Do NOT edit the navbar structure or the stylesheet
           without telling the group.
        ========================================================== -->
-  <meta charset="UTF-8">
-  <!-- viewport tag = required for responsive design on phones -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <!-- viewport tag = required for responsive design on phones -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Event Details - Smart Campus Event Planner</title>
+    <title>Event Details - Smart Campus Event Planner</title>
 
-  <!-- Shared font + stylesheet. Path is relative to /views/. -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../public/css/style.css">
-  <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml">
-  <script src="../public/js/main.js" defer></script>
-  
-</head>
+    <!-- Shared font + stylesheet. Path is relative to /views/. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../public/css/style.css" />
+    <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
+    <script src="../public/js/main.js" defer></script>
+  </head>
 
-<body>
-
-  <!-- ================= NAVBAR (same on every page) ============
+  <body>
+    <!-- ================= NAVBAR (same on every page) ============
        During Deliverable 1 we show ALL links so the prof can
        navigate everything. In Deliverable 2, the backend will
        decide which links to show based on who is logged in.  -->
-  <nav class="navbar">
-    <div class="navbar-inner">
-      <a class="navbar-brand" href="../index.html">
-        <img src="../public/images/logo.svg" alt="" width="28" height="28"
-          style="vertical-align:middle; margin-right:6px;">
-        Campus Events
-      </a>
+    <nav class="navbar">
+      <div class="navbar-inner">
+        <a class="navbar-brand" href="../index.html">
+          <img
+            src="../public/images/logo.svg"
+            alt=""
+            width="28"
+            height="28"
+            style="vertical-align: middle; margin-right: 6px"
+          />
+          Campus Events
+        </a>
 
-      <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
+        <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
 
-      <ul class="navbar-links">
-        <li><a href="../index.html">Home</a></li>
-        <li><a href="events.html">Events</a></li>
-        <li><a href="student-dashboard.html">Student</a></li>
-        <li><a href="my-registrations.html">My Registrations</a></li>
-        <li><a href="admin-dashboard.html">Admin</a></li>
-        <li><a href="contact.html">About</a></li>
-        <li><a href="login.html">Login</a></li>
-        <li><a class="btn" href="register.html" style="padding:0.3rem 0.9rem;">Sign up</a></li>
-      </ul>
-    </div>
-  </nav>
+        <ul class="navbar-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="student-dashboard.html">Student</a></li>
+          <li><a href="my-registrations.html">My Registrations</a></li>
+          <li><a href="admin-dashboard.html">Admin</a></li>
+          <li><a href="contact.html">About</a></li>
+          <li><a href="login.html">Login</a></li>
+          <li>
+            <a class="btn" href="register.html" style="padding: 0.3rem 0.9rem"
+              >Sign up</a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
 
-  <!-- ================= YOUR PAGE CONTENT ====================== -->
-  <main>
-
-    <!-- Delete everything between here and the "END EXAMPLES"
+    <!-- ================= YOUR PAGE CONTENT ====================== -->
+    <main>
+      <!-- Delete everything between here and the "END EXAMPLES"
          comment. It exists only to show you the components. -->
- 
-    <span class="eyebrow">Event Details</span>
 
-    <div class="card">
-      <div class="flex-between">
-        <h1 id="eventTitle"></h1>
-        <span id="eventStatus" class="badge badge-open"></span>
+      <span class="eyebrow">Event Details</span>
+
+      <div class="card">
+        <div class="flex-between">
+          <h1 id="eventTitle"></h1>
+          <span id="eventStatus" class="badge badge-open"></span>
+        </div>
+        <div class="flex-between">
+          <!-- category-->
+          <p id="eventCategory" class="badge badge-open"></p>
+          <!--organizer-->
+          <p>organized by <span id="eventOrganizer"></span></p>
+        </div>
+
+        <!-- date, start and end time-->
+        <p id="eventDateTime" class="muted"></p>
+
+        <!--location-->
+        <p id="eventLocation" class="muted"></p>
+
+        <!-- event description-->
+        <p id="eventDescription"></p>
+
+        <div class="flex-between">
+          <!--capacity-->
+          <p id="eventCapacity" class="muted"></p>
+
+          <!--status-->
+          <button id="registerButton" class="btn"></button>
+        </div>
       </div>
-      <div class="flex-between">
-        <!-- category-->
-        <p id="eventCategory" class="badge badge-open"></p>
-        <!--organizer-->
-        <p>organized by <span id="eventOrganizer"></span></p>
 
-      </div>
+      <!-- END EXAMPLES -->
+    </main>
 
-      <!-- date, start and end time-->
-      <p id="eventDateTime" class="muted"></p>
-
-      <!--location-->
-      <p id="eventLocation" class="muted"></p>
-
-      <!-- event description-->
-      <p id="eventDescription"></p>
-
-      <div class="flex-between">
-        <!--capacity-->
-        <p id="eventCapacity" class="muted"></p>
-
-        <!--status-->
-        <button id="registerButton" class="btn"></button>
-      </div>
-    </div>
-
-    <!-- END EXAMPLES -->
-
-  </main>
-
-  <!-- ================= FOOTER (same on every page) ============ -->
-  <footer class="footer">
-    Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 13
-  </footer>
-
-</body>
-
+    <!-- ================= FOOTER (same on every page) ============ -->
+    <footer class="footer">
+      Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 13
+    </footer>
+  </body>
 </html>
