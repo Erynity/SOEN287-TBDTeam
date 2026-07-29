@@ -517,6 +517,8 @@ displayEvents(EVENTS);
 
 //Events search/filter function
 
+if (EVENT_GRID) {
+
 //get references to all search and filter controls
 const searchInput = document.getElementById("searchInput");
 const categoryFilter = document.getElementById("categoryFilter");
@@ -607,7 +609,7 @@ const sortFilter = document.getElementById("sortFilter");
 if (sortFilter) {
     sortFilter.addEventListener("change", filterEvents);
 }
-
+}
 
 
 // EVENTS-DETAILS.HTML
