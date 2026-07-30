@@ -803,6 +803,41 @@ if (document.getElementById("upcomingEvents")) {
 
 // --------------------------------------------------------------------- Registration  ---------------------------------------------------------------------
 
+const myRegistrationTable = document.getElementById("myRegistrationTable");
+
+if (myRegistrationTable) {
+
+  const currentUser = 101;
+
+  const studentRegistrations = REGISTRATIONS
+    .filter(reg => reg.user_id === currentUser)
+    .map(reg => {
+        const event = EVENTS.find(
+          event => event.id === reg.event_id);
+        return { registration: reg, event: event };})
+    .sort((a,b) => new Date(a.event.date) - new Date(b.event.date));
+
+  myRegistrationTable.innerHTML = "";
+
+  studentRegistrations.forEach(item => {
+    
+    const event = item.event;
+    const registration = item.registration;
+
+    myRegistrationTable.innerHTML += `
+      <tr>
+        <td>${event.title}</td>
+        <td>${event.date}</td>
+        <td>${event.startTime}</td>
+        <td>${event.location}</td>
+        <td>${registration.registration_date}</td>
+        <td><span class="badge ${getBadgeClass(event.status)}">${event.status}</span></td>
+        <td>${registration.attended ? "Attended" : "Not attended"}</td>
+      </tr>
+    `;
+  });
+}
+
 // --------------------------------------------------------------------- Admin ---------------------------------------------------------------------
 
 // --------------------------------------------------------------------- About ---------------------------------------------------------------------
