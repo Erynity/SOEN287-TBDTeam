@@ -22,7 +22,7 @@
    ------------------------------------------------------------ */
 :root {
   /* Brand */
-  --maroon: #912338;
+  --maroon: #1d77ac;
   /* Concordia maroon - primary actions, links */
   --maroon-dark: #6e1a2b;
   /* hover state for maroon */
@@ -30,7 +30,7 @@
   /* accent - highlights, focus rings */
 
   /* Neutrals */
-  --bg: #faf8f5;
+  --bg: #e6f7ff;
   /* page background (warm off-white) */
   --surface: #ffffff;
   /* cards, nav, tables sit on this */
@@ -42,8 +42,8 @@
   /* secondary text, labels, captions */
 
   /* Event status colors (used by .badge-* below) */
-  --status-open: #1d7a3e;
-  --status-full: #b25b00;
+  --status-open: #10af48;
+  --status-full: #b17b42;
   --status-cancelled: #b3261e;
   --status-completed: #4a5568;
 
