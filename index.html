@@ -65,38 +65,42 @@
     <style>
         main {
             padding: 0;
+            max-width: none;
         }
 
         .hero {
             height: 570px;
             margin-top: 0;
+            width: 100%;
             background-image:
-                linear-gradient(to right, var(--bg), 85%, transparent),
+                linear-gradient(to right, var(--bg), 70%, transparent),
                 url('https://www.mtlblog.com/media-library/concordia-university-in-montreal.jpg?id=32250443&width=1245&height=700');
-            background-position: center;
+            background-position: center right;
+            background-size: cover;
+            background-repeat: no-repeat;
         }
 
         .hero-content {
+            max-width: var(--maxwidth);
+            margin: 0 auto;
             padding-top: 180px;
             padding-left: 50px;
+            padding-right: var(--space-3);
         }
 
         .features {
-            max-width: 1080px;
+            max-width: var(--maxwidth);
             text-align: left;
 
             border-radius: 2em;
-            padding: 0;
+            padding: 0 var(--space-3);
             box-sizing: border-box;
-            margin-top: 30px;
-            margin-left: 20px;
+            margin: 30px auto 0;
 
             display: flex;
             justify-content: center;
             gap: 40px;
             flex-wrap: wrap;
-
-
         }
 
         .features .event {
