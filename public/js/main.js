@@ -462,6 +462,102 @@ const EVENTS = [
   },
 ];
 
+//FAKE REGISTRATION DATA TO POPULATE STUDENT DASHBOARD AND STUDENT REGISTRATION
+const REGISTRATIONS = [
+    {
+        registration_id: 1,
+        user_id: 101,
+        event_id: 2,
+        registration_date: "2026-08-21",
+        status: "Registered",
+        attended: false
+    },
+    {
+        registration_id: 2,
+        user_id: 101,
+        event_id: 7,
+        registration_date: "2026-08-22",
+        status: "Cancelled",
+        attended: false
+    },
+    {
+        registration_id: 3,
+        user_id: 101,
+        event_id: 14,
+        registration_date: "2026-08-15",
+        status: "Attended",
+        attended: true
+    },
+    {
+        registration_id: 4,
+        user_id: 101,
+        event_id: 5,
+        registration_date: "2026-08-20",
+        status: "Registered",
+        attended: false
+    }
+];
+
+//helper function to create event card for any page that needs it
+
+function createEventCard(event) {
+
+    const badgeClass = getBadgeClass(event.status);
+
+    return `
+        <div class="card">
+
+            <div class="flex-between">
+                <h3>${event.title}</h3>
+
+                <span class="badge ${badgeClass}">
+                    ${event.status}
+                </span>
+            </div>
+
+            <p class="muted">
+                ${event.category} ·
+                ${event.date} ·
+                ${event.startTime} ·
+                ${event.location}
+            </p>
+
+            <p>${event.description}</p>
+
+            <div class="flex-between">
+
+                <span class="muted">
+                    ${event.registered}/${event.capacity} spots filled
+                </span>
+
+                ${
+                    event.status === "Full"
+                    ? `<button class="btn" disabled>Event Full</button>`
+                    : `<a class="btn" href="event-details.html?id=${event.id}">
+                            View Details
+                       </a>`
+                }
+
+            </div>
+
+        </div>
+    `;
+}
+
+//helper function for displaying a list of event cards
+function displayEventCards(containerId, eventList) {
+
+  const container = document.getElementById(containerId);
+
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  eventList.forEach(event => {
+    container.innerHTML += createEventCard(event);
+  })
+}
+
 //helper function for the status badge switch
 //translates the event status to the right badge class
 function getBadgeClass(status) {
@@ -485,59 +581,14 @@ function getBadgeClass(status) {
 //get container where all event cards are displayed
 const EVENT_GRID = document.getElementById("EVENT_GRID");
 
-//function to display the event list in the event grid
-function displayEvents(eventList) {
-  //stop if the page doesnt containe an event grid
-  if (!EVENT_GRID) return;
-  //clear existing event cards
-  EVENT_GRID.innerHTML = "";
-  //create one card for each event in the list
-  eventList.forEach((event) => {
-    //use the right badge class with the helper function
-    const badgeClass = getBadgeClass(event.status);
-    //add event card to the page, pulling event data from the array
-    EVENT_GRID.innerHTML += `
-        <div class="card">
 
-            <div class="flex-between">
-                <h3>${event.title}</h3>
-
-                <span class="badge ${badgeClass}">
-                    ${event.status}
-                </span>
-            </div>
-
-            <p class="muted">
-                ${event.category} ·
-                ${event.date} ·
-                ${event.startTime} ·
-                ${event.location}
-            </p>
-
-            <p>${event.description}</p>
-
-            <div class="flex-between">
-                <span class="muted">
-                    ${event.registered}/${event.capacity} spots filled
-                </span>
-
-                ${
-                  event.status === "Full"
-                    ? `<button class="btn" disabled>Event Full</button>`
-                    : `<a class="btn" href="event-details.html?id=${event.id}">View Details</a>`
-                }
-            </div>
-
-        </div>
-        `;
-  });
-}
-//display every event when the page first loads
-displayEvents(EVENTS);
 
 //Events search/filter function
 
 if (EVENT_GRID) {
+  //function to display the event list in the event grid
+  displayEventCards("EVENT_GRID", EVENTS);
+
   //get references to all search and filter controls
   const searchInput = document.getElementById("searchInput");
   const categoryFilter = document.getElementById("categoryFilter");
@@ -595,7 +646,7 @@ if (EVENT_GRID) {
       }
     }
     //display filtered events
-    displayEvents(filtered);
+    displayEventCards("EVENT_GRID", filtered);
   }
 
   //event listeners
@@ -661,6 +712,94 @@ if (title) {
 }
 
 // --------------------------------------------------------------------- Student ---------------------------------------------------------------------
+
+if (document.getElementById("upcomingEvents")) {
+
+  const currentUser = 101;
+
+  const myRegistrations = REGISTRATIONS.filter(reg => reg.user_id === currentUser);
+
+  //stat cards for student dashboard
+  document.getElementById("registeredCount").textContent =
+      myRegistrations.length;
+  document.getElementById("upcomingCount").textContent =
+      myRegistrations.filter(r => r.status === "Registered").length;
+  document.getElementById("attendedCount").textContent =
+      myRegistrations.filter(r => r.status === "Attended").length;
+
+
+  //upcoming events for student dashboard
+  const upcoming = document.getElementById("upcomingEvents");
+
+  const upcomingEvents = myRegistrations
+    .filter(reg => reg.status === "Registered")
+    .map(reg => EVENTS.find(event => event.id === reg.event_id))
+    .sort((a,b) => new Date(a.date) - new Date(b.date));
+
+    displayEventCards("upcomingEvents", upcomingEvents);
+  
+  
+  //suggested events for student dashboard
+  const suggestedContainer = document.getElementById("suggestedEvents");
+
+  if (suggestedContainer) {
+
+      const suggestions = EVENTS
+        .filter(event => !myRegistrations.some(reg => reg.event_id ===event.id))
+        .sort((a,b) => new Date(a.date) - new Date(b.date))
+        .slice(0,2);
+
+      displayEventCards("suggestedEvents", suggestions);
+  }
+
+
+  //registrations table for student dashboard
+  const upcomingRegistrations = REGISTRATIONS
+      .filter(reg =>
+          reg.user_id === currentUser &&
+          reg.status === "Registered"
+      )
+      .map(reg => {
+          return {
+              registration: reg,
+              event: EVENTS.find(e => e.id === reg.event_id)
+          };
+      })
+      .sort((a, b) =>
+          new Date(a.event.date) - new Date(b.event.date)
+      );
+
+
+  const regTable = document.getElementById("registrationTable");
+
+  if (regTable) {
+    regTable.innerHTML = "";
+
+    upcomingRegistrations.forEach(item => {
+
+        const event = item.event;
+
+        regTable.innerHTML += `
+            <tr>
+                <td>${event.title}</td>
+                <td>${event.date}</td>
+                <td>${event.startTime}</td>
+                <td>${event.location}</td>
+                <td>
+                    <span class="badge badge-open">
+                        Registered
+                    </span>
+                </td>
+                <td>
+                    <button class="btn btn-danger">
+                        Cancel
+                    </button>
+                </td>
+            </tr>
+        `;
+    });
+  }
+}
 
 // --------------------------------------------------------------------- Registration  ---------------------------------------------------------------------
 

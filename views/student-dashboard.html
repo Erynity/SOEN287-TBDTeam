@@ -71,80 +71,26 @@
     <h2>Your Satistics</h2>
     <div class="grid">
       <div class="card stat-card">
-        <div class="stat-number">7</div>
+        <div class="stat-number" id="registeredCount">7</div>
         <div class="stat-label">Registered Events</div>
       </div>
       <div class="card stat-card">
-        <div class="stat-number">2</div>
+        <div class="stat-number" id="upcomingCount">2</div>
         <div class="stat-label">Upcoming Events</div>
       </div>
       <div class="card stat-card">
-        <div class="stat-number">4</div>
+        <div class="stat-number" id="attendedCount">4</div>
         <div class="stat-label">Events Attended</div>
       </div>
     </div>
 
     <!-- Upcoming Events -->
     <h2>Upcoming</h2>
-    <div class="grid">
-      <div class="card">
-        <div class="flex-between">
-          <h3>Intro to Rock Climbing</h3>
-          <span class="badge badge-open">Open</span>
-        </div>
-        <p class="muted">Sports · July 20, 2026 · 6:00 PM · Le Gym</p>
-        <p>
-          Beginner-friendly session run by the climbing club. Shoes provided.
-        </p>
-        <div class="flex-between">
-          <span class="muted">18 / 25 spots filled</span>
-          <a class="btn" href="event-details.html">View details</a>
-        </div>
-      </div>
-      <div class="card">
-        <div class="flex-between">
-          <h3>Resume Workshop</h3>
-          <span class="badge badge-full">Full</span>
-        </div>
-        <p class="muted">Career · July 22, 2026 · 1:00 PM · H-110</p>
-        <p>Bring your resume for live feedback from co-op advisors.</p>
-        <div class="flex-between">
-          <span class="muted">40 / 40 spots filled</span>
-          <button class="btn" disabled>Event full</button>
-        </div>
-      </div>
-    </div>
+    <div class="grid" id="upcomingEvents"></div>
 
     <!-- Suggested upcoming events -->
     <h2>Suggested Events For You</h2>
-    <div class="grid">
-      <div class="card">
-        <div class="flex-between">
-          <h3>Intro to Rock Climbing</h3>
-          <span class="badge badge-open">Open</span>
-        </div>
-        <p class="muted">Sports · July 20, 2026 · 6:00 PM · Le Gym</p>
-        <p>
-          Beginner-friendly session run by the climbing club. Shoes provided.
-        </p>
-        <div class="flex-between">
-          <span class="muted">18 / 25 spots filled</span>
-          <a class="btn" href="event-details.html">View details</a>
-        </div>
-      </div>
-      <div class="card">
-        <div class="flex-between">
-          <h3>Resume Workshop</h3>
-          <span class="badge badge-full">Full</span>
-        </div>
-        <p class="muted">Career · July 22, 2026 · 1:00 PM · H-110</p>
-        <p>Bring your resume for live feedback from co-op advisors.</p>
-        <div class="flex-between">
-          <span class="muted">40 / 40 spots filled</span>
-          <button class="btn" disabled>Event full</button>
-        </div>
-      </div>
-    </div>
+    <div class="grid" id="suggestedEvents"></div>
 
     <!-- Table -->
     <h2>Registered Events</h2>
@@ -152,42 +98,15 @@
       <table>
         <thead>
           <tr>
-            <th>Upcoming Events</th>
+            <th>Event</th>
             <th>Date</th>
+            <th>Time</th>
+            <th>Location</th>
             <th>Status</th>
             <th>Action</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>Intro to Rock Climbing</td>
-            <td>July 20, 2026</td>
-            <td><span class="badge badge-open">Registered</span></td>
-            <td>
-              <button class="btn btn-danger" style="padding: 0.3rem 0.8rem">
-                Cancel
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <th>Past Events</th>
-            <th>Date</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-          <tr>
-            <td>AI Guest Lecture</td>
-            <td>July 15, 2026</td>
-            <td><span class="badge badge-completed">Attended</span></td>
-            <td>-</td>
-          </tr>
-          <tr>
-            <td>Art Therapy Workshop</td>
-            <td>July 10, 2026</td>
-            <td><span class="badge badge-completed">Cancelled</span></td>
-            <td>-</td>
-          </tr>
-        </tbody>
+        <tbody id="registrationTable"></tbody>
       </table>
     </div>
 
