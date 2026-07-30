@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- ==========================================================
+
+<head>
+  <!-- ==========================================================
        PAGE TEMPLATE - Smart Campus Event Planner (SOEN 287)
 
        HOW TO USE:
@@ -13,72 +14,101 @@
        5. Do NOT edit the navbar structure or the stylesheet
           without telling the group.
        ========================================================== -->
-    <meta charset="UTF-8" />
-    <!-- viewport tag = required for responsive design on phones -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8" />
+  <!-- viewport tag = required for responsive design on phones -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Contact - Smart Campus Event Planner</title>
+  <title>Contact - Smart Campus Event Planner</title>
 
-    <!-- Shared font + stylesheet. Path is relative to /views/. -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="../public/css/style.css" />
-    <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
-    <script src="../public/js/main.js" defer></script>
-  </head>
+  <!-- Shared font + stylesheet. Path is relative to /views/. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="../public/css/style.css" />
+  <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
+  <script src="../public/js/main.js" defer></script>
+</head>
 
-  <body data-back="auto">
-    <!-- ================= NAVBAR (same on every page) ============
+<body data-back="auto">
+  <!-- ================= NAVBAR (same on every page) ============
        During Deliverable 1 we show ALL links so the prof can
        navigate everything. In Deliverable 2, the backend will
        decide which links to show based on who is logged in.  -->
-    <nav class="navbar">
-      <div class="navbar-inner">
-        <a class="navbar-brand" href="../index.html">
-          <img src="../public/images/logo.svg" alt="" width="28" height="28" />
-          Campus Events
-        </a>
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a class="navbar-brand" href="../index.html">
+        <img src="../public/images/logo.svg" alt="" width="28" height="28" />
+        Campus Events
+      </a>
 
-        <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
 
-        <ul class="navbar-links">
-          <li><a href="../index.html">Home</a></li>
-          <li><a href="events.html">Events</a></li>
-          <li><a href="student-dashboard.html">Student</a></li>
-          <li><a href="my-registrations.html">My Registrations</a></li>
-          <li><a href="admin-dashboard.html">Admin</a></li>
-          <li><a href="contact.html" class="active">About</a></li>
-          <li><a href="login.html">Login</a></li>
-          <li>
-            <a class="btn" href="register.html" style="padding: 0.3rem 0.9rem"
-              >Sign up</a
-            >
-          </li>
-        </ul>
-      </div>
-    </nav>
+      <ul class="navbar-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="student-dashboard.html">Student</a></li>
+        <li><a href="my-registrations.html">My Registrations</a></li>
+        <li><a href="admin-dashboard.html">Admin</a></li>
+        <li><a href="about-us.html">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li>
+          <a class="btn" href="register.html" style="padding: 0.3rem 0.9rem">Sign up</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
-    <!-- ================= YOUR PAGE CONTENT ====================== -->
-    <main>
-      <div>
+  <!-- ================= YOUR PAGE CONTENT ====================== -->
+  <style>
+    .contactUsPage {
+      display: flex;
+      justify-content: center;
+      /* Centers the items horizontally */
+      align-items: center;
+      /* Centers the items vertically */
+
+    }
+
+    .contactInformation {
+      width: 300px;
+      margin: 0;
+      display: inline-block;
+    }
+
+    .card {
+      width: 500px;
+      height: 700px;
+      margin: 0;
+      display: inline-block;
+    }
+  </style>
+
+  <main>
+    <br>
+    <section class="contactUsPage">
+      <section class="contactInformation">
         <h1>Contact Us</h1>
         <p>
           We'd love to hear from you!<br />Send us a message and we'll<br />get
           back to you as soon as possible.
         </p>
-        <p><b>Email</b><br />info@smartcampus.ca</p>
-        <p><b>Phone</b><br />(514)-123-4567</p>
+        <br>
+        <h2>Email</h2>
+        <p>info@smartcampus.ca</p>
+        <h2>Phone</h2>
+        <p>(514)-123-4567</p>
+        <h2>Office Hours</h2>
+        <p>Mon-Fri 9:00AM - 5:00PM</p>
+        <h2>Address</h2>
         <p>
-          <b>Address</b><br />1455 De Maisonneuve Blvd. W.,<br />Montreal, QC
+          1455 De Maisonneuve Blvd. W.<br>Montreal, QC
           H3G 1M8
         </p>
-        <p><b>Office Hours</b><br />Mon-Fri 9:00AM - 5:00PM</p>
-      </div>
+      </section>
+
       <div class="card">
         <form action="../routes/registrationRoutes.js" method="post">
           <h2>Send us a Message</h2>
@@ -93,29 +123,26 @@
           <input type="text" id="subject" name="subject" placeholder="" />
 
           <label for="message"><b>Message</b></label>
-          <textarea
-            id="message"
-            name="message"
-            style="height: 125px"
-            placeholder="Type your message here..."
-          ></textarea>
-
-          <a class="btn" href="mailto:team13@example.com">Send Message</a>
+          <textarea id="message" name="message" style="height: 12rem"
+            placeholder="Type your message here..."></textarea>
+          <br>
+          <br>
+          <div style="text-align:right">
+            <a class="btn" href="mailto:team13@example.com">Send Message</a>
+          </div>
+          <br>
           <p style="text-align: center">
             <em>We typically respond within 24 hours.</em>
           </p>
         </form>
       </div>
-      <div>
-        <h2>About Us</h2>
-        <h3>Our Team</h3>
-        <h3>Our Goal</h3>
-      </div>
-    </main>
+    </section>
+  </main>
 
-    <!-- ================= FOOTER (same on every page) ============ -->
-    <footer class="footer">
-      Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 13
-    </footer>
-  </body>
+  <!-- ================= FOOTER (same on every page) ============ -->
+  <footer class="footer">
+    Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 13
+  </footer>
+</body>
+
 </html>
