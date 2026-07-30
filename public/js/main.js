@@ -182,6 +182,23 @@ const EVENTS = [
     image: "images/resume-clinic.jpg",
     rating: null,
   },
+  {
+    id: 6,
+    title: "Mock Interview Night",
+    description:
+      "Practice your interviewing skills with feedback from industry professionals.",
+    category: "Career events",
+    date: "2026-03-10",
+    startTime: "6:00 PM",
+    endTime: "9:00 PM",
+    location: "H-110",
+    capacity: 76,
+    organizer: "Career Services",
+    status: "Open",
+    registered: 80,
+    image: "images/mock-interview.jpg",
+    rating: null,
+  },
 
   // Club Activities
   {
@@ -200,23 +217,7 @@ const EVENTS = [
     image: "images/board-games.jpg",
     rating: null,
   },
-  {
-    id: 6,
-    title: "Photography Walk",
-    description:
-      "Explore campus while learning composition and photography techniques.",
-    category: "Club activities",
-    date: "2026-09-24",
-    startTime: "4:00 PM",
-    endTime: "6:00 PM",
-    location: "Campus Quad",
-    capacity: 25,
-    organizer: "Photography Club",
-    status: "Open",
-    registered: 18,
-    image: "images/photography.jpg",
-    rating: null,
-  },
+ 
 
   // Sports Events
   {
