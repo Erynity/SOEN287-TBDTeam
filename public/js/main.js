@@ -11,7 +11,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   setupNavToggle();
   setupLoginForm();
-  addBackButton();
 });
 
 function setupNavToggle() {
@@ -40,22 +39,6 @@ function setupNavToggle() {
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") setMenu(false);
   });
-}
-
-function addBackButton() {
-  const main = document.querySelector("main");
-  if (!main) return;
-  if (document.body.dataset.page === "home") return; // skip home
-
-  const back = document.createElement("button");
-  back.innerHTML =
-    '<span style="font-size:1.5em; line-height:1;">←</span> Back';
-  back.className = "btn btn-secondary back-btn";
-  back.addEventListener("click", () => {
-    if (history.length > 1) history.back();
-    else window.location.href = "../index.html";
-  });
-  main.prepend(back);
 }
 
 const TEST_ACCOUNTS = [
@@ -217,7 +200,6 @@ const EVENTS = [
     image: "images/board-games.jpg",
     rating: null,
   },
- 
 
   // Sports Events
   {
@@ -465,47 +447,46 @@ const EVENTS = [
 
 //FAKE REGISTRATION DATA TO POPULATE STUDENT DASHBOARD AND STUDENT REGISTRATION
 const REGISTRATIONS = [
-    {
-        registration_id: 1,
-        user_id: 101,
-        event_id: 2,
-        registration_date: "2026-08-21",
-        status: "Registered",
-        attended: false
-    },
-    {
-        registration_id: 2,
-        user_id: 101,
-        event_id: 7,
-        registration_date: "2026-08-22",
-        status: "Cancelled",
-        attended: false
-    },
-    {
-        registration_id: 3,
-        user_id: 101,
-        event_id: 14,
-        registration_date: "2026-08-15",
-        status: "Attended",
-        attended: true
-    },
-    {
-        registration_id: 4,
-        user_id: 101,
-        event_id: 5,
-        registration_date: "2026-08-20",
-        status: "Registered",
-        attended: false
-    }
+  {
+    registration_id: 1,
+    user_id: 101,
+    event_id: 2,
+    registration_date: "2026-08-21",
+    status: "Registered",
+    attended: false,
+  },
+  {
+    registration_id: 2,
+    user_id: 101,
+    event_id: 7,
+    registration_date: "2026-08-22",
+    status: "Cancelled",
+    attended: false,
+  },
+  {
+    registration_id: 3,
+    user_id: 101,
+    event_id: 14,
+    registration_date: "2026-08-15",
+    status: "Attended",
+    attended: true,
+  },
+  {
+    registration_id: 4,
+    user_id: 101,
+    event_id: 5,
+    registration_date: "2026-08-20",
+    status: "Registered",
+    attended: false,
+  },
 ];
 
 //helper function to create event card for any page that needs it
 
 function createEventCard(event) {
+  const badgeClass = getBadgeClass(event.status);
 
-    const badgeClass = getBadgeClass(event.status);
-
-    return `
+  return `
         <div class="card">
 
             <div class="flex-between">
@@ -532,7 +513,7 @@ function createEventCard(event) {
                 </span>
 
                 ${
-                    event.status === "Full"
+                  event.status === "Full"
                     ? `<button class="btn" disabled>Event Full</button>`
                     : `<a class="btn" href="event-details.html?id=${event.id}">
                             View Details
@@ -547,16 +528,15 @@ function createEventCard(event) {
 
 //helper function for displaying a list of event cards
 function displayEventCards(containerId, eventList) {
-
   const container = document.getElementById(containerId);
 
   if (!container) return;
 
   container.innerHTML = "";
 
-  eventList.forEach(event => {
+  eventList.forEach((event) => {
     container.innerHTML += createEventCard(event);
-  })
+  });
 }
 
 //helper function for the status badge switch
@@ -581,8 +561,6 @@ function getBadgeClass(status) {
 
 //get container where all event cards are displayed
 const EVENT_GRID = document.getElementById("EVENT_GRID");
-
-
 
 //Events search/filter function
 
@@ -715,72 +693,66 @@ if (title) {
 // --------------------------------------------------------------------- Student ---------------------------------------------------------------------
 
 if (document.getElementById("upcomingEvents")) {
-
   const currentUser = 101;
 
-  const myRegistrations = REGISTRATIONS.filter(reg => reg.user_id === currentUser);
+  const myRegistrations = REGISTRATIONS.filter(
+    (reg) => reg.user_id === currentUser,
+  );
 
   //stat cards for student dashboard
   document.getElementById("registeredCount").textContent =
-      myRegistrations.length;
-  document.getElementById("upcomingCount").textContent =
-      myRegistrations.filter(r => r.status === "Registered").length;
-  document.getElementById("attendedCount").textContent =
-      myRegistrations.filter(r => r.status === "Attended").length;
-
+    myRegistrations.length;
+  document.getElementById("upcomingCount").textContent = myRegistrations.filter(
+    (r) => r.status === "Registered",
+  ).length;
+  document.getElementById("attendedCount").textContent = myRegistrations.filter(
+    (r) => r.status === "Attended",
+  ).length;
 
   //upcoming events for student dashboard
   const upcoming = document.getElementById("upcomingEvents");
 
   const upcomingEvents = myRegistrations
-    .filter(reg => reg.status === "Registered")
-    .map(reg => EVENTS.find(event => event.id === reg.event_id))
-    .sort((a,b) => new Date(a.date) - new Date(b.date));
+    .filter((reg) => reg.status === "Registered")
+    .map((reg) => EVENTS.find((event) => event.id === reg.event_id))
+    .sort((a, b) => new Date(a.date) - new Date(b.date));
 
-    displayEventCards("upcomingEvents", upcomingEvents);
-  
-  
+  displayEventCards("upcomingEvents", upcomingEvents);
+
   //suggested events for student dashboard
   const suggestedContainer = document.getElementById("suggestedEvents");
 
   if (suggestedContainer) {
+    const suggestions = EVENTS.filter(
+      (event) => !myRegistrations.some((reg) => reg.event_id === event.id),
+    )
+      .sort((a, b) => new Date(a.date) - new Date(b.date))
+      .slice(0, 2);
 
-      const suggestions = EVENTS
-        .filter(event => !myRegistrations.some(reg => reg.event_id ===event.id))
-        .sort((a,b) => new Date(a.date) - new Date(b.date))
-        .slice(0,2);
-
-      displayEventCards("suggestedEvents", suggestions);
+    displayEventCards("suggestedEvents", suggestions);
   }
 
-
   //registrations table for student dashboard
-  const upcomingRegistrations = REGISTRATIONS
-      .filter(reg =>
-          reg.user_id === currentUser &&
-          reg.status === "Registered"
-      )
-      .map(reg => {
-          return {
-              registration: reg,
-              event: EVENTS.find(e => e.id === reg.event_id)
-          };
-      })
-      .sort((a, b) =>
-          new Date(a.event.date) - new Date(b.event.date)
-      );
-
+  const upcomingRegistrations = REGISTRATIONS.filter(
+    (reg) => reg.user_id === currentUser && reg.status === "Registered",
+  )
+    .map((reg) => {
+      return {
+        registration: reg,
+        event: EVENTS.find((e) => e.id === reg.event_id),
+      };
+    })
+    .sort((a, b) => new Date(a.event.date) - new Date(b.event.date));
 
   const regTable = document.getElementById("registrationTable");
 
   if (regTable) {
     regTable.innerHTML = "";
 
-    upcomingRegistrations.forEach(item => {
+    upcomingRegistrations.forEach((item) => {
+      const event = item.event;
 
-        const event = item.event;
-
-        regTable.innerHTML += `
+      regTable.innerHTML += `
             <tr>
                 <td>${event.title}</td>
                 <td>${event.date}</td>
@@ -807,21 +779,20 @@ if (document.getElementById("upcomingEvents")) {
 const myRegistrationTable = document.getElementById("myRegistrationTable");
 
 if (myRegistrationTable) {
-
   const currentUser = 101;
 
-  const studentRegistrations = REGISTRATIONS
-    .filter(reg => reg.user_id === currentUser)
-    .map(reg => {
-        const event = EVENTS.find(
-          event => event.id === reg.event_id);
-        return { registration: reg, event: event };})
-    .sort((a,b) => new Date(a.event.date) - new Date(b.event.date));
+  const studentRegistrations = REGISTRATIONS.filter(
+    (reg) => reg.user_id === currentUser,
+  )
+    .map((reg) => {
+      const event = EVENTS.find((event) => event.id === reg.event_id);
+      return { registration: reg, event: event };
+    })
+    .sort((a, b) => new Date(a.event.date) - new Date(b.event.date));
 
   myRegistrationTable.innerHTML = "";
 
-  studentRegistrations.forEach(item => {
-    
+  studentRegistrations.forEach((item) => {
     const event = item.event;
     const registration = item.registration;
 
