@@ -22,8 +22,8 @@
    ------------------------------------------------------------ */
 :root {
   /* Brand */
-  --Blue: #1d77ac;
-  /* Main blue - primary actions, links */
+  --maroon: #1d77ac;
+  /* Concordia maroon - primary actions, links */
   --maroon-dark: #6e1a2b;
   /* hover state for maroon */
   --gold: #e5a712;
@@ -31,7 +31,7 @@
 
   /* Neutrals */
   --bg: #e6f7ff;
-  /* page background (cold white) */
+  /* page background (warm off-white) */
   --surface: #ffffff;
   /* cards, nav, tables sit on this */
   --border: #e6e0d8;
