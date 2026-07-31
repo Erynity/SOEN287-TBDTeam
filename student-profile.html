@@ -1,23 +1,11 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- ==========================================================
-       PAGE TEMPLATE - Smart Campus Event Planner (SOEN 287)
-
-       HOW TO USE:
-       1. Copy this file, rename it (e.g. events.html).
-       2. Change the <title> below.
-       3. In the nav, move class="active" to YOUR page's link.
-       4. Build your page inside <main>. Use classes from
-          /public/css/style.css (cards, buttons, forms, tables).
-       5. Do NOT edit the navbar structure or the stylesheet
-          without telling the group.
-       ========================================================== -->
     <meta charset="UTF-8" />
     <!-- viewport tag = required for responsive design on phones -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Registrations - Smart Campus Event Planner</title>
+    <title>Admin Dashboard - Smart Campus Event Planner</title>
 
     <!-- Shared font + stylesheet. Path is relative to /views/. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -31,10 +19,7 @@
   </head>
 
   <body>
-    <!-- ================= NAVBAR (same on every page) ============
-       During Deliverable 1 we show ALL links so the prof can
-       navigate everything. In Deliverable 2, the backend will
-       decide which links to show based on who is logged in.  -->
+    <!-- ================= NAVBAR (same on every page) ============ -->
     <nav class="navbar">
       <div class="navbar-inner">
         <a class="navbar-brand" href="../index.html">
@@ -43,7 +28,7 @@
             alt=""
             width="28"
             height="28"
-            style="vertical-align: middle; margin-right: 6px"
+            style="vertical-align: middle"
           />
           Campus Events
         </a>
@@ -56,11 +41,8 @@
           <li><a href="../index.html">Home</a></li>
           <li><a href="events.html">Events</a></li>
           <li><a href="student-dashboard.html">Student</a></li>
-          <li>
-            <a class="active" href="my-registrations.html">My Registrations</a>
-          </li>
-          <li><a href="admin-dashboard.html">Admin</a></li>
-          <li><a href="about-us.html">About Us</a></li>
+          <li><a href="my-registrations.html">My Registrations</a></li>
+          <li><a href="admin-dashboard.html" class="active">Admin</a></li>
           <li><a href="contact.html">About</a></li>
           <li><a href="login.html">Login</a></li>
           <li>
@@ -72,34 +54,56 @@
       </div>
     </nav>
 
-    <!-- ================= YOUR PAGE CONTENT ====================== -->
+    <!-- ================= CONTENT ====================== -->
     <main>
       <button class="btn btn-secondary back-btn" onclick="history.back()">
         <span style="font-size: 1.5em; line-height: 1">←</span> Back
       </button>
-      <span class="eyebrow">My Registrations</span>
 
-      <!-- Table -->
-      <h2>Registered Events</h2>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Event</th>
-              <th>Date</th>
-              <th>Time</th>
-              <th>Location</th>
-              <th>Registration Date</th>
-              <th>Status</th>
-              <th>Attendance</th>
-            </tr>
-          </thead>
-          <tbody id="myRegistrationTable"></tbody>
-        </table>
+      <span class="eyebrow">My Account</span>
+      <h1>Student Profile</h1>
+      <p>View and update your personal information.</p>
+
+      <div class="card">
+        <h2>Your Details</h2>
+        <p><strong>Full Name:</strong> Joy Gill</p>
+        <p><strong>Email:</strong> student@campus.ca</p>
+        <p><strong>Role:</strong> Student</p>
+      </div>
+
+      <div class="card">
+        <h2>Edit Profile</h2>
+        <form>
+          <label for="fullname">Full Name</label>
+          <input
+            type="text"
+            id="fullname"
+            name="fullname"
+            value="Student Name"
+          />
+
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value="student@campus.ca"
+          />
+
+          <label for="password">New Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Leave blank to keep current"
+          />
+
+          <button class="btn" type="submit">Save Changes</button>
+        </form>
       </div>
     </main>
 
-    <!-- ================= FOOTER (same on every page) ============ -->
+    <!-- ================= FOOTER  ============ -->
     <footer class="footer">
       Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 13
     </footer>
