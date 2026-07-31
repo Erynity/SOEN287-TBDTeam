@@ -83,7 +83,12 @@ html {
 }
 
 body {
-  font-family: "Public Sans", -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-family:
+    "Public Sans",
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
   font-size: 1rem;
   line-height: 1.6;
   color: var(--text);
@@ -206,7 +211,6 @@ a:hover {
   color: var(--maroon-dark);
 }
 
-
 .navbar-links {
   display: flex;
   gap: var(--space-1);
@@ -232,7 +236,9 @@ a:hover {
   opacity: 0;
   transform: translateY(-8px);
   pointer-events: none;
-  transition: opacity 0.25s ease, transform 0.25s ease;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
   z-index: 20;
 }
 
@@ -282,7 +288,9 @@ a:hover {
   width: 100%;
   border-radius: 2px;
   background: var(--maroon);
-  transition: transform 0.3s, opacity 0.3s;
+  transition:
+    transform 0.3s,
+    opacity 0.3s;
 }
 
 .nav-toggle.open span:nth-child(1) {
@@ -297,13 +305,11 @@ a:hover {
   transform: translateY(-8px) rotate(-45deg);
 }
 
-
 .navbar-links.open {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
 }
-
 
 /* ------------------------------------------------------------
    5. BUTTONS
@@ -413,7 +419,24 @@ textarea:focus-visible {
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
-
+.filter-row {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-3);
+}
+.filter-row select {
+  flex: 1;
+  min-width: 150px;
+}
+.card.event-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.card.event-card .flex-between:last-child {
+  margin-top: auto;
+}
 /* ------------------------------------------------------------
    7. GRID
    Responsive card grids without media queries: auto-fit makes
@@ -423,6 +446,7 @@ textarea:focus-visible {
   display: grid;
   gap: var(--space-3);
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  align-items: stretch;
 }
 
 /* ------------------------------------------------------------

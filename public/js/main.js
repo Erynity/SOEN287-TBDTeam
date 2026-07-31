@@ -487,7 +487,7 @@ function createEventCard(event) {
   const badgeClass = getBadgeClass(event.status);
 
   return `
-        <div class="card">
+        <div class="card event-card">
 
             <div class="flex-between">
                 <h3>${event.title}</h3>
