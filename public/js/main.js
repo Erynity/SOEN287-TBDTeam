@@ -94,7 +94,7 @@ const onHomePage = window.location.pathname.endsWith("index.html") || window.loc
   const base = onHomePage ? "views/" : "";
   const home = onHomePage ? "index.html" : "../index.html";
 
-const role = localStorage.getItem("userRole") || "guest";
+
 
 const links = {
   guest: [
@@ -126,16 +126,20 @@ const links = {
 
 //navbar links
 function setupNavLinks() {
-
+  const role = localStorage.getItem("userRole") || "guest";
   const navbarLinks = document.getElementById("navbar-links");
+  const currentPage = window.location.pathname.split("/").pop() || "index.html";
+
   if (!navbarLinks) return;
 
   navbarLinks.innerHTML = links[role]
     .map(link => {
+      const isActive = link.href.split("/").pop() === currentPage ? ' class="active"' : "";
+      
       if (link.name === "Log out") {
-        return `<li><a href="#" id="logout-btn">${link.name}</a></li>`;
+        return `<li><a class="btn" style="padding: 0.3rem 0.9rem" href="#" id="logout-btn">${link.name}</a></li>`;
       }
-      return `<li><a href="${link.href}">${link.name}</a></li>`;
+      return `<li><a href="${link.href}"${isActive}>${link.name}</a></li>`;
     })
     .join("");
 
