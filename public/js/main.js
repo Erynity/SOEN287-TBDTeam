@@ -12,6 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
   setupNavToggle();
   setupLoginForm();
   setupNavLinks();
+  setupProfileForm();
+  setupEditEvent();
 });
 
 function setupNavToggle() {
@@ -75,15 +77,12 @@ function setupLoginForm() {
       localStorage.setItem("userRole", match.role);
       //go to correct dashboard
       window.location.href = match.redirect;
-    }
-      
-    else {
+    } else {
       error.textContent = "Invalid username or password.";
       error.hidden = false;
     }
   });
 }
-
 
 //navigation bar that changes depending on userRoles
 //to log in as a student: localStorage.setItem("userRole", "student");
@@ -91,9 +90,11 @@ function setupLoginForm() {
 //to log out: localStorage.removeItem("userRole");
 
 //checks if were on the home page or not, to set the correct relative paths for links
-const onHomePage = window.location.pathname.endsWith("index.html") || window.location.pathname === "/";
-  const base = onHomePage ? "views/" : "";
-  const home = onHomePage ? "index.html" : "../index.html";
+const onHomePage =
+  window.location.pathname.endsWith("index.html") ||
+  window.location.pathname === "/";
+const base = onHomePage ? "views/" : "";
+const home = onHomePage ? "index.html" : "../index.html";
 
 //navigation links for each user role
 const links = {
@@ -102,7 +103,7 @@ const links = {
     { name: "Events", href: `${base}events.html` },
     { name: "Contact/About us", href: `${base}contact.html` },
     { name: "Log in", href: `${base}login.html` },
-    { name: "Sign up", href: `${base}register.html` }
+    { name: "Sign up", href: `${base}register.html` },
   ],
 
   student: [
@@ -121,7 +122,7 @@ const links = {
     { name: "Statistics", href: `${base}admin-statistics.html` },
     { name: "Contact/About us", href: `${base}contact.html` },
     { name: "Log out", href: "#" },
-  ]
+  ],
 };
 
 //setup navbar links
@@ -138,10 +139,11 @@ function setupNavLinks() {
 
   //populate navbar links based on user role
   navbarLinks.innerHTML = links[role]
-    .map(link => {
+    .map((link) => {
       //check if link is active
-      const isActive = link.href.split("/").pop() === currentPage ? ' class="active"' : "";
-      
+      const isActive =
+        link.href.split("/").pop() === currentPage ? ' class="active"' : "";
+
       //special case for logout link to add id for event listener
       if (link.name === "Log out") {
         return `<li><a class="btn" style="padding: 0.3rem 0.9rem" href="#" id="logout-btn">${link.name}</a></li>`;
@@ -151,21 +153,19 @@ function setupNavLinks() {
     })
     .join("");
 
-    
   //logout feature
   const logoutBtn = document.getElementById("logout-btn");
   //if logout button exists, add click event listener to log out user
   if (logoutBtn) {
-      logoutBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        //remove login user
-        localStorage.removeItem("userRole");
-        //return to home page
-        window.location.href = home;
-      });
+    logoutBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      //remove login user
+      localStorage.removeItem("userRole");
+      //return to home page
+      window.location.href = home;
+    });
   }
 }
-
 
 // --------------------------------------------------------------------- Home Page ---------------------------------------------------------------------
 
@@ -755,7 +755,7 @@ if (title) {
   if (event) {
     //fill page with selected event info
     title.textContent = event.title;
-    
+
     const badge = document.getElementById("eventStatus");
     badge.textContent = event.status;
     badge.className = `badge ${getBadgeClass(event.status)}`;
@@ -907,4 +907,94 @@ if (myRegistrationTable) {
 
 // --------------------------------------------------------------------- Admin ---------------------------------------------------------------------
 
+// Student Profile page - check the edit form before saving
+function setupProfileForm() {
+  const form = document.querySelector("#profile-form");
+  if (!form) return; // only runs on the profile page
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const fullName = document.querySelector("#fullname").value.trim();
+    const email = document.querySelector("#email").value.trim();
+    const currentPassword = document.querySelector("#current-password").value;
+    const newPassword = document.querySelector("#new-password").value;
+    const confirmPassword = document.querySelector("#confirm-password").value;
+    const msg = document.querySelector("#profile-msg");
+
+    // Name and email are always required
+    if (fullName === "") {
+      showProfileMessage(msg, "Please enter your full name.", false);
+      return;
+    }
+    if (email === "" || !email.includes("@") || !email.includes(".")) {
+      showProfileMessage(msg, "Please enter a valid email address.", false);
+      return;
+    }
+
+    // Only check the password if they are actually changing it
+    if (newPassword !== "") {
+      if (currentPassword === "") {
+        showProfileMessage(
+          msg,
+          "Enter your current password to change it.",
+          false,
+        );
+        return;
+      }
+      if (newPassword.length < 6) {
+        showProfileMessage(
+          msg,
+          "New password must be at least 6 characters.",
+          false,
+        );
+        return;
+      }
+      if (newPassword !== confirmPassword) {
+        showProfileMessage(msg, "New passwords do not match.", false);
+        return;
+      }
+    }
+
+    showProfileMessage(msg, "Profile updated successfully!", true);
+  });
+}
+
+// Show a message under the profile form: green for success, red for error
+function showProfileMessage(box, text, ok) {
+  box.textContent = text;
+  box.style.color = ok ? "var(--status-open)" : "var(--status-cancelled)";
+  box.hidden = false;
+}
+// --------------------------------------------------------------------- About ---------------------------------------------------------------------
+
+// EDIT EVENT page - load the chosen event into the form, then handle save
+function setupEditEvent() {
+  const form = document.querySelector("#edit-event-form");
+  if (!form) return; // only runs on the edit page
+
+  // Read the event id from the URL, e.g. edit-event.html?id=3
+  const id = Number(new URLSearchParams(window.location.search).get("id"));
+  const event = EVENTS.find((e) => e.id === id);
+
+  // If the id is missing or wrong, tell the user and stop
+  if (!event) {
+    document.querySelector("main").innerHTML = "<p>Event not found.</p>";
+    return;
+  }
+
+  // Fill the form with this event's current details
+  document.querySelector("#event-name").value = event.title;
+  document.querySelector("#event-date").value = event.date;
+  document.querySelector("#event-location").value = event.location;
+  document.querySelector("#capacity").value = event.capacity;
+  document.querySelector("#event-description").value = event.description;
+
+  // When they save, confirm (no backend yet)
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    alert("Event updated successfully!");
+  });
+}
+// --------------------------------------------------------------------- About ---------------------------------------------------------------------
 // --------------------------------------------------------------------- About ---------------------------------------------------------------------

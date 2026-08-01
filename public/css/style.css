@@ -375,12 +375,8 @@ textarea:focus-visible {
   outline-offset: 2px;
 }
 
-#login-form button {
-  margin-top: var(--space-3);
-  margin-bottom: var(--space-3);
-}
-
-#register-form button {
+/* Space above and below every form's submit button, site-wide */
+form button[type="submit"] {
   margin-top: var(--space-3);
   margin-bottom: var(--space-3);
 }
