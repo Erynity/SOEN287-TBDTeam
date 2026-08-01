@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- viewport tag = required for responsive design on phones -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Edit Event - Campus Event Planner</title>
+
+    <!-- Shared font + stylesheet. Path is relative to /views/. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../public/css/style.css" />
+    <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
+    <script src="../public/js/main.js" defer></script>
+  </head>
+
+  <body>
+    <nav class="navbar">
+      <div class="navbar-inner">
+        <a class="navbar-brand" href="../index.html">
+          <img
+            src="../public/images/logo.svg"
+            alt=""
+            width="28"
+            height="28"
+            style="vertical-align: middle; margin-right: 6px"
+          />
+          Campus Events
+        </a>
+
+        <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+
+        <ul class="navbar-links" id="navbar-links"></ul>
+      </div>
+    </nav>
+
+    <!-- ================= YOUR PAGE CONTENT ====================== -->
+    <main>
+      <button class="btn btn-secondary back-btn" onclick="history.back()">
+        <span style="font-size: 1.5em; line-height: 1">←</span> Back
+      </button>
+      <span class="eyebrow">Event management</span>
+      <h1>Edit Event</h1>
+      <p class="muted">Fill in the details to edit the event.</p>
+      <form id="edit-event-form">
+        <label for="event-name">Event Title:</label>
+        <input
+          type="text"
+          id="event-name"
+          name="event-name"
+          placeholder="Edit your event's title"
+          required
+        />
+
+        <label for="event-category">Event Category:</label>
+        <select id="event-category" name="event-category" required>
+          <option value="">Select the event category</option>
+          <option value="academic-workshop">Academic workshops</option>
+          <option value="career-events">Career events</option>
+          <option value="club-activities">Club activities</option>
+          <option value="sports-events">Sports events</option>
+          <option value="cultural-events">Cultural events</option>
+          <option value="volunteering-events">Volunteering events</option>
+          <option value="social-events">Social events</option>
+          <option value="guest-lectures">Guest lectures</option>
+          <option value="networking-events">Networking events</option>
+          <option value="other">Other</option>
+        </select>
+
+        <label for="other-category">If "Other", please specify:</label>
+        <input
+          type="text"
+          id="other-category"
+          name="other-category"
+          placeholder="e.g., Hackathon, Seminar, etc."
+        />
+
+        <label for="event-date">Event Date:</label>
+        <input type="date" id="event-date" name="event-date" required />
+
+        <label for="start-time">Start Time:</label>
+        <input type="time" id="start-time" name="start-time" required />
+
+        <label for="end-time">End Time:</label>
+        <input type="time" id="end-time" name="end-time" required />
+
+        <label for="event-location">Event Location:</label>
+        <input type="text" id="event-location" name="event-location" required />
+
+        <label for="capacity">Maximum number of participants:</label>
+        <input
+          type="number"
+          id="capacity"
+          name="capacity"
+          min="1"
+          placeholder="e.g., 50"
+          required
+        />
+
+        <label for="event-description">Event Description:</label>
+        <textarea
+          id="event-description"
+          name="event-description"
+          rows="4"
+          placeholder="Enter a brief description of the event to help participants understand what to expect."
+          required
+        ></textarea>
+
+        <button class="btn" type="submit">Save Changes</button>
+      </form>
+    </main>
+
+    <!-- ================= FOOTER (same on every page) ============ -->
+    <footer class="footer">
+      Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 13
+    </footer>
+  </body>
+</html>
