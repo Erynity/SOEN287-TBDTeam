@@ -268,7 +268,7 @@ const EVENTS = [
     startTime: "6:00 PM",
     endTime: "9:00 PM",
     location: "H-110",
-    capacity: 76,
+    capacity: 80,
     organizer: "Career Services",
     status: "Completed",
     registered: 76,
@@ -868,6 +868,36 @@ if (document.getElementById("upcomingEvents")) {
     });
   }
 }
+// --------------------------------------------------------------------- Admin ---------------------------------------------------------------------
+//upcoming events for admin dashboard
+const adminEventsTable = document.getElementById("upcomingadminEvents");
+if (upcomingadminEvents) {
+  upcomingadminEvents.innerHTML = "";
+const upcomingEvents = EVENTS
+    .filter(event =>
+      event.organizer === "Career Services" &&
+       event.status === "Open" || event.status === "Full")
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
+upcomingEvents.forEach(event => {
+     const currentRegistrations = REGISTRATIONS.filter(
+      reg => reg.event_id === event.id && reg.status === "Registered"
+    ).length || event.registered;
+    const badgeClass = getBadgeClass(event.status);
+
+    upcomingadminEvents.innerHTML += `
+      <tr>
+        <td><strong>${event.title}</strong></td>
+        <td>${event.category}</td>
+        <td>${event.date}</td>
+        <td>${event.location}</td>
+        <td>${currentRegistrations} / ${event.capacity}</td>
+        <td>
+          <span class="badge ${badgeClass}">${event.status}</span>
+        </td>
+      </tr>
+    `;
+  });
+}
 
 // --------------------------------------------------------------------- Registration  ---------------------------------------------------------------------
 
@@ -905,7 +935,6 @@ if (myRegistrationTable) {
   });
 }
 
-// --------------------------------------------------------------------- Admin ---------------------------------------------------------------------
 
 // Student Profile page - check the edit form before saving
 function setupProfileForm() {
