@@ -90,12 +90,12 @@ function setupLoginForm() {
 //to log in as an admin: localStorage.setItem("userRole", "admin");
 //to log out: localStorage.removeItem("userRole");
 
+//checks if were on the home page or not, to set the correct relative paths for links
 const onHomePage = window.location.pathname.endsWith("index.html") || window.location.pathname === "/";
   const base = onHomePage ? "views/" : "";
   const home = onHomePage ? "index.html" : "../index.html";
 
-
-
+//navigation links for each user role
 const links = {
   guest: [
     { name: "Home", href: home },
@@ -124,21 +124,29 @@ const links = {
   ]
 };
 
-//navbar links
+//setup navbar links
 function setupNavLinks() {
+  //get user role from localStorage, default to guest if not set
   const role = localStorage.getItem("userRole") || "guest";
+  //get navbar links container
   const navbarLinks = document.getElementById("navbar-links");
+  //get current page name to highlight active link
   const currentPage = window.location.pathname.split("/").pop() || "index.html";
 
+  //if navbar links container not found, exit
   if (!navbarLinks) return;
 
+  //populate navbar links based on user role
   navbarLinks.innerHTML = links[role]
     .map(link => {
+      //check if link is active
       const isActive = link.href.split("/").pop() === currentPage ? ' class="active"' : "";
       
+      //special case for logout link to add id for event listener
       if (link.name === "Log out") {
         return `<li><a class="btn" style="padding: 0.3rem 0.9rem" href="#" id="logout-btn">${link.name}</a></li>`;
       }
+      //return link html
       return `<li><a href="${link.href}"${isActive}>${link.name}</a></li>`;
     })
     .join("");
@@ -146,7 +154,7 @@ function setupNavLinks() {
     
   //logout feature
   const logoutBtn = document.getElementById("logout-btn");
-
+  //if logout button exists, add click event listener to log out user
   if (logoutBtn) {
       logoutBtn.addEventListener("click", (e) => {
         e.preventDefault();
@@ -567,8 +575,8 @@ const REGISTRATIONS = [
 ];
 
 //helper function to create event card for any page that needs it
-
 function createEventCard(event) {
+  //get the correct badge class for the event status
   const badgeClass = getBadgeClass(event.status);
 
   return `
@@ -618,7 +626,7 @@ function displayEventCards(containerId, eventList) {
   if (!container) return;
 
   container.innerHTML = "";
-
+  //loop through the event list and create a card for each event
   eventList.forEach((event) => {
     container.innerHTML += createEventCard(event);
   });
@@ -747,7 +755,7 @@ if (title) {
   if (event) {
     //fill page with selected event info
     title.textContent = event.title;
-
+    
     const badge = document.getElementById("eventStatus");
     badge.textContent = event.status;
     badge.className = `badge ${getBadgeClass(event.status)}`;
@@ -779,7 +787,7 @@ if (title) {
 
 if (document.getElementById("upcomingEvents")) {
   const currentUser = 101;
-
+  //get all registrations for the current user
   const myRegistrations = REGISTRATIONS.filter(
     (reg) => reg.user_id === currentUser,
   );
@@ -796,18 +804,20 @@ if (document.getElementById("upcomingEvents")) {
 
   //upcoming events for student dashboard
   const upcoming = document.getElementById("upcomingEvents");
-
+  //get all events that the current user is registered for and sort by date
   const upcomingEvents = myRegistrations
     .filter((reg) => reg.status === "Registered")
     .map((reg) => EVENTS.find((event) => event.id === reg.event_id))
     .sort((a, b) => new Date(a.date) - new Date(b.date));
 
+  //display upcoming events in the student dashboard
   displayEventCards("upcomingEvents", upcomingEvents);
 
   //suggested events for student dashboard
   const suggestedContainer = document.getElementById("suggestedEvents");
 
   if (suggestedContainer) {
+    //get events that the current user is not registered for, sort by date, and take the first 2
     const suggestions = EVENTS.filter(
       (event) => !myRegistrations.some((reg) => reg.event_id === event.id),
     )
@@ -833,7 +843,7 @@ if (document.getElementById("upcomingEvents")) {
 
   if (regTable) {
     regTable.innerHTML = "";
-
+    //loop through the upcoming registrations and add a row for each event
     upcomingRegistrations.forEach((item) => {
       const event = item.event;
 
@@ -862,7 +872,7 @@ if (document.getElementById("upcomingEvents")) {
 // --------------------------------------------------------------------- Registration  ---------------------------------------------------------------------
 
 const myRegistrationTable = document.getElementById("myRegistrationTable");
-
+//get all registrations for the current user and sort by date
 if (myRegistrationTable) {
   const currentUser = 101;
 
