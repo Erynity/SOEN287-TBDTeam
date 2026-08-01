@@ -11,6 +11,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   setupNavToggle();
   setupLoginForm();
+  setupNavLinks();
 });
 
 function setupNavToggle() {
@@ -46,11 +47,13 @@ const TEST_ACCOUNTS = [
     email: "student@campus.ca",
     password: "student123",
     redirect: "student-dashboard.html",
+    role: "student",
   },
   {
     email: "admin@campus.ca",
     password: "admin123",
     redirect: "admin-dashboard.html",
+    role: "admin",
   },
 ];
 
@@ -67,13 +70,91 @@ function setupLoginForm() {
     const match = TEST_ACCOUNTS.find(
       (a) => a.email === email && a.password === password,
     );
-    if (match) window.location.href = match.redirect;
+    if (match) {
+      //save userRole
+      localStorage.setItem("userRole", match.role);
+      //go to correct dashboard
+      window.location.href = match.redirect;
+    }
+      
     else {
       error.textContent = "Invalid username or password.";
       error.hidden = false;
     }
   });
 }
+
+
+//navigation bar that changes depending on userRoles
+//to log in as a student: localStorage.setItem("userRole", "student");
+//to log in as an admin: localStorage.setItem("userRole", "admin");
+//to log out: localStorage.removeItem("userRole");
+
+const onHomePage = window.location.pathname.endsWith("index.html") || window.location.pathname === "/";
+  const base = onHomePage ? "views/" : "";
+  const home = onHomePage ? "index.html" : "../index.html";
+
+const role = localStorage.getItem("userRole") || "guest";
+
+const links = {
+  guest: [
+    { name: "Home", href: home },
+    { name: "Events", href: `${base}events.html` },
+    { name: "Contact/About us", href: `${base}contact.html` },
+    { name: "Log in", href: `${base}login.html` },
+    { name: "Sign up", href: `${base}register.html` }
+  ],
+
+  student: [
+    { name: "Dashboard", href: `${base}student-dashboard.html` },
+    { name: "Events", href: `${base}events.html` },
+    { name: "My Registrations", href: `${base}my-registrations.html` },
+    { name: "Profile", href: `${base}student-profile.html` },
+    { name: "Contact/About us", href: `${base}contact.html` },
+    { name: "Log out", href: "#" },
+  ],
+
+  admin: [
+    { name: "Dashboard", href: `${base}admin-dashboard.html` },
+    { name: "Manage Events", href: `${base}manage-events.html` },
+    { name: "My Registrations", href: `${base}admin-registrations.html` },
+    { name: "Statistics", href: `${base}admin-statistics.html` },
+    { name: "Contact/About us", href: `${base}contact.html` },
+    { name: "Log out", href: "#" },
+  ]
+};
+
+//navbar links
+function setupNavLinks() {
+
+  const navbarLinks = document.getElementById("navbar-links");
+  if (!navbarLinks) return;
+
+  navbarLinks.innerHTML = links[role]
+    .map(link => {
+      if (link.name === "Log out") {
+        return `<li><a href="#" id="logout-btn">${link.name}</a></li>`;
+      }
+      return `<li><a href="${link.href}">${link.name}</a></li>`;
+    })
+    .join("");
+
+    
+  //logout feature
+  const logoutBtn = document.getElementById("logout-btn");
+
+  if (logoutBtn) {
+      logoutBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        //remove login user
+        localStorage.removeItem("userRole");
+        //return to home page
+        window.location.href = home;
+      });
+  }
+}
+
+
 // --------------------------------------------------------------------- Home Page ---------------------------------------------------------------------
 
 // --------------------------------------------------------------------- Events ---------------------------------------------------------------------
@@ -177,8 +258,8 @@ const EVENTS = [
     location: "H-110",
     capacity: 76,
     organizer: "Career Services",
-    status: "Open",
-    registered: 80,
+    status: "Completed",
+    registered: 76,
     image: "images/mock-interview.jpg",
     rating: null,
   },
