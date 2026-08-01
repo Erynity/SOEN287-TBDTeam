@@ -70,37 +70,21 @@
       <a href="manage-events.html" class="btn">+ Manage events</a>
     </h2>
     <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Event</th>
-            <th>Category</th>
-            <th>Date</th>
-            <th>Place</th>
-            <th>Registrations</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Tech Industry Career Fair</td>
-            <td>Career Events</td>
-            <td>September 18, 2026</td>
-            <td>Hall Building Atrium</td>
-            <td>214/300</td>
-            <td><span class="badge badge-open">Open</span></td>
-
-          </tr>
-          <tr>
-            <td>Resume & LinkedIn Clinic</td>
-            <td>Career events</td>
-            <td>September 21, 2026</td>
-            <td>MB 2.130</td>
-            <td>48 / 60</td>
-            <td><span class="badge badge-full">full</span></td>
-          </tr>
-        </tbody>
-      </table>
+      <table style="margin-bottom: 24px;">
+    <thead>
+      <tr>
+        <th>EVENT</th>
+        <th>CATEGORY</th>
+        <th>DATE</th>
+        <th>PLACE</th>
+        <th>REGISTRATIONS</th>
+        <th>STATUS</th>
+      </tr>
+    </thead>
+    <tbody id="upcomingadminEvents">
+      <!-- Dynamic rows will be injected here -->
+    </tbody>
+  </table>
     </div>
 
  
@@ -128,16 +112,16 @@
         <div class="flex-between">
       
           <strong>Academic workshops</strong>
-           <span class="muted">78% (45 reg)</span>
+           <span class="muted">78% (346 reg)</span>
         </div>
         <div class="flex-between">
           <strong>Sports events</strong>
-        <span class="muted">67% (75 reg)</span>
+        <span class="muted">67% (270 reg)</span>
      
        </div>
        <div class="flex-between">
         <strong>Networking events</strong>
-        <span class="muted">52% (89 reg)</span>
+        <span class="muted">52% (220 reg)</span>
       </div>
       <a href="admin-statistics.html" class="btn mt-3">+ See more Statistics</a>
       </div>
