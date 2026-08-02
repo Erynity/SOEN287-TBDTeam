@@ -365,6 +365,10 @@ a:hover {
   /* space under the button */
 }
 
+[hidden] {
+  display: none !important;
+}
+
 /* Visible keyboard focus - accessibility, do not remove */
 .btn:focus-visible,
 a:focus-visible,

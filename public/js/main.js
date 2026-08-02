@@ -592,22 +592,12 @@ function createEventCard(event) {
                 ${event.location}
             </p>
 
-<<<<<<< Updated upstream
             <p class="event-desc">${event.description}</p>
                 
             <div class="event-card-foot">
               <span class="muted">
                 ${event.registered}/${event.capacity} spots filled
               </span>
-=======
-            <p>${event.description}</p>
-
-            <div class="flex-between">
-
-                <span class="muted">
-                    ${event.registered}/${event.capacity} spots filled
-                </span>
->>>>>>> Stashed changes
                 <a class="btn" href="event-details.html?id=${event.id}">View details</a>
 
             </div>
@@ -785,6 +775,9 @@ if (title) {
     if (userRole === "student") {
       const studentControls = document.getElementById("studentControls");
 
+      const registerBtn = document.getElementById("registerBtn");
+      const cancelBtn = document.getElementById("cancelRegistrationBtn");
+
       studentControls.hidden = false;
       const currentUser = 101; //hardcoded for now, will be dynamic later
 
@@ -794,9 +787,6 @@ if (title) {
           reg.event_id === event.id &&
           reg.status === "Registered"
       );
-
-      const registerBtn = document.getElementById("registerBtn");
-      const cancelBtn = document.getElementById("cancelBtn");
 
       //if student is already registered, hide register button and show cancel button
       if (registration) {
