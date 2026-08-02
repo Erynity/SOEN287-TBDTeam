@@ -1,100 +1,98 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- ==========================================================
-       PAGE TEMPLATE - Smart Campus Event Planner (SOEN 287)
 
-       HOW TO USE:
-       1. Copy this file, rename it (e.g. events.html).
-       2. Change the <title> below.
-       3. In the nav, move class="active" to YOUR page's link.
-       4. Build your page inside <main>. Use classes from
-          /public/css/style.css (cards, buttons, forms, tables).
-       5. Do NOT edit the navbar structure or the stylesheet
-          without telling the group.
-       ========================================================== -->
-    <meta charset="UTF-8" />
-    <!-- viewport tag = required for responsive design on phones -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+  <meta charset="UTF-8" />
+  <!-- viewport tag = required for responsive design on phones -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Register - Smart Campus Event Planner</title>
+  <title>Register - Smart Campus Event Planner</title>
 
-    <!-- Shared font + stylesheet. Path is relative to /views/. -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="../public/css/style.css" />
-    <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
-    <script src="../public/js/main.js" defer></script>
-    <script src="../public/js/registerFormValidation.js" defer></script>
-  </head>
+  <!-- Shared font + stylesheet. Path is relative to /views/. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="../public/css/style.css" />
+  <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
+  <script src="../public/js/main.js" defer></script>
+  <script src="../public/js/registerFormValidation.js" defer></script>
+</head>
 
-  <body>
-    <!-- ================= NAVBAR (same on every page) ============
-       During Deliverable 1 we show ALL links so the prof can
-       navigate everything. In Deliverable 2, the backend will
-       decide which links to show based on who is logged in.  -->
-    <nav class="navbar">
-      <div class="navbar-inner">
-        <a class="navbar-brand" href="../index.html">
-          <img src="../public/images/logo.svg" alt="" width="28" height="28" />
-          Campus Events
-        </a>
+<body>
+  <!-- ================= NAVBAR ============-->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a class="navbar-brand" href="../index.html">
+        <img src="../public/images/logo.svg" alt="" width="28" height="28" />
+        Campus Events
+      </a>
 
-        <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
 
-        <ul class="navbar-links" id="navbar-links"></ul>
-      </div>
-    </nav>
+      <ul class="navbar-links" id="navbar-links"></ul>
+    </div>
+  </nav>
 
-    <!-- ================= YOUR PAGE CONTENT ====================== -->
-    <main>
+  <!-- ================= CONTENT ============-->
+  <main class="createAccountPage">
+    <!-- Side Information -->
+    <section class="createAccountInformation">
       <h1>Create Your Account</h1>
       <p>
         Join the Smart Campus community<br />and start discovering amazing
         events.
       </p>
-      <div class="card">
-        <form id="register-form">
-          <h2>Register</h2>
-          <p>Fill in the details below to create your account.</p>
+    </section>
 
-          <label for="firstname">First Name</label>
-          <input type="text" id="firstname" name="firstname" />
+    <!-- Form to create an account -->
+    <form class="card" id="register-form">
+      <!-- Title -->
+      <h2>Register</h2>
+      <p>Fill in the details below to create your account.</p>
 
-          <label for="lastname">Last Name</label>
-          <input type="text" id="lastname" name="lastname" />
+      <!-- User Input Boxes -->
+      <label for="firstname">First Name</label>
+      <input type="text" id="firstname" name="firstname" />
 
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" />
+      <label for="lastname">Last Name</label>
+      <input type="text" id="lastname" name="lastname" />
 
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" />
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" />
 
-          <label for="confirmpassword">Confirm Password</label>
-          <input type="password" id="confirmpassword" name="confirmpassword" />
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" />
 
-          <label for="role">I am a(n)</label>
-          <select id="role" name="role">
-            <option>Student</option>
-            <option>Organizer</option>
-          </select>
-          <button class="btn" type="submit">Create Account</button>
-        </form>
-        <p>
-          Already have an account?
-          <a href="login.html" style="color: maroon">Log In</a>
-        </p>
-      </div>
-    </main>
+      <label for="confirmpassword">Confirm Password</label>
+      <input type="password" id="confirmpassword" name="confirmpassword" />
 
-    <!-- ================= FOOTER (same on every page) ============ -->
-    <footer class="footer">
-      Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 13
-    </footer>
-  </body>
+      <!-- Drop down list for roles -->
+      <label for="role">I am a(n)</label>
+      <select id="role" name="role">
+        <option>Student</option>
+        <option>Organizer</option>
+      </select>
+
+      <!-- Submit/Create Account Button -->
+      <button class="btn" type="submit">Create Account</button>
+
+      <!-- Option to log in if user already has an account -->
+      <p>
+        Already have an account?
+        <a href="login.html" style="color: maroon">Log In</a>
+      </p>
+
+    </form>
+    <!-- End of form -->
+
+  </main>
+
+  <!-- ================= FOOTER (same on every page) ============ -->
+  <footer class="footer">
+    Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 13
+  </footer>
+</body>
+
 </html>
