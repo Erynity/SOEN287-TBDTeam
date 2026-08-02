@@ -16,11 +16,13 @@ const testAccounts = [
     email: "student@campus.ca",
     password: "student123",
     page: "student-dashboard.html",
+    role: "student",
   },
   {
     email: "admin@campus.ca",
     password: "admin123",
     page: "admin-dashboard.html",
+    role: "admin",
   },
 ];
 const loginForm = document.getElementById("login-form");
@@ -34,8 +36,10 @@ if (loginForm) {
     const match = testAccounts.find(
       (a) => a.email === email && a.password === pass,
     );
-    if (match) window.location.href = match.page;
-    else showMessage(box, "Invalid email or password.", false);
+    if (match) {
+      localStorage.setItem("userRole", match.role);
+      window.location.href = match.page;
+    } else showMessage(box, "Invalid email or password.", false);
   });
 }
 

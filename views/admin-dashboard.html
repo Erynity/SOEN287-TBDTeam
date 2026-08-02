@@ -1,140 +1,141 @@
 <!doctype html>
 <html lang="en">
-
-<head>
-  <!-- ==========================================================
+  <head>
+    <!-- ==========================================================
                   Admin Dashboard
        ========================================================== -->
-  <meta charset="UTF-8" />
-  <!-- viewport tag = required for responsive design on phones -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <!-- viewport tag = required for responsive design on phones -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Admin Dashboard - Smart Campus Event Planner</title>
+    <title>Admin Dashboard - Smart Campus Event Planner</title>
 
-  <!-- Shared font + stylesheet. Path is relative to /views/. -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
-    rel="stylesheet" />
-  <link rel="stylesheet" href="../public/css/style.css" />
-  <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
-  <script src="../public/js/main.js" defer></script>
-</head>
+    <!-- Shared font + stylesheet. Path is relative to /views/. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../public/css/style.css" />
+    <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
+    <script src="../public/js/main.js" defer></script>
+    <script src="../public/js/formValidation.js" defer></script>
+  </head>
 
-<body data-back="auto">
-  <!-- ================= NAVBAR (same on every page) ============
+  <body data-back="auto">
+    <!-- ================= NAVBAR (same on every page) ============
        During Deliverable 1 we show ALL links so the prof can
        navigate everything. In Deliverable 2, the backend will
        decide which links to show based on who is logged in.  -->
-  <nav class="navbar">
-    <div class="navbar-inner">
-      <a class="navbar-brand" href="../index.html">
-        <img src="../public/images/logo.svg" alt="" width="28" height="28" style="vertical-align: middle" />
-        Campus Events
-      </a>
+    <nav class="navbar">
+      <div class="navbar-inner">
+        <a class="navbar-brand" href="../index.html">
+          <img
+            src="../public/images/logo.svg"
+            alt=""
+            width="28"
+            height="28"
+            style="vertical-align: middle"
+          />
+          Campus Events
+        </a>
 
-      <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
+        <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
 
-      <ul class="navbar-links" id="navbar-links">
+        <ul class="navbar-links" id="navbar-links"></ul>
+      </div>
+    </nav>
 
-      </ul>
-    </div>
-  </nav>
-
-  <!-- ================= YOUR PAGE CONTENT ====================== -->
-  <main>
-    <!-- Delete everything between here and the "END EXAMPLES"
+    <!-- ================= YOUR PAGE CONTENT ====================== -->
+    <main>
+      <!-- Delete everything between here and the "END EXAMPLES"
          comment. It exists only to show you the components. -->
 
-    <span class="eyebrow">ADMIN DASHBOARD</span>
-    <h1>Your Events</h1>
-    <p class="muted">Here you can find all your events and statistics!</p>
+      <span class="eyebrow">ADMIN DASHBOARD</span>
+      <h1>Your Events</h1>
+      <p class="muted">Here you can find all your events and statistics!</p>
 
-    <!-- Stat cards in a responsive grid -->
-    <h2>Quick recap!</h2>
-    <div class="grid">
-  <div class="card stat-card">
-    <div class="stat-number" id="statUpcomingSoon">3</div>
-    <div class="stat-label">UPCOMING SOON</div>
-  </div>
-  <div class="card stat-card">
-    <div class="stat-number" id="statTotalEvents">4</div>
-    <div class="stat-label">TOTAL NUMBER OF EVENTS</div>
-  </div>
-</div>
-    <!-- Table -->
-    <h2>
-      All upcoming events
-      <a href="manage-events.html" class="btn">+ Manage events</a>
-    </h2>
-    <div class="table-wrap">
-      <table style="margin-bottom: 24px;">
-        <thead>
-          <tr>
-            <th>EVENT</th>
-            <th>CATEGORY</th>
-            <th>DATE</th>
-            <th>PLACE</th>
-            <th>REGISTRATIONS</th>
-            <th>STATUS</th>
-          </tr>
-        </thead>
-        <tbody id="upcomingadminEvents">
-          <!-- Dynamic rows will be injected here -->
-        </tbody>
-      </table>
-    </div>
-
-
-
-    <div class="grid">
-      <div class="card stat-card">
-        <h3>Registration & Attendance Summary</h3>
-
-        <div class="flex-between">
-          <strong>Overall Attendance</strong>
-          <span class="muted">95% rate</span>
+      <!-- Stat cards in a responsive grid -->
+      <h2>Quick recap!</h2>
+      <div class="grid">
+        <div class="card stat-card">
+          <div class="stat-number" id="statUpcomingSoon">3</div>
+          <div class="stat-label">UPCOMING SOON</div>
         </div>
-        <div class="flex-between">
-          <strong>Full capacity events</strong>
-          <span class="muted">1 Event(s)</span>
+        <div class="card stat-card">
+          <div class="stat-number" id="statTotalEvents">4</div>
+          <div class="stat-label">TOTAL NUMBER OF EVENTS</div>
         </div>
-        <div class="flex-between">
-          <strong>Cancelled events</strong>
-          <span class="muted">0 Event(s)</span>
-        </div>
-        <a href="admin-registrations.html" class="btn mt-3">+ Manage my registrations</a>
       </div>
-      <div class="card stat-card">
-        <h3>Most Popular Events by Category</h3>
-        <div class="flex-between">
-
-          <strong>Academic workshops</strong>
-          <span class="muted">78% (346 reg)</span>
-        </div>
-        <div class="flex-between">
-          <strong>Sports events</strong>
-          <span class="muted">67% (270 reg)</span>
-
-        </div>
-        <div class="flex-between">
-          <strong>Networking events</strong>
-          <span class="muted">52% (220 reg)</span>
-        </div>
-        <a href="admin-statistics.html" class="btn mt-3">+ See more Statistics</a>
+      <!-- Table -->
+      <h2>
+        All upcoming events
+        <a href="manage-events.html" class="btn">+ Manage events</a>
+      </h2>
+      <div class="table-wrap">
+        <table style="margin-bottom: 24px">
+          <thead>
+            <tr>
+              <th>EVENT</th>
+              <th>CATEGORY</th>
+              <th>DATE</th>
+              <th>PLACE</th>
+              <th>REGISTRATIONS</th>
+              <th>STATUS</th>
+            </tr>
+          </thead>
+          <tbody id="upcomingadminEvents">
+            <!-- Dynamic rows will be injected here -->
+          </tbody>
+        </table>
       </div>
 
+      <div class="grid">
+        <div class="card stat-card">
+          <h3>Registration & Attendance Summary</h3>
 
+          <div class="flex-between">
+            <strong>Overall Attendance</strong>
+            <span class="muted">95% rate</span>
+          </div>
+          <div class="flex-between">
+            <strong>Full capacity events</strong>
+            <span class="muted">1 Event(s)</span>
+          </div>
+          <div class="flex-between">
+            <strong>Cancelled events</strong>
+            <span class="muted">0 Event(s)</span>
+          </div>
+          <a href="admin-registrations.html" class="btn mt-3"
+            >+ Manage my registrations</a
+          >
+        </div>
+        <div class="card stat-card">
+          <h3>Most Popular Events by Category</h3>
+          <div class="flex-between">
+            <strong>Academic workshops</strong>
+            <span class="muted">78% (346 reg)</span>
+          </div>
+          <div class="flex-between">
+            <strong>Sports events</strong>
+            <span class="muted">67% (270 reg)</span>
+          </div>
+          <div class="flex-between">
+            <strong>Networking events</strong>
+            <span class="muted">52% (220 reg)</span>
+          </div>
+          <a href="admin-statistics.html" class="btn mt-3"
+            >+ See more Statistics</a
+          >
+        </div>
+      </div>
+    </main>
 
-    </div>
-
-  </main>
-
-  <!-- ================= FOOTER (same on every page) ============ -->
-  <footer class="footer">
-    Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 13
-  </footer>
-</body>
-
+    <!-- ================= FOOTER (same on every page) ============ -->
+    <footer class="footer">
+      Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 13
+    </footer>
+  </body>
 </html>

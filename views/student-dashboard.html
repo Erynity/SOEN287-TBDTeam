@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="../public/css/style.css" />
     <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
     <script src="../public/js/main.js" defer></script>
+    <script src="../public/js/formValidation.js" defer></script>
   </head>
 
   <body>
@@ -36,9 +37,7 @@
           <span></span><span></span><span></span>
         </button>
 
-        <ul class="navbar-links" id="navbar-links">
-          
-        </ul>
+        <ul class="navbar-links" id="navbar-links"></ul>
       </div>
     </nav>
 
@@ -73,7 +72,8 @@
       <div class="grid" id="suggestedEvents"></div>
 
       <!-- Registration Table -->
-      <h2>Registered Events
+      <h2>
+        Registered Events
         <a href="my-registrations.html" class="btn">+ View all registrations</a>
       </h2>
       <div class="table-wrap">
@@ -91,7 +91,6 @@
           <tbody id="registrationTable"></tbody>
         </table>
       </div>
-
     </main>
 
     <!-- ================= FOOTER (same on every page) ============ -->
