@@ -537,7 +537,27 @@ const EVENTS = [
     rating: null,
   },
 ];
-
+//FAKE USER DATA TO POPULATE STUDENT DASHBOARD AND STUDENT REGISTRATION
+const USERS = [
+  {
+    id: 101,
+    firstName: "Jane",
+    lastName: "Doe",
+    email: "jane.doe@example.com"
+  },
+  {
+    id: 102,
+    firstName: "Will",
+    lastName: "Smith",
+    email: "will.smith@example.com"
+  },
+   {
+    id: 103,
+    firstName: "Charles",
+    lastName: "Barkley",
+    email: "charles.barkley@example.com"
+  }
+];
 //FAKE REGISTRATION DATA TO POPULATE STUDENT DASHBOARD AND STUDENT REGISTRATION
 const REGISTRATIONS = [
   {
@@ -569,6 +589,30 @@ const REGISTRATIONS = [
     user_id: 101,
     event_id: 5,
     registration_date: "2026-08-20",
+    status: "Registered",
+    attended: false,
+  },
+  {
+    registration_id: 5,
+    user_id: 101,
+    event_id: 3,
+    registration_date: "2026-08-21",
+    status: "Registered",
+    attended: false,
+  },
+  {
+    registration_id: 1,
+    user_id: 102,
+    event_id: 4,
+    registration_date: "2026-08-21",
+    status: "Registered",
+    attended: false,
+  },
+   {
+    registration_id: 2,
+    user_id: 102,
+    event_id: 3,
+    registration_date: "2026-08-21",
     status: "Registered",
     attended: false,
   },
@@ -871,8 +915,8 @@ if (document.getElementById("upcomingEvents")) {
 // --------------------------------------------------------------------- Admin ---------------------------------------------------------------------
 //upcoming events for admin dashboard
 const adminEventsTable = document.getElementById("upcomingadminEvents");
-if (upcomingadminEvents) {
-  upcomingadminEvents.innerHTML = "";
+if (adminEventsTable) {
+  adminEventsTable.innerHTML = "";
 const upcomingEvents = EVENTS
     .filter(event =>
       event.organizer === "Career Services" &&
@@ -884,7 +928,7 @@ upcomingEvents.forEach(event => {
     ).length || event.registered;
     const badgeClass = getBadgeClass(event.status);
 
-    upcomingadminEvents.innerHTML += `
+    adminEventsTable.innerHTML += `
       <tr>
         <td><strong>${event.title}</strong></td>
         <td>${event.category}</td>
@@ -896,9 +940,111 @@ upcomingEvents.forEach(event => {
         </td>
       </tr>
     `;
+  }); 
+}
+//upcoming events for admin manage events
+
+//event registration table for admin registations page
+const eventOverviewTable = document.getElementById("eventOverviewTable");
+if (eventOverviewTable) {
+  eventOverviewTable.innerHTML = "";
+const upcomingEvents = EVENTS
+    .filter(event =>
+      event.organizer === "Career Services" &&
+       event.status === "Open" || event.status === "Full")
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
+upcomingEvents.forEach(event => {
+     const currentRegistrations = REGISTRATIONS.filter(
+      reg => reg.event_id === event.id && reg.status === "Registered"
+    ).length || event.registered;
+    const badgeClass = getBadgeClass(event.status);
+
+    eventOverviewTable.innerHTML += `
+      <tr>
+        <td><strong>${event.id}</strong></td>
+        <td>${event.title}</td>
+        <td>${event.date}</td>
+        <td>${currentRegistrations}/ ${event.capacity}</td>
+      <td>
+              <a class="btn btn-primary" href="view-all-student-ids.html?id=${event.id}">
+                View All Students
+              </a>
+            </td>
+            <td>
+              <a class="btn btn-outline" href="event-details.html?id=${event.id}">
+                View details
+              </a>
+            </td>
+      </tr>
+    `;
   });
 }
+//event attendance table for admin registrations page
+const pasteventOverviewTable = document.getElementById("pasteventOverviewTable");
+if (pasteventOverviewTable) {
+  pasteventOverviewTable.innerHTML = "";
+const upcomingEvents = EVENTS
+    .filter(event =>
+      event.organizer === "Career Services" &&
+       event.status === "Cancelled" || event.status === "Completed")
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
+upcomingEvents.forEach(event => {
+     const currentRegistrations = REGISTRATIONS.filter(
+      reg => reg.event_id === event.id && reg.status === "Registered"
+    ).length || event.registered;
+    const badgeClass = getBadgeClass(event.status);
 
+    pasteventOverviewTable.innerHTML += `
+      <tr>
+        <td><strong>${event.id}</strong></td>
+        <td>${event.title}</td>
+        <td>${event.date}</td>
+        <td>${currentRegistrations}/ ${event.capacity}</td>
+      <td>
+              <a class="btn btn-primary" href="view-all-student-ids.html?id=${event.id}">
+                View All Students
+              </a>
+            </td>
+            <td>
+              <a class="btn btn-outline" href="event-details.html?id=${event.id}">
+                View details
+              </a>
+            </td>
+      </tr>
+    `;
+  });
+}
+// Registered students table for the event from the admin registrations page
+const studentsTable = document.getElementById("registeredStudentsTable");
+
+  if (studentsTable) {
+    studentsTable.innerHTML = "";
+    const params = new URLSearchParams(window.location.search);
+    const eventId = Number(params.get("id"));
+
+   const registeredUserIds = REGISTRATIONS
+      .filter((reg) => reg.event_id === eventId && reg.status === "Registered")
+      .map((reg) => reg.user_id);
+      const registeredStudents = USERS.filter((user) =>
+      registeredUserIds.includes(user.id)
+    );
+    if (registeredStudents.length === 0) {
+      studentsTable.innerHTML = `
+        <tr>
+          <td colspan="3" style="text-align:center;">No students registered for this event yet.</td>
+        </tr>`;
+    } else {
+      registeredStudents.forEach((student) => {
+        studentsTable.innerHTML += `
+          <tr>
+            <td>${student.firstName}</td>
+            <td>${student.lastName}</td>
+            <td>${student.email}</td>
+          </tr>
+        `;
+      });
+    }
+  };
 // --------------------------------------------------------------------- Registration  ---------------------------------------------------------------------
 
 const myRegistrationTable = document.getElementById("myRegistrationTable");
@@ -1026,4 +1172,4 @@ function setupEditEvent() {
   });
 }
 // --------------------------------------------------------------------- About ---------------------------------------------------------------------
-// --------------------------------------------------------------------- About ---------------------------------------------------------------------
+// --------------------------------------------------------------------- About -------------------------------------------------------------------

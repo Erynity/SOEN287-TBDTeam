@@ -55,45 +55,23 @@
 
   <!-- ================= YOUR PAGE CONTENT ====================== -->
 <main>
+      <button class="btn btn-secondary back-btn" onclick="history.back()">
+        <span style="font-size: 1.5em; line-height: 1">←</span> Back
+      </button>
   <span class="eyebrow">Student Information</span>
   <h1>View All Students</h1>
   <p class="muted">Here you can view all registered students for this event</p>
-
 <div class="table-wrap">
   <table>
     <thead>
       <tr>
-        <th>Student Name</th>
-        <th>Student Last Name</th>
-        <th>Email</th>
+        <th>FIRST NAME</th>
+        <th>LAST NAME</th>
+        <th>EMAIL</th>
       </tr>
     </thead>
-    <tbody>
-      <tr>
-        <td>Jane</td>
-        <td>Doe</td>
-        <td>jane.doe@example.com</td>
-      </tr>
-      <tr>
-        <td>John</td>
-        <td>Smith</td>
-        <td>john.smith@example.com</td>
-      </tr>
-      <tr>
-        <td>Charlie</td>
-        <td>Barkin</td>
-        <td>charlie.barkin@example.com</td>
-      </tr>
-      <tr>
-        <td>Alexander</td>
-        <td>Carpenter</td>
-        <td>alexander.carpenter@example.com</td>
-      </tr>
-      <tr>
-        <td>Anna</td>
-        <td>Sanchez</td>
-        <td>anna.sanchez@example.com</td>
-      </tr>
+    <tbody id="registeredStudentsTable">
+      
     </tbody>
   </table>
 </div>

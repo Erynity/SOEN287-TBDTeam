@@ -37,7 +37,7 @@
       </button>
 
       <ul class="navbar-links" id="navbar-links">
-        
+
       </ul>
     </div>
   </nav>
@@ -54,16 +54,15 @@
     <!-- Stat cards in a responsive grid -->
     <h2>Quick recap!</h2>
     <div class="grid">
-      <div class="card stat-card">
-        <div class="stat-number">2</div>
-        <div class="stat-label">Upcoming this week</div>
-      </div>
-      <div class="card stat-card">
-        <div class="stat-number">3</div>
-        <div class="stat-label">Total Number of events</div>
-      </div>
-    </div>
-
+  <div class="card stat-card">
+    <div class="stat-number" id="statUpcomingSoon">3</div>
+    <div class="stat-label">UPCOMING SOON</div>
+  </div>
+  <div class="card stat-card">
+    <div class="stat-number" id="statTotalEvents">4</div>
+    <div class="stat-label">TOTAL NUMBER OF EVENTS</div>
+  </div>
+</div>
     <!-- Table -->
     <h2>
       All upcoming events
@@ -71,63 +70,63 @@
     </h2>
     <div class="table-wrap">
       <table style="margin-bottom: 24px;">
-    <thead>
-      <tr>
-        <th>EVENT</th>
-        <th>CATEGORY</th>
-        <th>DATE</th>
-        <th>PLACE</th>
-        <th>REGISTRATIONS</th>
-        <th>STATUS</th>
-      </tr>
-    </thead>
-    <tbody id="upcomingadminEvents">
-      <!-- Dynamic rows will be injected here -->
-    </tbody>
-  </table>
+        <thead>
+          <tr>
+            <th>EVENT</th>
+            <th>CATEGORY</th>
+            <th>DATE</th>
+            <th>PLACE</th>
+            <th>REGISTRATIONS</th>
+            <th>STATUS</th>
+          </tr>
+        </thead>
+        <tbody id="upcomingadminEvents">
+          <!-- Dynamic rows will be injected here -->
+        </tbody>
+      </table>
     </div>
 
- 
+
 
     <div class="grid">
-    <div class="card stat-card">
-    <h3>Registration & Attendance Summary</h3> 
-    
-    <div class="flex-between">
-       <strong>Overall Attendance</strong>
-      <span class="muted">88% rate</span>
-    </div>
-    <div class="flex-between">
-      <strong>Full capacity events</strong>
-      <span class="muted">3 Event(s)</span>
-    </div>
-    <div class="flex-between">
-      <strong>Cancelled events</strong>
-      <span class="muted">0 Event(s)</span>
-    </div>
-  <a href="admin-registrations.html" class="btn mt-3">+ Manage my registrations</a>
-  </div>
+      <div class="card stat-card">
+        <h3>Registration & Attendance Summary</h3>
+
+        <div class="flex-between">
+          <strong>Overall Attendance</strong>
+          <span class="muted">95% rate</span>
+        </div>
+        <div class="flex-between">
+          <strong>Full capacity events</strong>
+          <span class="muted">1 Event(s)</span>
+        </div>
+        <div class="flex-between">
+          <strong>Cancelled events</strong>
+          <span class="muted">0 Event(s)</span>
+        </div>
+        <a href="admin-registrations.html" class="btn mt-3">+ Manage my registrations</a>
+      </div>
       <div class="card stat-card">
         <h3>Most Popular Events by Category</h3>
         <div class="flex-between">
-      
+
           <strong>Academic workshops</strong>
-           <span class="muted">78% (346 reg)</span>
+          <span class="muted">78% (346 reg)</span>
         </div>
         <div class="flex-between">
           <strong>Sports events</strong>
-        <span class="muted">67% (270 reg)</span>
-     
-       </div>
-       <div class="flex-between">
-        <strong>Networking events</strong>
-        <span class="muted">52% (220 reg)</span>
-      </div>
-      <a href="admin-statistics.html" class="btn mt-3">+ See more Statistics</a>
+          <span class="muted">67% (270 reg)</span>
+
+        </div>
+        <div class="flex-between">
+          <strong>Networking events</strong>
+          <span class="muted">52% (220 reg)</span>
+        </div>
+        <a href="admin-statistics.html" class="btn mt-3">+ See more Statistics</a>
       </div>
 
 
-     
+
     </div>
 
   </main>
