@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="en">
-
-<head>
+  <head>
     <!-- ==========================================================
        PAGE TEMPLATE - Smart Campus Event Planner (SOEN 287)
 
@@ -22,81 +21,81 @@
 
     <!-- Shared font + stylesheet. Path is relative to /views/. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
-        rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="../public/css/style.css" />
     <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
     <script src="../public/js/main.js" defer></script>
-</head>
+    <script src="../public/js/formValidation.js" defer></script>
+  </head>
 
-<body>
+  <body>
     <!-- ================= NAVBAR (same on every page) ============
        During Deliverable 1 we show ALL links so the prof can
        navigate everything. In Deliverable 2, the backend will
        decide which links to show based on who is logged in.  -->
     <nav class="navbar">
-        <div class="navbar-inner">
-            <a class="navbar-brand" href="../index.html">
-                <img src="../public/images/logo.svg" alt="" width="28" height="28" />
-                Campus Events
-            </a>
+      <div class="navbar-inner">
+        <a class="navbar-brand" href="../index.html">
+          <img src="../public/images/logo.svg" alt="" width="28" height="28" />
+          Campus Events
+        </a>
 
-            <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
-                <span></span><span></span><span></span>
-            </button>
+        <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
 
-            <ul class="navbar-links" id="navbar-links"></ul>
-            
-            </ul>
-        </div>
+        <ul class="navbar-links" id="navbar-links"></ul>
+      </div>
     </nav>
 
     <!-- ================= YOUR PAGE CONTENT ====================== -->
 
     <main>
-        <div class="card">
-            <h1>Welcome Back!</h1>
-            <p>
-                Log in to your account to discover events, <br />manage your schedule,
-                and stay connected <br />on campus.
-            </p>
-            <img src="" />
-            <div class="card stat-card">
-                <p>Great events. New connections.<br />Endless opportunities.</p>
-            </div>
+      <div class="card">
+        <h1>Welcome Back!</h1>
+        <p>
+          Log in to your account to discover events, <br />manage your schedule,
+          and stay connected <br />on campus.
+        </p>
+        <img src="" />
+        <div class="card stat-card">
+          <p>Great events. New connections.<br />Endless opportunities.</p>
         </div>
-        <div class="card">
-            <form id="login-form">
-                <h2>Log In</h2>
-                <p>Enter your credentials to access your account</p>
+      </div>
+      <div class="card">
+        <form id="login-form">
+          <h2>Log In</h2>
+          <p>Enter your credentials to access your account</p>
 
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" />
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" required />
 
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" />
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required />
 
-                <p id="login-error" hidden style="color: var(--status-cancelled)"></p>
+          <p id="login-error" hidden></p>
 
-                <button class="btn" type="submit">Log In</button>
-                <p>
-                    Don't have an account?
-                    <a href="register.html" style="color: maroon">Create one</a>
-                </p>
+          <button class="btn" type="submit">Log In</button>
+          <p>
+            Don't have an account?
+            <a href="register.html" style="color: maroon">Create one</a>
+          </p>
 
-                <p class="muted" style="font-size: 0.9rem; margin-top: 1rem">
-                    Demo accounts —<br />
-                    Student: student@campus.ca / student123<br />
-                    Admin: admin@campus.ca / admin123
-                </p>
-            </form>
-        </div>
+          <p class="muted" style="font-size: 0.9rem; margin-top: 1rem">
+            Demo accounts —<br />
+            Student: student@campus.ca / student123<br />
+            Admin: admin@campus.ca / admin123
+          </p>
+        </form>
+      </div>
     </main>
 
     <!-- ================= FOOTER (same on every page) ============ -->
     <footer class="footer">
-        Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 13
+      Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 13
     </footer>
-</body>
-
+  </body>
 </html>

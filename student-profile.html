@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="../public/css/style.css" />
     <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
     <script src="../public/js/main.js" defer></script>
+    <script src="../public/js/formValidation.js" defer></script>
   </head>
 
   <body>
@@ -60,13 +61,14 @@
 
       <div class="card">
         <h2>Edit Profile</h2>
-        <form>
+        <form id="profile-form">
           <label for="fullname">Full Name</label>
           <input
             type="text"
             id="fullname"
             name="fullname"
             value="Student Name"
+            required
           />
 
           <label for="email">Email</label>
@@ -75,6 +77,7 @@
             id="email"
             name="email"
             value="student@campus.ca"
+            required
           />
 
           <label for="current-password">Current Password</label>
@@ -91,6 +94,7 @@
             id="new-password"
             name="new-password"
             placeholder="Leave blank to keep current"
+            minlength="6"
           />
 
           <label for="confirm-password">Confirm New Password</label>
