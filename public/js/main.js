@@ -592,12 +592,22 @@ function createEventCard(event) {
                 ${event.location}
             </p>
 
+<<<<<<< Updated upstream
             <p class="event-desc">${event.description}</p>
                 
             <div class="event-card-foot">
               <span class="muted">
                 ${event.registered}/${event.capacity} spots filled
               </span>
+=======
+            <p>${event.description}</p>
+
+            <div class="flex-between">
+
+                <span class="muted">
+                    ${event.registered}/${event.capacity} spots filled
+                </span>
+>>>>>>> Stashed changes
                 <a class="btn" href="event-details.html?id=${event.id}">View details</a>
 
             </div>
@@ -762,13 +772,63 @@ if (title) {
     document.getElementById("eventCapacity").textContent =
       `${event.registered}/${event.capacity} spots filled`;
 
-    document.getElementById("registerButton").textContent =
-      event.status === "Full" ? "Event Full" : "Register";
+    //check user role
+    const userRole = localStorage.getItem("userRole") || "guest";
 
-    document.getElementById("registerButton").disabled =
-      event.status === "Full";
-  }
-}
+    //guest controls
+    if (userRole === "guest") {
+      const guestControls = document.getElementById("guestControls");
+      guestControls.hidden = false;
+    }
+
+    //student controls
+    if (userRole === "student") {
+      const studentControls = document.getElementById("studentControls");
+
+      studentControls.hidden = false;
+      const currentUser = 101; //hardcoded for now, will be dynamic later
+
+      const registration = REGISTRATIONS.find(
+        (reg) => 
+          reg.user_id === currentUser && 
+          reg.event_id === event.id &&
+          reg.status === "Registered"
+      );
+
+      const registerBtn = document.getElementById("registerBtn");
+      const cancelBtn = document.getElementById("cancelBtn");
+
+      //if student is already registered, hide register button and show cancel button
+      if (registration) {
+        registerBtn.hidden = true;
+        cancelBtn.hidden = false;
+      }
+      //if student is not registered, show register button and hide cancel button
+      else {
+        registerBtn.hidden = false;
+        cancelBtn.hidden = true;
+
+        if (event.status !== "Open") {
+          registerBtn.disabled = true;
+          registerBtn.textContent = "Registration Unavailable";
+        }
+      }
+    }
+
+    //admin controls
+    if (userRole === "admin") {
+      const adminControls = document.getElementById("adminControls");
+
+      adminControls.hidden = false;
+
+      //send admin to edit page for this event
+      const editBtn = document.getElementById("editEventBtn");
+      //send admin to manage registrations page for this event
+      const manageBtn = document.getElementById("viewRegistrationsBtn");
+      
+      editBtn.href = `edit-event.html?id=${event.id}`;
+    }
+}}
 
 // --------------------------------------------------------------------- Student ---------------------------------------------------------------------
 
