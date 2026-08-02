@@ -1,8 +1,7 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-  <!-- ==========================================================
+  <head>
+    <!-- ==========================================================
        PAGE TEMPLATE - Smart Campus Event Planner (SOEN 287)
 
        HOW TO USE:
@@ -14,86 +13,87 @@
        5. Do NOT edit the navbar structure or the stylesheet
           without telling the group.
        ========================================================== -->
-  <meta charset="UTF-8">
-  <!-- viewport tag = required for responsive design on phones -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <!-- viewport tag = required for responsive design on phones -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>My Statistics - Smart Campus Event Planner</title>
+    <title>My Statistics - Smart Campus Event Planner</title>
 
-  <!-- Shared font + stylesheet. Path is relative to /views/. -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../public/css/style.css">
-  <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml">
-  <script src="../public/js/main.js" defer></script>
-      <script src="../public/js/formValidation.js" defer></script>
+    <!-- Shared font + stylesheet. Path is relative to /views/. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../public/css/style.css" />
+    <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
+    <script src="../public/js/main.js" defer></script>
+    <script src="../public/js/formValidation.js" defer></script>
+  </head>
 
-
-</head>
-
-<body>
-
-  <!-- ================= NAVBAR (same on every page) ============
+  <body>
+    <!-- ================= NAVBAR (same on every page) ============
        During Deliverable 1 we show ALL links so the prof can
        navigate everything. In Deliverable 2, the backend will
        decide which links to show based on who is logged in.  -->
-  <nav class="navbar">
-    <div class="navbar-inner">
-      <a class="navbar-brand" href="../index.html">
-        <img src="../public/images/logo.svg" alt="" width="28" height="28"
-          style="vertical-align:middle; margin-right:6px;">
-        Campus Events
-      </a>
-      
-      <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
+    <nav class="navbar">
+      <div class="navbar-inner">
+        <a class="navbar-brand" href="index.html">
+          <img
+            src="../public/images/logo.svg"
+            alt=""
+            width="28"
+            height="28"
+            style="vertical-align: middle; margin-right: 6px"
+          />
+          Campus Events
+        </a>
 
-      <ul class="navbar-links" id="navbar-links">
-        
-      </ul>
-    </div>
-  </nav>
+        <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
 
-  <!-- ================= YOUR PAGE CONTENT ====================== -->
-<main>
-  <button class="btn btn-secondary back-btn" onclick="history.back()">
+        <ul class="navbar-links" id="navbar-links"></ul>
+      </div>
+    </nav>
+
+    <!-- ================= YOUR PAGE CONTENT ====================== -->
+    <main>
+      <button class="btn btn-secondary back-btn" onclick="history.back()">
         <span style="font-size: 1.5em; line-height: 1">←</span> Back
       </button>
 
-  <span class="eyebrow">My Statistics</span>
-  <h1>View All Statistics</h1>
-  <p class="muted">Here you can see your statistics</p>
+      <span class="eyebrow">My Statistics</span>
+      <h1>View All Statistics</h1>
+      <p class="muted">Here you can see your statistics</p>
 
-    <!-- Stat cards in a responsive grid -->
-    <h2>Some general stats</h2>
-    <div class="grid">
-      <div class="card stat-card">
-        <div class="stat-number">338</div>
-        <div class="stat-label">Total number of registrations</div>
-      </div>
-      <div class="card stat-card">
-        <div class="stat-number">3</div>
-        <div class="stat-label">Total Number of events</div>
-      </div>
-  
-      <div class="card stat-card">
-        <div class="stat-number">0</div>
-        <div class="stat-label">Total Number of full events</div>
-      </div>
-    </div>
-      <div class="grid"></div>
-     <div class="card stat-card">
-        <div class="stat-number">Mock Interview Night</div>
-        <div class="stat-label">Highest Rated Event</div>
-      </div>
-      </div>
-</main>
-  <!-- ================= FOOTER (same on every page) ============ -->
-  <footer class="footer">
-    Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 3
-  </footer>
+      <!-- Stat cards in a responsive grid -->
+      <h2>Some general stats</h2>
+      <div class="grid">
+        <div class="card stat-card">
+          <div class="stat-number">338</div>
+          <div class="stat-label">Total number of registrations</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-number">3</div>
+          <div class="stat-label">Total Number of events</div>
+        </div>
 
-</body>
-
+        <div class="card stat-card">
+          <div class="stat-number">0</div>
+          <div class="stat-label">Total Number of full events</div>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="card stat-card">
+          <div class="stat-number">Mock Interview Night</div>
+          <div class="stat-label">Highest Rated Event</div>
+        </div>
+      </div>
+    </main>
+    <!-- ================= FOOTER (same on every page) ============ -->
+    <footer class="footer">
+      Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 3
+    </footer>
+  </body>
 </html>
