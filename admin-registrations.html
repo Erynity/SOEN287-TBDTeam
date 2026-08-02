@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- ==========================================================
+
+<head>
+  <!-- ==========================================================
        PAGE TEMPLATE - Smart Campus Event Planner (SOEN 287)
 
        HOW TO USE:
@@ -13,144 +14,96 @@
        5. Do NOT edit the navbar structure or the stylesheet
           without telling the group.
        ========================================================== -->
-    <meta charset="UTF-8" />
-    <!-- viewport tag = required for responsive design on phones -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8" />
+  <!-- viewport tag = required for responsive design on phones -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>My Registrations - Smart Campus Event Planner</title>
+  <title>My Registrations - Smart Campus Event Planner</title>
 
-    <!-- Shared font + stylesheet. Path is relative to /views/. -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="../public/css/style.css" />
-    <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
-    <script src="../public/js/main.js" defer></script>
-  </head>
+  <!-- Shared font + stylesheet. Path is relative to /views/. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="../public/css/style.css" />
+  <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
+  <script src="../public/js/main.js" defer></script>
+</head>
 
-  <body>
-    <!-- ================= NAVBAR (same on every page) ============
+<body>
+  <!-- ================= NAVBAR (same on every page) ============
        During Deliverable 1 we show ALL links so the prof can
        navigate everything. In Deliverable 2, the backend will
        decide which links to show based on who is logged in.  -->
-    <nav class="navbar">
-      <div class="navbar-inner">
-        <a class="navbar-brand" href="../index.html">
-          <img
-            src="../public/images/logo.svg"
-            alt=""
-            width="28"
-            height="28"
-            style="vertical-align: middle; margin-right: 6px"
-          />
-          Campus Events
-        </a>
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a class="navbar-brand" href="../index.html">
+        <img src="../public/images/logo.svg" alt="" width="28" height="28"
+          style="vertical-align: middle; margin-right: 6px" />
+        Campus Events
+      </a>
 
-        <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
-
-        <ul class="navbar-links" id="navbar-links">
-        </ul>
-      </div>
-    </nav>
-
-    <!-- ================= YOUR PAGE CONTENT ====================== -->
-    <main>
-      <button class="btn btn-secondary back-btn" onclick="history.back()">
-        <span style="font-size: 1.5em; line-height: 1">←</span> Back
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
       </button>
-      <span class="eyebrow">My Registrations</span>
-      <h1>View registrations</h1>
-      <p class="muted">Here you can see all your event registrations</p>
 
-      <!-- Section 1: Active & Upcoming Events Registrations -->
-      <h2>Event Registrations Overview</h2>
-      <div class="table-wrap mb-4">
-        <table>
-          <thead>
-            <tr>
-              <th>Event ID</th>
-              <th>Event Name</th>
-              <th>Date</th>
-              <th>Registrations Count</th>
-              <th>Registered Students</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>3</strong></td>
-              <td>Tech Industry Career Fair</td>
-              <td>September 18, 2026</td>
-              <td>214 / 300</td>
-              <td>
-                <a href="view-all-student-ids.html" class="btn"
-                  >View All Students</a
-                >
-              </td>
-              <td>
-                <a href="#" class="btn btn-secondary btn-sm">View details</a>
-              </td>
-            </tr>
-            <tr>
-              <td><strong>4</strong></td>
-              <td>Resume & LinkedIn Clinic</td>
-              <td>September 21, 2026</td>
-              <td>48 / 60</td>
-              <td>
-                <a href="view-all-student-ids.html" class="btn"
-                  >View All Students</a
-                >
-              </td>
-              <td>
-                <a href="#" class="btn btn-secondary btn-sm">View details</a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <ul class="navbar-links" id="navbar-links">
+      </ul>
+    </div>
+  </nav>
 
-      <!-- Section 2: Attendance for Past Events -->
-      <h2 class="mt-4">Past Events Attendance Record</h2>
+  <!-- ================= YOUR PAGE CONTENT ====================== -->
+  <main>
+    <button class="btn btn-secondary back-btn" onclick="history.back()">
+      <span style="font-size: 1.5em; line-height: 1">←</span> Back
+    </button>
+    <span class="eyebrow">My Registrations</span>
+    <h1>View registrations</h1>
+    <p class="muted">Here you can see all your event registrations</p>
 
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Event ID</th>
-              <th>Past Event Name</th>
-              <th>Date</th>
-              <th>Total Registered</th>
-              <th>Attended User IDs</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>6</strong></td>
-              <td>Mock Interview Night</td>
-              <td>March 10, 2026</td>
-              <td>76 / 80</td>
-              <td>
-                <a href="view-all-student-ids.html" class="btn"
-                  >View All Students</a
-                >
-              </td>
-              <td>
-                <a href="#" class="btn btn-secondary btn-sm">View details</a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </main>
+    <!-- Section 1: Active & Upcoming Events Registrations -->
+    <h2>Event Registrations Overview</h2>
+    <div class="table-wrap mb-4">
+      <table>
+        <thead>
+          <tr>
+            <th>EVENT ID</th>
+            <th>EVENT NAME</th>
+            <th>DATE</th>
+            <th>REGISTRATIONS COUNT</th>
+            <th>REGISTERED STUDENTS</th>
+            <th>ACTION</th>
+          </tr>
+        </thead>
+        <tbody id="eventOverviewTable">
 
-    <!-- ================= FOOTER (same on every page) ============ -->
-    <footer class="footer">
-      Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 3
-    </footer>
-  </body>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Section 2: Attendance for Past Events -->
+    <h2 class="mt-4">Past Events Attendance Record</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>EVENT ID</th>
+            <th>EVENT NAME</th>
+            <th>DATE</th>
+            <th>ATTENDANCE COUNT</th>
+            <th>REGISTERED STUDENTS</th>
+            <th>ACTION</th>
+          </tr>
+        </thead>
+        <tbody id="pasteventOverviewTable">
+
+        </tbody>
+      </table>
+  </main>
+
+  <!-- ================= FOOTER (same on every page) ============ -->
+  <footer class="footer">
+    Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 3
+  </footer>
+</body>
+
 </html>
