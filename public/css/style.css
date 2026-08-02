@@ -761,8 +761,10 @@ tbody tr:hover {
 
   /* Icon Background */
   background-color: white;
-  border: 2px solid black;
+  border: 2px solid;
   border-radius: 50%;
+  width: 3.5em;
+  height: 3.5em;
 }
 
 /* Bottom Content Text */
