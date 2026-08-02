@@ -142,18 +142,18 @@ const EVENTS = [
   // Academic Workshops
   {
     id: 1,
-    title: "Introduction to Web Development",
+    title: "Career Fair Networking & Pitch Essentials",
     description:
-      "Build your first responsive webpage using HTML, CSS, and JavaScript.",
-    category: "Academic workshops",
+      "Learn how to craft an impactful elevator pitch, navigate career fairs, and connect effectively with recruiters.",
+    category: "Career events",
     date: "2026-09-08",
     startTime: "1:00 PM",
     endTime: "3:00 PM",
     location: "EV 6.305",
     capacity: 40,
-    organizer: "Computer Science Society",
-    status: "Full",
-    registered: 40,
+    organizer: "Career Services",
+    status: "Open",
+    registered: 0,
     image: "images/web-development.jpg",
     rating: null,
   },
@@ -197,7 +197,7 @@ const EVENTS = [
     id: 4,
     title: "Resume & LinkedIn Clinic",
     description:
-      "Receive personalized feedback on your resume and LinkedIn profile.",
+      "Receive personalized feedback on your resume and LinkedIn profile from professionals.",
     category: "Career events",
     date: "2026-09-21",
     startTime: "2:00 PM",
@@ -223,7 +223,7 @@ const EVENTS = [
     capacity: 80,
     organizer: "Career Services",
     status: "Completed",
-    registered: 76,
+    registered: 0,
     image: "images/mock-interview.jpg",
     rating: null,
   },
@@ -563,6 +563,14 @@ const REGISTRATIONS = [
   {
     registration_id: 2,
     user_id: 102,
+    event_id: 3,
+    registration_date: "2026-08-21",
+    status: "Registered",
+    attended: false,
+  },
+  {
+    registration_id: 3,
+    user_id: 103,
     event_id: 3,
     registration_date: "2026-08-21",
     status: "Registered",
@@ -1048,7 +1056,7 @@ if (studentsTable) {
   if (registeredStudents.length === 0) {
     studentsTable.innerHTML = `
         <tr>
-          <td colspan="3" style="text-align:center;">No students registered for this event yet.</td>
+          <td colspan="3" style="text-align:center;">No students registered for this event.</td>
         </tr>`;
   } else {
     registeredStudents.forEach((student) => {
