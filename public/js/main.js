@@ -598,14 +598,8 @@ function createEventCard(event) {
               <span class="muted">
                 ${event.registered}/${event.capacity} spots filled
               </span>
-                ${
-                  event.status === "Full"
-                    ? `<button class="btn" disabled>Event Full</button>`
-                    : `<a class="btn" href="event-details.html?id=${event.id}">
-                            View Details
-                       </a>`
-                }
-                
+                <a class="btn" href="event-details.html?id=${event.id}">View details</a>
+
             </div>
 
         </div>
