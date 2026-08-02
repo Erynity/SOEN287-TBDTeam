@@ -10,17 +10,20 @@ function showMessage(box, text, ok) {
   box.hidden = false;
 }
 
+// Password: letters, numbers, at least one special character, min 8
+const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
+
 // ---- LOGIN (HTML checks required + email; JS checks the account) ----
 const testAccounts = [
   {
     email: "student@campus.ca",
-    password: "student123",
+    password: "student123!",
     page: "student-dashboard.html",
     role: "student",
   },
   {
     email: "admin@campus.ca",
-    password: "admin123",
+    password: "admin123!",
     page: "admin-dashboard.html",
     role: "admin",
   },
@@ -32,6 +35,13 @@ if (loginForm) {
     const email = document.getElementById("email").value.trim().toLowerCase();
     const pass = document.getElementById("password").value;
     const box = document.getElementById("login-error");
+
+    if (!passwordPattern.test(pass))
+      return showMessage(
+        box,
+        "Password must be 8+ characters with a letter, number, and special character.",
+        false,
+      );
 
     const match = testAccounts.find(
       (a) => a.email === email && a.password === pass,
@@ -52,6 +62,12 @@ if (registerForm) {
     const confirm = document.getElementById("confirmpassword").value;
     const box = document.getElementById("register-msg");
 
+    if (!passwordPattern.test(pass))
+      return showMessage(
+        box,
+        "Password must be 8+ characters with a letter, number, and special character.",
+        false,
+      );
     if (pass !== confirm)
       return showMessage(box, "Passwords do not match.", false);
     showMessage(box, "Account created successfully!", true);
@@ -68,8 +84,15 @@ if (profileForm) {
     const box = document.getElementById("profile-msg");
 
     // password is optional - only check the match if they typed a new one
-    if (newPass !== "" && newPass !== confirm) {
-      return showMessage(box, "New passwords do not match.", false);
+    if (newPass !== "") {
+      if (!passwordPattern.test(newPass))
+        return showMessage(
+          box,
+          "Password must be 8+ characters with a letter, number, and special character.",
+          false,
+        );
+      if (newPass !== confirm)
+        return showMessage(box, "New passwords do not match.", false);
     }
     showMessage(box, "Profile updated successfully!", true);
   });
