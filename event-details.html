@@ -74,9 +74,25 @@
           <!--capacity-->
           <p id="eventCapacity" class="muted"></p>
 
-          <!--status-->
-          <button id="registerButton" class="btn"></button>
+          <!--guest controls-->
+          <div id="guestControls" hidden>
+            <p class="muted">Please log in to register for this event.</p>
+          </div>
+
+          <!-- student controls-->
+          <div id="studentControls" hidden>
+            <button id="registerBtn" class="btn">Register</button>
+            <button id="cancelRegistrationBtn" class="btn btn-secondary">Cancel Registration</button>
+          </div>
+
+          <!-- admin controls-->
+          <div id="adminControls" hidden>
+            <a id="editEventBtn" class="btn" href="#">Edit Event</a>
+            <a id="cancelEventBtn" class="btn" href="#">cancel Event</a>
+            <a id="viewRegistrationsBtn" class="btn" href="admin-registrations.html">View Registrations</a>
+          </div>
         </div>
+
       </div>
     </main>
 
