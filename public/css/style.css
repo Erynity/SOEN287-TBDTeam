@@ -594,6 +594,7 @@ textarea:focus {
 
 table {
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
   background: var(--surface);
   border: 1px solid var(--border);
@@ -626,6 +627,24 @@ tbody tr:hover {
   background: var(--bg);
 }
 
+.table-wrap th:nth-child(1) {
+  width: 8%;
+}
+.table-wrap th:nth-child(2) {
+  width: 22%;
+}
+.table-wrap th:nth-child(3) {
+  width: 14%;
+}
+.table-wrap th:nth-child(4) {
+  width: 16%;
+}
+.table-wrap th:nth-child(5) {
+  width: 22%;
+}
+.table-wrap th:nth-child(6) {
+  width: 18%;
+}
 /* ------------------------------------------------------------
    11. FOOTER
    ------------------------------------------------------------ */
