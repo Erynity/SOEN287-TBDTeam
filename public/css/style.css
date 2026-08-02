@@ -776,16 +776,11 @@ tbody tr:hover {
 
 /* ----------------------------------------------------------- About Us----------------------------------------------------------- */
 
-/* Title and Information Card Potision - Position */
+/* Centers Title and Information Cards - Position */
 .aboutUsInformation {
   display: flex;
   flex-direction: column;
   text-align: center;
-}
-
-/* Centers Our Team Card Position - Position */
-#aboutUsItems {
-  position: relative;
 }
 
 /* Centers "Our Team" Title Text within Team Card - Position */
@@ -837,7 +832,7 @@ tbody tr:hover {
 .createAccountInformation {
   width: 300px;
   margin-right: 5em;
-  margin-top: 25%;
+  margin-top: 13%;
   display: inline-block;
 }
 
