@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="en">
-
-<head>
+  <head>
     <!-- ==========================================================
        PAGE TEMPLATE - Smart Campus Event Planner (SOEN 287)
 
@@ -22,122 +21,133 @@
 
     <!-- Shared font + stylesheet. Path is relative to /views/. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
-        rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="../public/css/style.css" />
     <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
     <script src="../public/js/main.js" defer></script>
-</head>
+    <script src="../public/js/formValidation.js" defer></script>
+  </head>
 
-<body data-back="auto">
+  <body data-back="auto">
     <!-- ================= NAVBAR (same on every page) ============
        During Deliverable 1 we show ALL links so the prof can
        navigate everything. In Deliverable 2, the backend will
        decide which links to show based on who is logged in.  -->
     <nav class="navbar">
-        <div class="navbar-inner">
-            <a class="navbar-brand" href="../index.html">
-                <img src="../public/images/logo.svg" alt="" width="28" height="28" />
-                Campus Events
-            </a>
+      <div class="navbar-inner">
+        <a class="navbar-brand" href="../index.html">
+          <img src="../public/images/logo.svg" alt="" width="28" height="28" />
+          Campus Events
+        </a>
 
-            <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
-                <span></span><span></span><span></span>
-            </button>
+        <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
 
-            <ul class="navbar-links" id="navbar-links">
-               
-            </ul>
-        </div>
+        <ul class="navbar-links" id="navbar-links"></ul>
+      </div>
     </nav>
 
     <!-- ================= YOUR PAGE CONTENT ====================== -->
     <main>
-        <button class="btn btn-secondary back-btn" onclick="history.back()">
-            <span style="font-size: 1.5em; line-height: 1">←</span> Back
-        </button>
-        <br />
-        <section class="card">
-            <div class="aboutUsSection">
-                <div class="page">
-                    <h1>About Us</h1>
-                </div>
-                <div class=" card">
-                    <h2>Our Mission</h2>
-                    <p>Our mission is to connect students with meaningful events,<br>opportunities, and experiences
-                        across
-                        campus. We aim to<br>make campus life more engaging, organized, and accessible<br>for everyone.
-                    </p>
-                </div>
-                <hr>
-                <h2>Our Team</h2>
-                <div class="card" id="aboutUsItems" style="width: 60em;">
+      <button class="btn btn-secondary back-btn" onclick="history.back()">
+        <span style="font-size: 1.5em; line-height: 1">←</span> Back
+      </button>
+      <br />
+      <section class="card">
+        <div class="aboutUsSection">
+          <div class="page">
+            <h1>About Us</h1>
+          </div>
+          <div class="card">
+            <h2>Our Mission</h2>
+            <p>
+              Our mission is to connect students with meaningful events,<br />opportunities,
+              and experiences across campus. We aim to<br />make campus life
+              more engaging, organized, and accessible<br />for everyone.
+            </p>
+          </div>
+          <hr />
+          <h2>Our Team</h2>
+          <div class="card" id="aboutUsItems" style="width: 60em">
+            <h3 class="inlineHeader">Eryne</h3>
+            <p>Designer</p>
+            <h3 class="inlineHeader">Karina</h3>
+            <p>Project Manager</p>
+            <h3 class="inlineHeader">Marie</h3>
+            <p>Developper</p>
+            <h3 class="inlineHeader">Joy</h3>
+            <p>Developer</p>
+          </div>
+        </div>
+      </section>
 
-                    <h3 class="inlineHeader">Eryne</h3>
-                    <p>Designer</p>
-                    <h3 class="inlineHeader">Karina</h3>
-                    <p>Project Manager</p>
-                    <h3 class="inlineHeader">Marie</h3>
-                    <p>Developper</p>
-                    <h3 class="inlineHeader">Joy</h3>
-                    <p>Developer</p>
-                </div>
-            </div>
+      <section class="contactUsPage">
+        <section class="contactInformation">
+          <h1>Contact Us</h1>
+          <p>
+            We'd love to hear from you!<br />Send us a message and we'll<br />get
+            back to you as soon as possible.
+          </p>
+          <br />
+          <h2>Email</h2>
+          <p>info@smartcampus.ca</p>
+          <h2>Phone</h2>
+          <p>(514)-123-4567</p>
+          <h2>Office Hours</h2>
+          <p>Mon-Fri 9:00AM - 5:00PM</p>
+          <h2>Address</h2>
+          <p>1455 De Maisonneuve Blvd. W.<br />Montreal, QC H3G 1M8</p>
         </section>
 
+        <div class="card" id="contactForm">
+          <form action="../routes/registrationRoutes.js" method="post">
+            <h2>Send us a Message</h2>
+            <br />
+            <label for="fullname"><b>Full Name</b></label>
+            <input type="text" id="fullname" name="fullname" required />
 
-        <section class="contactUsPage">
-            <section class="contactInformation">
-                <h1>Contact Us</h1>
-                <p>
-                    We'd love to hear from you!<br />Send us a message and we'll<br />get
-                    back to you as soon as possible.
-                </p>
-                <br />
-                <h2>Email</h2>
-                <p>info@smartcampus.ca</p>
-                <h2>Phone</h2>
-                <p>(514)-123-4567</p>
-                <h2>Office Hours</h2>
-                <p>Mon-Fri 9:00AM - 5:00PM</p>
-                <h2>Address</h2>
-                <p>1455 De Maisonneuve Blvd. W.<br />Montreal, QC H3G 1M8</p>
-            </section>
+            <label for="email"><b>Email Address</b></label>
+            <input type="email" id="email" name="email" required />
 
-            <div class="card" id="contactForm">
-                <form action="../routes/registrationRoutes.js" method="post">
-                    <h2>Send us a Message</h2>
-                    <br />
-                    <label for="fullname"><b>Full Name</b></label>
-                    <input type="text" id="fullname" name="fullname" />
+            <label for="subject"><b>Subject</b></label>
+            <input
+              type="text"
+              id="subject"
+              name="subject"
+              placeholder=""
+              required
+            />
 
-                    <label for="email"><b>Email Address</b></label>
-                    <input type="email" id="email" name="email" />
-
-                    <label for="subject"><b>Subject</b></label>
-                    <input type="text" id="subject" name="subject" placeholder="" />
-
-                    <label for="message"><b>Message</b></label>
-                    <textarea id="message" name="message" style="height: 12rem"
-                        placeholder="Type your message here..."></textarea>
-                    <br />
-                    <br />
-                    <div style="text-align: right">
-                        <a class="btn" href="mailto:team13@example.com">Send Message</a>
-                    </div>
-                    <br />
-                    <p style="text-align: center">
-                        <em>We typically respond within 24 hours.</em>
-                    </p>
-                </form>
+            <label for="message"><b>Message</b></label>
+            <textarea
+              id="message"
+              name="message"
+              style="height: 12rem"
+              placeholder="Type your message here..."
+              required
+            ></textarea>
+            <br />
+            <br />
+            <p id="contact-msg" hidden></p>
+            <div style="text-align: right">
+              <a class="btn" href="mailto:team13@example.com">Send Message</a>
             </div>
-        </section>
+            <br />
+            <p style="text-align: center">
+              <em>We typically respond within 24 hours.</em>
+            </p>
+          </form>
+        </div>
+      </section>
     </main>
 
     <!-- ================= FOOTER (same on every page) ============ -->
     <footer class="footer">
-        Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 13
+      Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 13
     </footer>
-</body>
-
+  </body>
 </html>

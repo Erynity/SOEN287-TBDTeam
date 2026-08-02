@@ -10,7 +10,6 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   setupNavToggle();
-  setupLoginForm();
   setupNavLinks();
   setupProfileForm();
   setupEditEvent();
@@ -44,51 +43,10 @@ function setupNavToggle() {
   });
 }
 
-const TEST_ACCOUNTS = [
-  {
-    email: "student@campus.ca",
-    password: "student123",
-    redirect: "student-dashboard.html",
-    role: "student",
-  },
-  {
-    email: "admin@campus.ca",
-    password: "admin123",
-    redirect: "admin-dashboard.html",
-    role: "admin",
-  },
-];
-
-function setupLoginForm() {
-  const form = document.querySelector("#login-form");
-  if (!form) return;
-
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const email = document.querySelector("#email").value.trim().toLowerCase();
-    const password = document.querySelector("#password").value;
-    const error = document.querySelector("#login-error");
-
-    const match = TEST_ACCOUNTS.find(
-      (a) => a.email === email && a.password === password,
-    );
-    if (match) {
-      //save userRole
-      localStorage.setItem("userRole", match.role);
-      //go to correct dashboard
-      window.location.href = match.redirect;
-    } else {
-      error.textContent = "Invalid username or password.";
-      error.hidden = false;
-    }
-  });
-}
-
 //navigation bar that changes depending on userRoles
 //to log in as a student: localStorage.setItem("userRole", "student");
 //to log in as an admin: localStorage.setItem("userRole", "admin");
 //to log out: localStorage.removeItem("userRole");
-
 
 //navigation links for each user role
 const links = {
@@ -854,7 +812,9 @@ if (document.getElementById("upcomingEvents")) {
   if (suggestedContainer) {
     //get events that the current user is not registered for, sort by date, make sure theyre open status, and take the first 2
     const suggestions = EVENTS.filter(
-      (event) => event.status === "Open" && !myRegistrations.some((reg) => reg.event_id === event.id),
+      (event) =>
+        event.status === "Open" &&
+        !myRegistrations.some((reg) => reg.event_id === event.id),
     )
       .sort((a, b) => new Date(a.date) - new Date(b.date))
       .slice(0, 2);
@@ -1164,12 +1124,6 @@ function setupEditEvent() {
   document.querySelector("#event-location").value = event.location;
   document.querySelector("#capacity").value = event.capacity;
   document.querySelector("#event-description").value = event.description;
-
-  // When they save, confirm (no backend yet)
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    alert("Event updated successfully!");
-  });
 }
 // --------------------------------------------------------------------- About ---------------------------------------------------------------------
 // --------------------------------------------------------------------- About -------------------------------------------------------------------
