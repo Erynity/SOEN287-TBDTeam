@@ -10,7 +10,6 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   setupNavToggle();
-  setupLoginForm();
   setupNavLinks();
   setupProfileForm();
   setupEditEvent();
@@ -44,83 +43,36 @@ function setupNavToggle() {
   });
 }
 
-const TEST_ACCOUNTS = [
-  {
-    email: "student@campus.ca",
-    password: "student123",
-    redirect: "student-dashboard.html",
-    role: "student",
-  },
-  {
-    email: "admin@campus.ca",
-    password: "admin123",
-    redirect: "admin-dashboard.html",
-    role: "admin",
-  },
-];
-
-function setupLoginForm() {
-  const form = document.querySelector("#login-form");
-  if (!form) return;
-
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const email = document.querySelector("#email").value.trim().toLowerCase();
-    const password = document.querySelector("#password").value;
-    const error = document.querySelector("#login-error");
-
-    const match = TEST_ACCOUNTS.find(
-      (a) => a.email === email && a.password === password,
-    );
-    if (match) {
-      //save userRole
-      localStorage.setItem("userRole", match.role);
-      //go to correct dashboard
-      window.location.href = match.redirect;
-    } else {
-      error.textContent = "Invalid username or password.";
-      error.hidden = false;
-    }
-  });
-}
-
 //navigation bar that changes depending on userRoles
 //to log in as a student: localStorage.setItem("userRole", "student");
 //to log in as an admin: localStorage.setItem("userRole", "admin");
 //to log out: localStorage.removeItem("userRole");
 
-//checks if were on the home page or not, to set the correct relative paths for links
-const onHomePage =
-  window.location.pathname.endsWith("index.html") ||
-  window.location.pathname === "/";
-const base = onHomePage ? "views/" : "";
-const home = onHomePage ? "index.html" : "../index.html";
-
 //navigation links for each user role
 const links = {
   guest: [
-    { name: "Home", href: home },
-    { name: "Events", href: `${base}events.html` },
-    { name: "Contact/About us", href: `${base}contact.html` },
-    { name: "Log in", href: `${base}login.html` },
-    { name: "Sign up", href: `${base}register.html` },
+    { name: "Home", href: `index.html` },
+    { name: "Events", href: `events.html` },
+    { name: "Contact/About us", href: `contact.html` },
+    { name: "Log in", href: `login.html` },
+    { name: "Sign up", href: `register.html` },
   ],
 
   student: [
-    { name: "Dashboard", href: `${base}student-dashboard.html` },
-    { name: "Events", href: `${base}events.html` },
-    { name: "My Registrations", href: `${base}my-registrations.html` },
-    { name: "Profile", href: `${base}student-profile.html` },
-    { name: "Contact/About us", href: `${base}contact.html` },
+    { name: "Dashboard", href: `student-dashboard.html` },
+    { name: "Events", href: `events.html` },
+    { name: "My Registrations", href: `my-registrations.html` },
+    { name: "Profile", href: `student-profile.html` },
+    { name: "Contact/About us", href: `contact.html` },
     { name: "Log out", href: "#" },
   ],
 
   admin: [
-    { name: "Dashboard", href: `${base}admin-dashboard.html` },
-    { name: "Manage Events", href: `${base}manage-events.html` },
-    { name: "My Registrations", href: `${base}admin-registrations.html` },
-    { name: "Statistics", href: `${base}admin-statistics.html` },
-    { name: "Contact/About us", href: `${base}contact.html` },
+    { name: "Dashboard", href: `admin-dashboard.html` },
+    { name: "Manage Events", href: `manage-events.html` },
+    { name: "My Registrations", href: `admin-registrations.html` },
+    { name: "Statistics", href: `admin-statistics.html` },
+    { name: "Contact/About us", href: `contact.html` },
     { name: "Log out", href: "#" },
   ],
 };
@@ -162,7 +114,7 @@ function setupNavLinks() {
       //remove login user
       localStorage.removeItem("userRole");
       //return to home page
-      window.location.href = home;
+      window.location.href = "index.html";
     });
   }
 }
@@ -543,20 +495,20 @@ const USERS = [
     id: 101,
     firstName: "Jane",
     lastName: "Doe",
-    email: "jane.doe@example.com"
+    email: "jane.doe@example.com",
   },
   {
     id: 102,
     firstName: "Will",
     lastName: "Smith",
-    email: "will.smith@example.com"
+    email: "will.smith@example.com",
   },
-   {
+  {
     id: 103,
     firstName: "Charles",
     lastName: "Barkley",
-    email: "charles.barkley@example.com"
-  }
+    email: "charles.barkley@example.com",
+  },
 ];
 //FAKE REGISTRATION DATA TO POPULATE STUDENT DASHBOARD AND STUDENT REGISTRATION
 const REGISTRATIONS = [
@@ -608,7 +560,7 @@ const REGISTRATIONS = [
     status: "Registered",
     attended: false,
   },
-   {
+  {
     registration_id: 2,
     user_id: 102,
     event_id: 3,
@@ -626,36 +578,27 @@ function createEventCard(event) {
   return `
         <div class="card event-card">
 
-            <div class="flex-between">
-                <h3>${event.title}</h3>
+        <div class="event-card-head">  
+        <h3>${event.title}</h3>
+        <span class="badge ${badgeClass}">${event.status}</span>
+      </div>
 
-                <span class="badge ${badgeClass}">
-                    ${event.status}
-                </span>
-            </div>
-
-            <p class="muted">
+            <p class="event-meta muted">
                 ${event.category} ·
-                ${event.date} ·
+                ${event.date} 
+            </p>
+            <p class="event-meta muted">
                 ${event.startTime} ·
                 ${event.location}
             </p>
 
-            <p>${event.description}</p>
-
-            <div class="flex-between">
-
-                <span class="muted">
-                    ${event.registered}/${event.capacity} spots filled
-                </span>
-
-                ${
-                  event.status === "Full"
-                    ? `<button class="btn" disabled>Event Full</button>`
-                    : `<a class="btn" href="event-details.html?id=${event.id}">
-                            View Details
-                       </a>`
-                }
+            <p class="event-desc">${event.description}</p>
+                
+            <div class="event-card-foot">
+              <span class="muted">
+                ${event.registered}/${event.capacity} spots filled
+              </span>
+                <a class="btn" href="event-details.html?id=${event.id}">View details</a>
 
             </div>
 
@@ -819,13 +762,63 @@ if (title) {
     document.getElementById("eventCapacity").textContent =
       `${event.registered}/${event.capacity} spots filled`;
 
-    document.getElementById("registerButton").textContent =
-      event.status === "Full" ? "Event Full" : "Register";
+    //check user role
+    const userRole = localStorage.getItem("userRole") || "guest";
 
-    document.getElementById("registerButton").disabled =
-      event.status === "Full";
-  }
-}
+    //guest controls
+    if (userRole === "guest") {
+      const guestControls = document.getElementById("guestControls");
+      guestControls.hidden = false;
+    }
+
+    //student controls
+    if (userRole === "student") {
+      const studentControls = document.getElementById("studentControls");
+
+      const registerBtn = document.getElementById("registerBtn");
+      const cancelBtn = document.getElementById("cancelRegistrationBtn");
+
+      studentControls.hidden = false;
+      const currentUser = 101; //hardcoded for now, will be dynamic later
+
+      const registration = REGISTRATIONS.find(
+        (reg) => 
+          reg.user_id === currentUser && 
+          reg.event_id === event.id &&
+          reg.status === "Registered"
+      );
+
+      //if student is already registered, hide register button and show cancel button
+      if (registration) {
+        registerBtn.hidden = true;
+        cancelBtn.hidden = false;
+      }
+      //if student is not registered, show register button and hide cancel button
+      else {
+        registerBtn.hidden = false;
+        cancelBtn.hidden = true;
+
+        if (event.status !== "Open") {
+          registerBtn.disabled = true;
+          registerBtn.textContent = "Registration Unavailable";
+        }
+      }
+    }
+
+    //admin controls
+    if (userRole === "admin") {
+      const adminControls = document.getElementById("adminControls");
+
+      adminControls.hidden = false;
+
+      //send admin to edit page for this event
+      const editBtn = document.getElementById("editEventBtn");
+      //send admin to manage registrations page for this event
+      const manageBtn = document.getElementById("viewRegistrationsBtn");
+      
+      editBtn.href = `edit-event.html?id=${event.id}`;
+    }
+}}
 
 // --------------------------------------------------------------------- Student ---------------------------------------------------------------------
 
@@ -861,9 +854,11 @@ if (document.getElementById("upcomingEvents")) {
   const suggestedContainer = document.getElementById("suggestedEvents");
 
   if (suggestedContainer) {
-    //get events that the current user is not registered for, sort by date, and take the first 2
+    //get events that the current user is not registered for, sort by date, make sure theyre open status, and take the first 2
     const suggestions = EVENTS.filter(
-      (event) => !myRegistrations.some((reg) => reg.event_id === event.id),
+      (event) =>
+        event.status === "Open" &&
+        !myRegistrations.some((reg) => reg.event_id === event.id),
     )
       .sort((a, b) => new Date(a.date) - new Date(b.date))
       .slice(0, 2);
@@ -917,15 +912,16 @@ if (document.getElementById("upcomingEvents")) {
 const adminEventsTable = document.getElementById("upcomingadminEvents");
 if (adminEventsTable) {
   adminEventsTable.innerHTML = "";
-const upcomingEvents = EVENTS
-    .filter(event =>
-      event.organizer === "Career Services" &&
-       event.status === "Open" || event.status === "Full")
-    .sort((a, b) => new Date(b.date) - new Date(a.date));
-upcomingEvents.forEach(event => {
-     const currentRegistrations = REGISTRATIONS.filter(
-      reg => reg.event_id === event.id && reg.status === "Registered"
-    ).length || event.registered;
+  const upcomingEvents = EVENTS.filter(
+    (event) =>
+      (event.organizer === "Career Services" && event.status === "Open") ||
+      event.status === "Full",
+  ).sort((a, b) => new Date(b.date) - new Date(a.date));
+  upcomingEvents.forEach((event) => {
+    const currentRegistrations =
+      REGISTRATIONS.filter(
+        (reg) => reg.event_id === event.id && reg.status === "Registered",
+      ).length || event.registered;
     const badgeClass = getBadgeClass(event.status);
 
     adminEventsTable.innerHTML += `
@@ -940,7 +936,7 @@ upcomingEvents.forEach(event => {
         </td>
       </tr>
     `;
-  }); 
+  });
 }
 //upcoming events for admin manage events
 
@@ -948,15 +944,16 @@ upcomingEvents.forEach(event => {
 const eventOverviewTable = document.getElementById("eventOverviewTable");
 if (eventOverviewTable) {
   eventOverviewTable.innerHTML = "";
-const upcomingEvents = EVENTS
-    .filter(event =>
-      event.organizer === "Career Services" &&
-       event.status === "Open" || event.status === "Full")
-    .sort((a, b) => new Date(b.date) - new Date(a.date));
-upcomingEvents.forEach(event => {
-     const currentRegistrations = REGISTRATIONS.filter(
-      reg => reg.event_id === event.id && reg.status === "Registered"
-    ).length || event.registered;
+  const upcomingEvents = EVENTS.filter(
+    (event) =>
+      (event.organizer === "Career Services" && event.status === "Open") ||
+      event.status === "Full",
+  ).sort((a, b) => new Date(b.date) - new Date(a.date));
+  upcomingEvents.forEach((event) => {
+    const currentRegistrations =
+      REGISTRATIONS.filter(
+        (reg) => reg.event_id === event.id && reg.status === "Registered",
+      ).length || event.registered;
     const badgeClass = getBadgeClass(event.status);
 
     eventOverviewTable.innerHTML += `
@@ -980,18 +977,21 @@ upcomingEvents.forEach(event => {
   });
 }
 //event attendance table for admin registrations page
-const pasteventOverviewTable = document.getElementById("pasteventOverviewTable");
+const pasteventOverviewTable = document.getElementById(
+  "pasteventOverviewTable",
+);
 if (pasteventOverviewTable) {
   pasteventOverviewTable.innerHTML = "";
-const upcomingEvents = EVENTS
-    .filter(event =>
-      event.organizer === "Career Services" &&
-       event.status === "Cancelled" || event.status === "Completed")
-    .sort((a, b) => new Date(b.date) - new Date(a.date));
-upcomingEvents.forEach(event => {
-     const currentRegistrations = REGISTRATIONS.filter(
-      reg => reg.event_id === event.id && reg.status === "Registered"
-    ).length || event.registered;
+  const upcomingEvents = EVENTS.filter(
+    (event) =>
+      (event.organizer === "Career Services" && event.status === "Cancelled") ||
+      event.status === "Completed",
+  ).sort((a, b) => new Date(b.date) - new Date(a.date));
+  upcomingEvents.forEach((event) => {
+    const currentRegistrations =
+      REGISTRATIONS.filter(
+        (reg) => reg.event_id === event.id && reg.status === "Registered",
+      ).length || event.registered;
     const badgeClass = getBadgeClass(event.status);
 
     pasteventOverviewTable.innerHTML += `
@@ -1017,34 +1017,34 @@ upcomingEvents.forEach(event => {
 // Registered students table for the event from the admin registrations page
 const studentsTable = document.getElementById("registeredStudentsTable");
 
-  if (studentsTable) {
-    studentsTable.innerHTML = "";
-    const params = new URLSearchParams(window.location.search);
-    const eventId = Number(params.get("id"));
+if (studentsTable) {
+  studentsTable.innerHTML = "";
+  const params = new URLSearchParams(window.location.search);
+  const eventId = Number(params.get("id"));
 
-   const registeredUserIds = REGISTRATIONS
-      .filter((reg) => reg.event_id === eventId && reg.status === "Registered")
-      .map((reg) => reg.user_id);
-      const registeredStudents = USERS.filter((user) =>
-      registeredUserIds.includes(user.id)
-    );
-    if (registeredStudents.length === 0) {
-      studentsTable.innerHTML = `
+  const registeredUserIds = REGISTRATIONS.filter(
+    (reg) => reg.event_id === eventId && reg.status === "Registered",
+  ).map((reg) => reg.user_id);
+  const registeredStudents = USERS.filter((user) =>
+    registeredUserIds.includes(user.id),
+  );
+  if (registeredStudents.length === 0) {
+    studentsTable.innerHTML = `
         <tr>
           <td colspan="3" style="text-align:center;">No students registered for this event yet.</td>
         </tr>`;
-    } else {
-      registeredStudents.forEach((student) => {
-        studentsTable.innerHTML += `
+  } else {
+    registeredStudents.forEach((student) => {
+      studentsTable.innerHTML += `
           <tr>
             <td>${student.firstName}</td>
             <td>${student.lastName}</td>
             <td>${student.email}</td>
           </tr>
         `;
-      });
-    }
-  };
+    });
+  }
+}
 // --------------------------------------------------------------------- Registration  ---------------------------------------------------------------------
 
 const myRegistrationTable = document.getElementById("myRegistrationTable");
@@ -1076,11 +1076,15 @@ if (myRegistrationTable) {
         <td>${registration.registration_date}</td>
         <td><span class="badge ${getBadgeClass(event.status)}">${event.status}</span></td>
         <td>${registration.attended ? "Attended" : "Not attended"}</td>
+        <td>
+          <button class="btn btn-danger" onclick="cancelRegistration(${registration.registration_id})">
+            Cancel
+          </button>
+        </td>
       </tr>
     `;
   });
 }
-
 
 // Student Profile page - check the edit form before saving
 function setupProfileForm() {
@@ -1164,12 +1168,6 @@ function setupEditEvent() {
   document.querySelector("#event-location").value = event.location;
   document.querySelector("#capacity").value = event.capacity;
   document.querySelector("#event-description").value = event.description;
-
-  // When they save, confirm (no backend yet)
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    alert("Event updated successfully!");
-  });
 }
 // --------------------------------------------------------------------- About ---------------------------------------------------------------------
 // --------------------------------------------------------------------- About -------------------------------------------------------------------

@@ -365,6 +365,10 @@ a:hover {
   /* space under the button */
 }
 
+[hidden] {
+  display: none !important;
+}
+
 /* Visible keyboard focus - accessibility, do not remove */
 .btn:focus-visible,
 a:focus-visible,
@@ -397,6 +401,16 @@ form button[type="submit"] {
   margin-top: 0;
 }
 
+main>.card {
+  margin-bottom: var(--space-3);
+  /* gap between the cards */
+}
+
+.card h2 {
+  margin-top: 0;
+  /* less space above the card heading */
+}
+
 /* Dashboard stat card: big number, small label */
 .stat-card {
   text-align: left;
@@ -420,6 +434,7 @@ form button[type="submit"] {
   display: flex;
   gap: var(--space-2);
   flex-wrap: wrap;
+  margin-top: var(--space-2);
   margin-bottom: var(--space-3);
 }
 
@@ -428,13 +443,45 @@ form button[type="submit"] {
   min-width: 150px;
 }
 
-.card.event-card {
+/* Event cards line up everywhere: equal height, badges aligned, buttons at the bottom */
+.event-card {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-.card.event-card .flex-between:last-child {
+/* title + badge on one line, badge pinned to the top-right */
+.event-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.event-card-head h3 {
+  margin: 0;
+}
+
+.event-card-head .badge {
+  flex-shrink: 0;
+  /* badge keeps its size, never squished by a long title */
+}
+
+.event-meta {
+  margin: var(--space-1) 0 0;
+}
+
+* consistent spacing so text lines up card to card */ .event-meta,
+.event-desc {
+  margin: var(--space-2) 0 0;
+}
+
+/* footer sticks to the bottom, spots left + button right */
+.event-card-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
   margin-top: auto;
 }
 
@@ -446,8 +493,13 @@ form button[type="submit"] {
 .grid {
   display: grid;
   gap: var(--space-3);
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  align-items: stretch;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 800px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ------------------------------------------------------------
