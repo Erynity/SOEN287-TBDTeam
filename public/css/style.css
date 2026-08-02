@@ -397,6 +397,13 @@ form button[type="submit"] {
   margin-top: 0;
 }
 
+main > .card {
+  margin-bottom: var(--space-3); /* gap between the cards */
+}
+.card h2 {
+  margin-top: 0; /* less space above the card heading */
+}
+
 /* Dashboard stat card: big number, small label */
 .stat-card {
   text-align: left;
@@ -420,6 +427,7 @@ form button[type="submit"] {
   display: flex;
   gap: var(--space-2);
   flex-wrap: wrap;
+  margin-top: var(--space-2);
   margin-bottom: var(--space-3);
 }
 
@@ -428,13 +436,43 @@ form button[type="submit"] {
   min-width: 150px;
 }
 
-.card.event-card {
+/* Event cards line up everywhere: equal height, badges aligned, buttons at the bottom */
+.event-card {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-.card.event-card .flex-between:last-child {
+/* title + badge on one line, badge pinned to the top-right */
+.event-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+.event-card-head h3 {
+  margin: 0;
+}
+
+.event-card-head .badge {
+  flex-shrink: 0; /* badge keeps its size, never squished by a long title */
+}
+
+.event-meta {
+  margin: var(--space-1) 0 0;
+}
+
+* consistent spacing so text lines up card to card */ .event-meta,
+.event-desc {
+  margin: var(--space-2) 0 0;
+}
+
+/* footer sticks to the bottom, spots left + button right */
+.event-card-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
   margin-top: auto;
 }
 
@@ -446,10 +484,14 @@ form button[type="submit"] {
 .grid {
   display: grid;
   gap: var(--space-3);
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  align-items: stretch;
+  grid-template-columns: repeat(3, 1fr);
 }
 
+@media (max-width: 800px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
 /* ------------------------------------------------------------
    8. STATUS BADGES
    Event statuses from the project spec: open, full, cancelled,
@@ -651,7 +693,7 @@ tbody tr:hover {
   width: 100%;
   background-image:
     linear-gradient(to right, var(--bg), 70%, transparent),
-    url('https://www.mtlblog.com/media-library/concordia-university-in-montreal.jpg?id=32250443&width=1245&height=700');
+    url("https://www.mtlblog.com/media-library/concordia-university-in-montreal.jpg?id=32250443&width=1245&height=700");
   background-position: center right;
   background-size: cover;
   background-repeat: no-repeat;
@@ -678,8 +720,6 @@ tbody tr:hover {
   justify-content: center;
   gap: 40px;
   flex-wrap: wrap;
-
-
 }
 
 .features .event {
@@ -691,8 +731,6 @@ tbody tr:hover {
   background-color: var(--maroon);
   border: 2px solid black;
   border-radius: 1em;
-
-
 }
 
 .features .icon {
@@ -706,7 +744,6 @@ tbody tr:hover {
   border-radius: 50%;
   position: relative;
   bottom: 1.7em;
-
 }
 
 .features .text {
