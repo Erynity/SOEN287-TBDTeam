@@ -1,18 +1,6 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- ==========================================================
-       PAGE TEMPLATE - Smart Campus Event Planner (SOEN 287)
-
-       HOW TO USE:
-       1. Copy this file, rename it (e.g. events.html).
-       2. Change the <title> below.
-       3. In the nav, move class="active" to YOUR page's link.
-       4. Build your page inside <main>. Use classes from
-          /public/css/style.css (cards, buttons, forms, tables).
-       5. Do NOT edit the navbar structure or the stylesheet
-          without telling the group.
-       ========================================================== -->
     <meta charset="UTF-8" />
     <!-- viewport tag = required for responsive design on phones -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -31,10 +19,6 @@
   </head>
 
   <body>
-    <!-- ================= NAVBAR (same on every page) ============
-       During Deliverable 1 we show ALL links so the prof can
-       navigate everything. In Deliverable 2, the backend will
-       decide which links to show based on who is logged in.  -->
     <nav class="navbar">
       <div class="navbar-inner">
         <a class="navbar-brand" href="../index.html">
@@ -58,7 +42,6 @@
       </div>
     </nav>
 
-    <!-- ================= YOUR PAGE CONTENT ====================== -->
     <main>
       <span class="eyebrow">Student Dashboard</span>
       <h1>Jane Doe</h1>
@@ -89,8 +72,10 @@
       <h2>Suggested Events For You</h2>
       <div class="grid" id="suggestedEvents"></div>
 
-      <!-- Table -->
-      <h2>Registered Events</h2>
+      <!-- Registration Table -->
+      <h2>Registered Events
+        <a href="my-registrations.html" class="btn">+ View all registrations</a>
+      </h2>
       <div class="table-wrap">
         <table>
           <thead>
@@ -107,7 +92,6 @@
         </table>
       </div>
 
-      <!-- END EXAMPLES -->
     </main>
 
     <!-- ================= FOOTER (same on every page) ============ -->

@@ -89,38 +89,32 @@ function setupLoginForm() {
 //to log in as an admin: localStorage.setItem("userRole", "admin");
 //to log out: localStorage.removeItem("userRole");
 
-//checks if were on the home page or not, to set the correct relative paths for links
-const onHomePage =
-  window.location.pathname.endsWith("index.html") ||
-  window.location.pathname === "/";
-const base = onHomePage ? "views/" : "";
-const home = onHomePage ? "index.html" : "../index.html";
 
 //navigation links for each user role
 const links = {
   guest: [
-    { name: "Home", href: home },
-    { name: "Events", href: `${base}events.html` },
-    { name: "Contact/About us", href: `${base}contact.html` },
-    { name: "Log in", href: `${base}login.html` },
-    { name: "Sign up", href: `${base}register.html` },
+    { name: "Home", href: `index.html` },
+    { name: "Events", href: `events.html` },
+    { name: "Contact/About us", href: `contact.html` },
+    { name: "Log in", href: `login.html` },
+    { name: "Sign up", href: `register.html` },
   ],
 
   student: [
-    { name: "Dashboard", href: `${base}student-dashboard.html` },
-    { name: "Events", href: `${base}events.html` },
-    { name: "My Registrations", href: `${base}my-registrations.html` },
-    { name: "Profile", href: `${base}student-profile.html` },
-    { name: "Contact/About us", href: `${base}contact.html` },
+    { name: "Dashboard", href: `student-dashboard.html` },
+    { name: "Events", href: `events.html` },
+    { name: "My Registrations", href: `my-registrations.html` },
+    { name: "Profile", href: `student-profile.html` },
+    { name: "Contact/About us", href: `contact.html` },
     { name: "Log out", href: "#" },
   ],
 
   admin: [
-    { name: "Dashboard", href: `${base}admin-dashboard.html` },
-    { name: "Manage Events", href: `${base}manage-events.html` },
-    { name: "My Registrations", href: `${base}admin-registrations.html` },
-    { name: "Statistics", href: `${base}admin-statistics.html` },
-    { name: "Contact/About us", href: `${base}contact.html` },
+    { name: "Dashboard", href: `admin-dashboard.html` },
+    { name: "Manage Events", href: `manage-events.html` },
+    { name: "My Registrations", href: `admin-registrations.html` },
+    { name: "Statistics", href: `admin-statistics.html` },
+    { name: "Contact/About us", href: `contact.html` },
     { name: "Log out", href: "#" },
   ],
 };
@@ -162,7 +156,7 @@ function setupNavLinks() {
       //remove login user
       localStorage.removeItem("userRole");
       //return to home page
-      window.location.href = home;
+      window.location.href = "index.html";
     });
   }
 }
@@ -861,9 +855,9 @@ if (document.getElementById("upcomingEvents")) {
   const suggestedContainer = document.getElementById("suggestedEvents");
 
   if (suggestedContainer) {
-    //get events that the current user is not registered for, sort by date, and take the first 2
+    //get events that the current user is not registered for, sort by date, make sure theyre open status, and take the first 2
     const suggestions = EVENTS.filter(
-      (event) => !myRegistrations.some((reg) => reg.event_id === event.id),
+      (event) => event.status === "Open" && !myRegistrations.some((reg) => reg.event_id === event.id),
     )
       .sort((a, b) => new Date(a.date) - new Date(b.date))
       .slice(0, 2);
@@ -1076,6 +1070,11 @@ if (myRegistrationTable) {
         <td>${registration.registration_date}</td>
         <td><span class="badge ${getBadgeClass(event.status)}">${event.status}</span></td>
         <td>${registration.attended ? "Attended" : "Not attended"}</td>
+        <td>
+          <button class="btn btn-danger" onclick="cancelRegistration(${registration.registration_id})">
+            Cancel
+          </button>
+        </td>
       </tr>
     `;
   });
