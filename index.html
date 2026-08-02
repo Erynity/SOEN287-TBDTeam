@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- ==========================================================
+       PAGE TEMPLATE - Smart Campus Event Planner (SOEN 287)
+
+       HOW TO USE:
+       1. Copy this file, rename it (e.g. events.html).
+       2. Change the <title> below.
+       3. In the nav, move class="active" to YOUR page's link.
+       4. Build your page inside <main>. Use classes from
+          /public/css/style.css (cards, buttons, forms, tables).
+       5. Do NOT edit the navbar structure or the stylesheet
+          without telling the group.
+       ========================================================== -->
+    <meta charset="UTF-8">
+    <!-- viewport tag = required for responsive design on phones -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Home - Smart Campus Event Planner</title>
+
+    <!-- Shared font + stylesheet. Path is relative to /views/. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../public/css/style.css">
+    <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml">
+    <script src="../public/js/main.js" defer></script>
+
+</head>
+
+<body data-page="home">
+
+    <!-- ================= NAVBAR (same on every page) ============
+       During Deliverable 1 we show ALL links so the prof can
+       navigate everything. In Deliverable 2, the backend will
+       decide which links to show based on who is logged in.  -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a class="navbar-brand" href="index.html">
+                <img src="../public/images/logo.svg" alt="" width="28" height="28">
+                Campus Events
+            </a>
+
+            <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+
+            <ul class="navbar-links" id="navbar-links">
+                
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ================= YOUR PAGE CONTENT ====================== -->
+    <main id="indexPage">
+
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Your Campus. <br>All Events. <span style="color:maroon">One Place</span> </h1>
+                <p>Discover campus events, register with ease, <br>and stay connected to what matters</p>
+
+                <a class="btn" href="views/events.html">Browse Events</a>
+                <a class="btn" href="views/register.html">Create Account</a>
+            </div>
+
+        </section>
+
+        <section class="features">
+
+            <div class="event">
+                <div class="icon">📅</div>
+                <div class="text">
+                    <h2>Find Events</h2>
+                    <p>Explore workshops, clubs,<br>lectures and more.</p>
+                </div>
+            </div>
+
+            <div class="event">
+                <div class="icon">👤</div>
+                <div class="text">
+                    <h2>Register Easily</h2>
+                    <p>Sign up for events in<br>just a few clicks.</p>
+                </div>
+            </div>
+
+            <div class="event">
+                <div class="icon">🔔</div>
+                <div class="text">
+                    <h2>Stay Updated</h2>
+                    <p>Never miss an event<br>that matters to you.</p>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- ================= FOOTER (same on every page) ============ -->
+    <footer class="footer">
+        Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 13
+    </footer>
+
+</body>
+
+</html>
