@@ -11,6 +11,9 @@
 document.addEventListener("DOMContentLoaded", () => {
   setupNavToggle();
   setupLoginForm();
+  setupNavLinks();
+  setupProfileForm();
+  setupEditEvent();
 });
 
 function setupNavToggle() {
@@ -46,11 +49,13 @@ const TEST_ACCOUNTS = [
     email: "student@campus.ca",
     password: "student123",
     redirect: "student-dashboard.html",
+    role: "student",
   },
   {
     email: "admin@campus.ca",
     password: "admin123",
     redirect: "admin-dashboard.html",
+    role: "admin",
   },
 ];
 
@@ -67,13 +72,101 @@ function setupLoginForm() {
     const match = TEST_ACCOUNTS.find(
       (a) => a.email === email && a.password === password,
     );
-    if (match) window.location.href = match.redirect;
-    else {
+    if (match) {
+      //save userRole
+      localStorage.setItem("userRole", match.role);
+      //go to correct dashboard
+      window.location.href = match.redirect;
+    } else {
       error.textContent = "Invalid username or password.";
       error.hidden = false;
     }
   });
 }
+
+//navigation bar that changes depending on userRoles
+//to log in as a student: localStorage.setItem("userRole", "student");
+//to log in as an admin: localStorage.setItem("userRole", "admin");
+//to log out: localStorage.removeItem("userRole");
+
+//checks if were on the home page or not, to set the correct relative paths for links
+const onHomePage =
+  window.location.pathname.endsWith("index.html") ||
+  window.location.pathname === "/";
+const base = onHomePage ? "views/" : "";
+const home = onHomePage ? "index.html" : "../index.html";
+
+//navigation links for each user role
+const links = {
+  guest: [
+    { name: "Home", href: home },
+    { name: "Events", href: `${base}events.html` },
+    { name: "Contact/About us", href: `${base}contact.html` },
+    { name: "Log in", href: `${base}login.html` },
+    { name: "Sign up", href: `${base}register.html` },
+  ],
+
+  student: [
+    { name: "Dashboard", href: `${base}student-dashboard.html` },
+    { name: "Events", href: `${base}events.html` },
+    { name: "My Registrations", href: `${base}my-registrations.html` },
+    { name: "Profile", href: `${base}student-profile.html` },
+    { name: "Contact/About us", href: `${base}contact.html` },
+    { name: "Log out", href: "#" },
+  ],
+
+  admin: [
+    { name: "Dashboard", href: `${base}admin-dashboard.html` },
+    { name: "Manage Events", href: `${base}manage-events.html` },
+    { name: "My Registrations", href: `${base}admin-registrations.html` },
+    { name: "Statistics", href: `${base}admin-statistics.html` },
+    { name: "Contact/About us", href: `${base}contact.html` },
+    { name: "Log out", href: "#" },
+  ],
+};
+
+//setup navbar links
+function setupNavLinks() {
+  //get user role from localStorage, default to guest if not set
+  const role = localStorage.getItem("userRole") || "guest";
+  //get navbar links container
+  const navbarLinks = document.getElementById("navbar-links");
+  //get current page name to highlight active link
+  const currentPage = window.location.pathname.split("/").pop() || "index.html";
+
+  //if navbar links container not found, exit
+  if (!navbarLinks) return;
+
+  //populate navbar links based on user role
+  navbarLinks.innerHTML = links[role]
+    .map((link) => {
+      //check if link is active
+      const isActive =
+        link.href.split("/").pop() === currentPage ? ' class="active"' : "";
+
+      //special case for logout link to add id for event listener
+      if (link.name === "Log out") {
+        return `<li><a class="btn" style="padding: 0.3rem 0.9rem" href="#" id="logout-btn">${link.name}</a></li>`;
+      }
+      //return link html
+      return `<li><a href="${link.href}"${isActive}>${link.name}</a></li>`;
+    })
+    .join("");
+
+  //logout feature
+  const logoutBtn = document.getElementById("logout-btn");
+  //if logout button exists, add click event listener to log out user
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      //remove login user
+      localStorage.removeItem("userRole");
+      //return to home page
+      window.location.href = home;
+    });
+  }
+}
+
 // --------------------------------------------------------------------- Home Page ---------------------------------------------------------------------
 
 // --------------------------------------------------------------------- Events ---------------------------------------------------------------------
@@ -175,10 +268,10 @@ const EVENTS = [
     startTime: "6:00 PM",
     endTime: "9:00 PM",
     location: "H-110",
-    capacity: 76,
+    capacity: 80,
     organizer: "Career Services",
-    status: "Open",
-    registered: 80,
+    status: "Completed",
+    registered: 76,
     image: "images/mock-interview.jpg",
     rating: null,
   },
@@ -444,7 +537,27 @@ const EVENTS = [
     rating: null,
   },
 ];
-
+//FAKE USER DATA TO POPULATE STUDENT DASHBOARD AND STUDENT REGISTRATION
+const USERS = [
+  {
+    id: 101,
+    firstName: "Jane",
+    lastName: "Doe",
+    email: "jane.doe@example.com"
+  },
+  {
+    id: 102,
+    firstName: "Will",
+    lastName: "Smith",
+    email: "will.smith@example.com"
+  },
+   {
+    id: 103,
+    firstName: "Charles",
+    lastName: "Barkley",
+    email: "charles.barkley@example.com"
+  }
+];
 //FAKE REGISTRATION DATA TO POPULATE STUDENT DASHBOARD AND STUDENT REGISTRATION
 const REGISTRATIONS = [
   {
@@ -479,11 +592,35 @@ const REGISTRATIONS = [
     status: "Registered",
     attended: false,
   },
+  {
+    registration_id: 5,
+    user_id: 101,
+    event_id: 3,
+    registration_date: "2026-08-21",
+    status: "Registered",
+    attended: false,
+  },
+  {
+    registration_id: 1,
+    user_id: 102,
+    event_id: 4,
+    registration_date: "2026-08-21",
+    status: "Registered",
+    attended: false,
+  },
+   {
+    registration_id: 2,
+    user_id: 102,
+    event_id: 3,
+    registration_date: "2026-08-21",
+    status: "Registered",
+    attended: false,
+  },
 ];
 
 //helper function to create event card for any page that needs it
-
 function createEventCard(event) {
+  //get the correct badge class for the event status
   const badgeClass = getBadgeClass(event.status);
 
   return `
@@ -533,7 +670,7 @@ function displayEventCards(containerId, eventList) {
   if (!container) return;
 
   container.innerHTML = "";
-
+  //loop through the event list and create a card for each event
   eventList.forEach((event) => {
     container.innerHTML += createEventCard(event);
   });
@@ -694,7 +831,7 @@ if (title) {
 
 if (document.getElementById("upcomingEvents")) {
   const currentUser = 101;
-
+  //get all registrations for the current user
   const myRegistrations = REGISTRATIONS.filter(
     (reg) => reg.user_id === currentUser,
   );
@@ -711,18 +848,20 @@ if (document.getElementById("upcomingEvents")) {
 
   //upcoming events for student dashboard
   const upcoming = document.getElementById("upcomingEvents");
-
+  //get all events that the current user is registered for and sort by date
   const upcomingEvents = myRegistrations
     .filter((reg) => reg.status === "Registered")
     .map((reg) => EVENTS.find((event) => event.id === reg.event_id))
     .sort((a, b) => new Date(a.date) - new Date(b.date));
 
+  //display upcoming events in the student dashboard
   displayEventCards("upcomingEvents", upcomingEvents);
 
   //suggested events for student dashboard
   const suggestedContainer = document.getElementById("suggestedEvents");
 
   if (suggestedContainer) {
+    //get events that the current user is not registered for, sort by date, and take the first 2
     const suggestions = EVENTS.filter(
       (event) => !myRegistrations.some((reg) => reg.event_id === event.id),
     )
@@ -748,7 +887,7 @@ if (document.getElementById("upcomingEvents")) {
 
   if (regTable) {
     regTable.innerHTML = "";
-
+    //loop through the upcoming registrations and add a row for each event
     upcomingRegistrations.forEach((item) => {
       const event = item.event;
 
@@ -773,11 +912,143 @@ if (document.getElementById("upcomingEvents")) {
     });
   }
 }
+// --------------------------------------------------------------------- Admin ---------------------------------------------------------------------
+//upcoming events for admin dashboard
+const adminEventsTable = document.getElementById("upcomingadminEvents");
+if (adminEventsTable) {
+  adminEventsTable.innerHTML = "";
+const upcomingEvents = EVENTS
+    .filter(event =>
+      event.organizer === "Career Services" &&
+       event.status === "Open" || event.status === "Full")
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
+upcomingEvents.forEach(event => {
+     const currentRegistrations = REGISTRATIONS.filter(
+      reg => reg.event_id === event.id && reg.status === "Registered"
+    ).length || event.registered;
+    const badgeClass = getBadgeClass(event.status);
 
+    adminEventsTable.innerHTML += `
+      <tr>
+        <td><strong>${event.title}</strong></td>
+        <td>${event.category}</td>
+        <td>${event.date}</td>
+        <td>${event.location}</td>
+        <td>${currentRegistrations} / ${event.capacity}</td>
+        <td>
+          <span class="badge ${badgeClass}">${event.status}</span>
+        </td>
+      </tr>
+    `;
+  }); 
+}
+//upcoming events for admin manage events
+
+//event registration table for admin registations page
+const eventOverviewTable = document.getElementById("eventOverviewTable");
+if (eventOverviewTable) {
+  eventOverviewTable.innerHTML = "";
+const upcomingEvents = EVENTS
+    .filter(event =>
+      event.organizer === "Career Services" &&
+       event.status === "Open" || event.status === "Full")
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
+upcomingEvents.forEach(event => {
+     const currentRegistrations = REGISTRATIONS.filter(
+      reg => reg.event_id === event.id && reg.status === "Registered"
+    ).length || event.registered;
+    const badgeClass = getBadgeClass(event.status);
+
+    eventOverviewTable.innerHTML += `
+      <tr>
+        <td><strong>${event.id}</strong></td>
+        <td>${event.title}</td>
+        <td>${event.date}</td>
+        <td>${currentRegistrations}/ ${event.capacity}</td>
+      <td>
+              <a class="btn btn-primary" href="view-all-student-ids.html?id=${event.id}">
+                View All Students
+              </a>
+            </td>
+            <td>
+              <a class="btn btn-outline" href="event-details.html?id=${event.id}">
+                View details
+              </a>
+            </td>
+      </tr>
+    `;
+  });
+}
+//event attendance table for admin registrations page
+const pasteventOverviewTable = document.getElementById("pasteventOverviewTable");
+if (pasteventOverviewTable) {
+  pasteventOverviewTable.innerHTML = "";
+const upcomingEvents = EVENTS
+    .filter(event =>
+      event.organizer === "Career Services" &&
+       event.status === "Cancelled" || event.status === "Completed")
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
+upcomingEvents.forEach(event => {
+     const currentRegistrations = REGISTRATIONS.filter(
+      reg => reg.event_id === event.id && reg.status === "Registered"
+    ).length || event.registered;
+    const badgeClass = getBadgeClass(event.status);
+
+    pasteventOverviewTable.innerHTML += `
+      <tr>
+        <td><strong>${event.id}</strong></td>
+        <td>${event.title}</td>
+        <td>${event.date}</td>
+        <td>${currentRegistrations}/ ${event.capacity}</td>
+      <td>
+              <a class="btn btn-primary" href="view-all-student-ids.html?id=${event.id}">
+                View All Students
+              </a>
+            </td>
+            <td>
+              <a class="btn btn-outline" href="event-details.html?id=${event.id}">
+                View details
+              </a>
+            </td>
+      </tr>
+    `;
+  });
+}
+// Registered students table for the event from the admin registrations page
+const studentsTable = document.getElementById("registeredStudentsTable");
+
+  if (studentsTable) {
+    studentsTable.innerHTML = "";
+    const params = new URLSearchParams(window.location.search);
+    const eventId = Number(params.get("id"));
+
+   const registeredUserIds = REGISTRATIONS
+      .filter((reg) => reg.event_id === eventId && reg.status === "Registered")
+      .map((reg) => reg.user_id);
+      const registeredStudents = USERS.filter((user) =>
+      registeredUserIds.includes(user.id)
+    );
+    if (registeredStudents.length === 0) {
+      studentsTable.innerHTML = `
+        <tr>
+          <td colspan="3" style="text-align:center;">No students registered for this event yet.</td>
+        </tr>`;
+    } else {
+      registeredStudents.forEach((student) => {
+        studentsTable.innerHTML += `
+          <tr>
+            <td>${student.firstName}</td>
+            <td>${student.lastName}</td>
+            <td>${student.email}</td>
+          </tr>
+        `;
+      });
+    }
+  };
 // --------------------------------------------------------------------- Registration  ---------------------------------------------------------------------
 
 const myRegistrationTable = document.getElementById("myRegistrationTable");
-
+//get all registrations for the current user and sort by date
 if (myRegistrationTable) {
   const currentUser = 101;
 
@@ -810,6 +1081,95 @@ if (myRegistrationTable) {
   });
 }
 
-// --------------------------------------------------------------------- Admin ---------------------------------------------------------------------
 
+// Student Profile page - check the edit form before saving
+function setupProfileForm() {
+  const form = document.querySelector("#profile-form");
+  if (!form) return; // only runs on the profile page
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const fullName = document.querySelector("#fullname").value.trim();
+    const email = document.querySelector("#email").value.trim();
+    const currentPassword = document.querySelector("#current-password").value;
+    const newPassword = document.querySelector("#new-password").value;
+    const confirmPassword = document.querySelector("#confirm-password").value;
+    const msg = document.querySelector("#profile-msg");
+
+    // Name and email are always required
+    if (fullName === "") {
+      showProfileMessage(msg, "Please enter your full name.", false);
+      return;
+    }
+    if (email === "" || !email.includes("@") || !email.includes(".")) {
+      showProfileMessage(msg, "Please enter a valid email address.", false);
+      return;
+    }
+
+    // Only check the password if they are actually changing it
+    if (newPassword !== "") {
+      if (currentPassword === "") {
+        showProfileMessage(
+          msg,
+          "Enter your current password to change it.",
+          false,
+        );
+        return;
+      }
+      if (newPassword.length < 6) {
+        showProfileMessage(
+          msg,
+          "New password must be at least 6 characters.",
+          false,
+        );
+        return;
+      }
+      if (newPassword !== confirmPassword) {
+        showProfileMessage(msg, "New passwords do not match.", false);
+        return;
+      }
+    }
+
+    showProfileMessage(msg, "Profile updated successfully!", true);
+  });
+}
+
+// Show a message under the profile form: green for success, red for error
+function showProfileMessage(box, text, ok) {
+  box.textContent = text;
+  box.style.color = ok ? "var(--status-open)" : "var(--status-cancelled)";
+  box.hidden = false;
+}
 // --------------------------------------------------------------------- About ---------------------------------------------------------------------
+
+// EDIT EVENT page - load the chosen event into the form, then handle save
+function setupEditEvent() {
+  const form = document.querySelector("#edit-event-form");
+  if (!form) return; // only runs on the edit page
+
+  // Read the event id from the URL, e.g. edit-event.html?id=3
+  const id = Number(new URLSearchParams(window.location.search).get("id"));
+  const event = EVENTS.find((e) => e.id === id);
+
+  // If the id is missing or wrong, tell the user and stop
+  if (!event) {
+    document.querySelector("main").innerHTML = "<p>Event not found.</p>";
+    return;
+  }
+
+  // Fill the form with this event's current details
+  document.querySelector("#event-name").value = event.title;
+  document.querySelector("#event-date").value = event.date;
+  document.querySelector("#event-location").value = event.location;
+  document.querySelector("#capacity").value = event.capacity;
+  document.querySelector("#event-description").value = event.description;
+
+  // When they save, confirm (no backend yet)
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    alert("Event updated successfully!");
+  });
+}
+// --------------------------------------------------------------------- About ---------------------------------------------------------------------
+// --------------------------------------------------------------------- About -------------------------------------------------------------------

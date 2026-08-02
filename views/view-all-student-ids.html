@@ -47,60 +47,31 @@
         <span></span><span></span><span></span>
       </button>
 
-      <ul class="navbar-links">
-        <li><a href="../index.html">Home</a></li>
-        <li><a href="events.html">Events</a></li>
-        <li><a href="student-dashboard.html">Student</a></li>
-        <li><a href="my-registrations.html">My Registrations</a></li>
-        <li><a href="admin-dashboard.html">Admin</a></li>
-        <li><a href="contact.html">About</a></li>
-        <li><a href="login.html">Login</a></li>
-        <li><a class="btn" href="register.html" style="padding:0.3rem 0.9rem;">Sign up</a></li>
+      <ul class="navbar-links" id="navbar-links">
+        
       </ul>
     </div>
   </nav>
 
   <!-- ================= YOUR PAGE CONTENT ====================== -->
 <main>
+      <button class="btn btn-secondary back-btn" onclick="history.back()">
+        <span style="font-size: 1.5em; line-height: 1">←</span> Back
+      </button>
   <span class="eyebrow">Student Information</span>
   <h1>View All Students</h1>
   <p class="muted">Here you can view all registered students for this event</p>
-
 <div class="table-wrap">
   <table>
     <thead>
       <tr>
-        <th>Student Name</th>
-        <th>Student Last Name</th>
-        <th>Email</th>
+        <th>FIRST NAME</th>
+        <th>LAST NAME</th>
+        <th>EMAIL</th>
       </tr>
     </thead>
-    <tbody>
-      <tr>
-        <td>Jane</td>
-        <td>Doe</td>
-        <td>jane.doe@example.com</td>
-      </tr>
-      <tr>
-        <td>John</td>
-        <td>Smith</td>
-        <td>john.smith@example.com</td>
-      </tr>
-      <tr>
-        <td>Charlie</td>
-        <td>Barkin</td>
-        <td>charlie.barkin@example.com</td>
-      </tr>
-      <tr>
-        <td>Alexander</td>
-        <td>Carpenter</td>
-        <td>alexander.carpenter@example.com</td>
-      </tr>
-      <tr>
-        <td>Anna</td>
-        <td>Sanchez</td>
-        <td>anna.sanchez@example.com</td>
-      </tr>
+    <tbody id="registeredStudentsTable">
+      
     </tbody>
   </table>
 </div>

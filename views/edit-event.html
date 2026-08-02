@@ -1,23 +1,11 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- ==========================================================
-       PAGE TEMPLATE - Smart Campus Event Planner (SOEN 287)
-
-       HOW TO USE:
-       1. Copy this file, rename it (e.g. events.html).
-       2. Change the <title> below.
-       3. In the nav, move class="active" to YOUR page's link.
-       4. Build your page inside <main>. Use classes from
-          /public/css/style.css (cards, buttons, forms, tables).
-       5. Do NOT edit the navbar structure or the stylesheet
-          without telling the group.
-       ========================================================== -->
     <meta charset="UTF-8" />
     <!-- viewport tag = required for responsive design on phones -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Create Event - Smart Campus Event Planner</title>
+    <title>Edit Event - Campus Event Planner</title>
 
     <!-- Shared font + stylesheet. Path is relative to /views/. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -31,10 +19,6 @@
   </head>
 
   <body>
-    <!-- ================= NAVBAR (same on every page) ============
-       During Deliverable 1 we show ALL links so the prof can
-       navigate everything. In Deliverable 2, the backend will
-       decide which links to show based on who is logged in.  -->
     <nav class="navbar">
       <div class="navbar-inner">
         <a class="navbar-brand" href="../index.html">
@@ -52,9 +36,7 @@
           <span></span><span></span><span></span>
         </button>
 
-        <ul class="navbar-links" id="navbar-links">
-          
-        </ul>
+        <ul class="navbar-links" id="navbar-links"></ul>
       </div>
     </nav>
 
@@ -64,15 +46,15 @@
         <span style="font-size: 1.5em; line-height: 1">←</span> Back
       </button>
       <span class="eyebrow">Event management</span>
-      <h1>Creating event</h1>
-      <p class="muted">Fill in the details to create a new event.</p>
-      <form action="/create-event" method="POST">
+      <h1>Edit Event</h1>
+      <p class="muted">Fill in the details to edit the event.</p>
+      <form id="edit-event-form">
         <label for="event-name">Event Title:</label>
         <input
           type="text"
           id="event-name"
           name="event-name"
-          placeholder="Give your event a title"
+          placeholder="Edit your event's title"
           required
         />
 
@@ -130,7 +112,7 @@
           required
         ></textarea>
 
-        <button class="btn" type="submit">Create Event</button>
+        <button class="btn" type="submit">Save Changes</button>
       </form>
     </main>
 
