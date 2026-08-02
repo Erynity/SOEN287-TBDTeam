@@ -2,18 +2,6 @@
 <html lang="en">
 
 <head>
-    <!-- ==========================================================
-       PAGE TEMPLATE - Smart Campus Event Planner (SOEN 287)
-
-       HOW TO USE:
-       1. Copy this file, rename it (e.g. events.html).
-       2. Change the <title> below.
-       3. In the nav, move class="active" to YOUR page's link.
-       4. Build your page inside <main>. Use classes from
-          /public/css/style.css (cards, buttons, forms, tables).
-       5. Do NOT edit the navbar structure or the stylesheet
-          without telling the group.
-       ========================================================== -->
     <meta charset="UTF-8" />
     <!-- viewport tag = required for responsive design on phones -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -30,10 +18,7 @@
 </head>
 
 <body>
-    <!-- ================= NAVBAR (same on every page) ============
-       During Deliverable 1 we show ALL links so the prof can
-       navigate everything. In Deliverable 2, the backend will
-       decide which links to show based on who is logged in.  -->
+    <!-- ================= NAVBAR ============-->
     <nav class="navbar">
         <div class="navbar-inner">
             <a class="navbar-brand" href="../index.html">
@@ -46,51 +31,60 @@
             </button>
 
             <ul class="navbar-links" id="navbar-links"></ul>
-            
+
             </ul>
         </div>
     </nav>
 
-    <!-- ================= YOUR PAGE CONTENT ====================== -->
+    <!-- ================= CONTENT ============-->
 
-    <main>
-        <div class="card">
+    <main class="lonInPage">
+        <!--  -->
+        <div class="logInInformation">
             <h1>Welcome Back!</h1>
             <p>
                 Log in to your account to discover events, <br />manage your schedule,
-                and stay connected <br />on campus.
+                <br />and stay connected on campus.
             </p>
             <img src="" />
-            <div class="card stat-card">
+            <div>
                 <p>Great events. New connections.<br />Endless opportunities.</p>
             </div>
         </div>
-        <div class="card">
-            <form id="login-form">
-                <h2>Log In</h2>
-                <p>Enter your credentials to access your account</p>
 
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" />
+        <!-- Start of form -->
+        <form class="card" id="login-form">
+            <!-- Title -->
+            <h2>Log In</h2>
+            <p>Enter your credentials to access your account</p>
 
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" />
+            <!-- User Input Boxes -->
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" />
 
-                <p id="login-error" hidden style="color: var(--status-cancelled)"></p>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" />
 
-                <button class="btn" type="submit">Log In</button>
-                <p>
-                    Don't have an account?
-                    <a href="register.html" style="color: maroon">Create one</a>
-                </p>
+            <!-- Hidden error message -->
+            <p id="login-error" hidden style="color: var(--status-cancelled)"></p>
 
-                <p class="muted" style="font-size: 0.9rem; margin-top: 1rem">
-                    Demo accounts —<br />
-                    Student: student@campus.ca / student123<br />
-                    Admin: admin@campus.ca / admin123
-                </p>
-            </form>
-        </div>
+            <!-- Submit/Log in Button -->
+            <button class="btn" type="submit">Log In</button>
+
+            <!-- Option to sign up if user already has an account -->
+            <p>Don't have an account?
+                <a href="register.html" style="color: maroon">Create one</a>
+            </p>
+
+            <!-- Demo Accounts Information -->
+            <p class="muted" style="font-size: 0.9rem; margin-top: 1rem">
+                Demo accounts —<br />
+                Student: student@campus.ca / student123<br />
+                Admin: admin@campus.ca / admin123
+            </p>
+        </form>
+        <!-- End of form -->
+
     </main>
 
     <!-- ================= FOOTER (same on every page) ============ -->
