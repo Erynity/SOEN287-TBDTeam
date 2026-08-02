@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="../public/css/style.css" />
     <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
     <script src="../public/js/main.js" defer></script>
+    <script src="../public/js/formValidation.js" defer></script>
   </head>
 
   <body>
@@ -100,6 +101,7 @@
           name="capacity"
           min="1"
           placeholder="e.g., 50"
+          min="1"
           required
         />
 
@@ -111,6 +113,8 @@
           placeholder="Enter a brief description of the event to help participants understand what to expect."
           required
         ></textarea>
+
+        <p id="event-msg" hidden></p>
 
         <button class="btn" type="submit">Save Changes</button>
       </form>

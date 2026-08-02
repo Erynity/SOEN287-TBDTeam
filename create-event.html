@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="../public/css/style.css" />
     <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
     <script src="../public/js/main.js" defer></script>
+    <script src="../public/js/formValidation.js" defer></script>
   </head>
 
   <body>
@@ -52,9 +53,7 @@
           <span></span><span></span><span></span>
         </button>
 
-        <ul class="navbar-links" id="navbar-links">
-          
-        </ul>
+        <ul class="navbar-links" id="navbar-links"></ul>
       </div>
     </nav>
 
@@ -66,7 +65,7 @@
       <span class="eyebrow">Event management</span>
       <h1>Creating event</h1>
       <p class="muted">Fill in the details to create a new event.</p>
-      <form action="/create-event" method="POST">
+      <form id="create-event-form">
         <label for="event-name">Event Title:</label>
         <input
           type="text"
@@ -118,6 +117,7 @@
           name="capacity"
           min="1"
           placeholder="e.g., 50"
+          min="1"
           required
         />
 
@@ -129,6 +129,8 @@
           placeholder="Enter a brief description of the event to help participants understand what to expect."
           required
         ></textarea>
+
+        <p id="event-msg" hidden></p>
 
         <button class="btn" type="submit">Create Event</button>
       </form>

@@ -1,18 +1,6 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- ==========================================================
-       PAGE TEMPLATE - Smart Campus Event Planner (SOEN 287)
-
-       HOW TO USE:
-       1. Copy this file, rename it (e.g. events.html).
-       2. Change the <title> below.
-       3. In the nav, move class="active" to YOUR page's link.
-       4. Build your page inside <main>. Use classes from
-          /public/css/style.css (cards, buttons, forms, tables).
-       5. Do NOT edit the navbar structure or the stylesheet
-          without telling the group.
-       ========================================================== -->
     <meta charset="UTF-8" />
     <!-- viewport tag = required for responsive design on phones -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -28,13 +16,10 @@
     <link rel="stylesheet" href="../public/css/style.css" />
     <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
     <script src="../public/js/main.js" defer></script>
+    <script src="../public/js/formValidation.js" defer></script>
   </head>
 
   <body>
-    <!-- ================= NAVBAR (same on every page) ============
-       During Deliverable 1 we show ALL links so the prof can
-       navigate everything. In Deliverable 2, the backend will
-       decide which links to show based on who is logged in.  -->
     <nav class="navbar">
       <div class="navbar-inner">
         <a class="navbar-brand" href="../index.html">
@@ -52,13 +37,11 @@
           <span></span><span></span><span></span>
         </button>
 
-        <ul class="navbar-links" id="navbar-links">
-          
-        </ul>
+        <ul class="navbar-links" id="navbar-links"></ul>
       </div>
     </nav>
 
-    <!-- ================= YOUR PAGE CONTENT ====================== -->
+    <!-- ================= CONTENT ====================== -->
     <main>
       <button class="btn btn-secondary back-btn" onclick="history.back()">
         <span style="font-size: 1.5em; line-height: 1">←</span> Back
@@ -91,12 +74,26 @@
           <!--capacity-->
           <p id="eventCapacity" class="muted"></p>
 
-          <!--status-->
-          <button id="registerButton" class="btn"></button>
-        </div>
-      </div>
+          <!--guest controls-->
+          <div id="guestControls" hidden>
+            <p class="muted">Please log in to register for this event.</p>
+          </div>
 
-      <!-- END EXAMPLES -->
+          <!-- student controls-->
+          <div id="studentControls" hidden>
+            <button id="registerBtn" class="btn">Register</button>
+            <button id="cancelRegistrationBtn" class="btn btn-secondary">Cancel Registration</button>
+          </div>
+
+          <!-- admin controls-->
+          <div id="adminControls" hidden>
+            <a id="editEventBtn" class="btn" href="#">Edit Event</a>
+            <a id="cancelEventBtn" class="btn" href="#">Cancel Event</a>
+            <a id="viewRegistrationsBtn" class="btn" href="admin-registrations.html">View Registrations</a>
+          </div>
+        </div>
+
+      </div>
     </main>
 
     <!-- ================= FOOTER (same on every page) ============ -->

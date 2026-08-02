@@ -17,7 +17,7 @@
     <!-- viewport tag = required for responsive design on phones -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Student IDs - Smart Campus Event Planner</title>
+    <title>Home - Smart Campus Event Planner</title>
 
     <!-- Shared font + stylesheet. Path is relative to /views/. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -31,21 +31,15 @@
     <script src="../public/js/formValidation.js" defer></script>
   </head>
 
-  <body>
+  <body data-page="home">
     <!-- ================= NAVBAR (same on every page) ============
        During Deliverable 1 we show ALL links so the prof can
        navigate everything. In Deliverable 2, the backend will
        decide which links to show based on who is logged in.  -->
     <nav class="navbar">
       <div class="navbar-inner">
-        <a class="navbar-brand" href="../index.html">
-          <img
-            src="../public/images/logo.svg"
-            alt=""
-            width="28"
-            height="28"
-            style="vertical-align: middle; margin-right: 6px"
-          />
+        <a class="navbar-brand" href="index.html">
+          <img src="../public/images/logo.svg" alt="" width="28" height="28" />
           Campus Events
         </a>
 
@@ -58,32 +52,53 @@
     </nav>
 
     <!-- ================= YOUR PAGE CONTENT ====================== -->
-    <main>
-      <button class="btn btn-secondary back-btn" onclick="history.back()">
-        <span style="font-size: 1.5em; line-height: 1">←</span> Back
-      </button>
-      <span class="eyebrow">Student Information</span>
-      <h1>View All Students</h1>
-      <p class="muted">
-        Here you can view all registered students for this event
-      </p>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>FIRST NAME</th>
-              <th>LAST NAME</th>
-              <th>EMAIL</th>
-            </tr>
-          </thead>
-          <tbody id="registeredStudentsTable"></tbody>
-        </table>
-      </div>
+    <main id="indexPage">
+      <section class="hero">
+        <div class="hero-content">
+          <h1>
+            Your Campus. <br />All Events.
+            <span style="color: maroon">One Place</span>
+          </h1>
+          <p>
+            Discover campus events, register with ease, <br />and stay connected
+            to what matters
+          </p>
+
+          <a class="btn" href="views/events.html">Browse Events</a>
+          <a class="btn" href="views/register.html">Create Account</a>
+        </div>
+      </section>
+
+      <section class="features">
+        <div class="event">
+          <div class="icon">📅</div>
+          <div class="text">
+            <h2>Find Events</h2>
+            <p>Explore workshops, clubs,<br />lectures and more.</p>
+          </div>
+        </div>
+
+        <div class="event">
+          <div class="icon">👤</div>
+          <div class="text">
+            <h2>Register Easily</h2>
+            <p>Sign up for events in<br />just a few clicks.</p>
+          </div>
+        </div>
+
+        <div class="event">
+          <div class="icon">🔔</div>
+          <div class="text">
+            <h2>Stay Updated</h2>
+            <p>Never miss an event<br />that matters to you.</p>
+          </div>
+        </div>
+      </section>
     </main>
 
     <!-- ================= FOOTER (same on every page) ============ -->
     <footer class="footer">
-      Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 3
+      Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 13
     </footer>
   </body>
 </html>
