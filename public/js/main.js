@@ -636,6 +636,22 @@ function getBadgeClass(status) {
   }
 }
 
+//helper function to show delete event confirmation and redirect to manage-events.html
+const deleteBtn = document.getElementById("delete-event-btn");
+if (deleteBtn) {
+  deleteBtn.addEventListener("click", () => {
+    const sure = confirm(
+      "Are you sure you want to delete this event? This cannot be undone.",
+    );
+    if (!sure) return;
+
+    // Deliverable 1: no backend, so we just confirm and go back.
+    // Deliverable 2: send a delete request to the server here.
+    alert("Event deleted successfully!");
+    window.location.href = "manage-events.html";
+  });
+}
+
 //EVENTS.HTML
 //to populate event grid on events.html
 
@@ -782,10 +798,10 @@ if (title) {
       const currentUser = 101; //hardcoded for now, will be dynamic later
 
       const registration = REGISTRATIONS.find(
-        (reg) => 
-          reg.user_id === currentUser && 
+        (reg) =>
+          reg.user_id === currentUser &&
           reg.event_id === event.id &&
-          reg.status === "Registered"
+          reg.status === "Registered",
       );
 
       //if student is already registered, hide register button and show cancel button
@@ -815,10 +831,11 @@ if (title) {
       const editBtn = document.getElementById("editEventBtn");
       //send admin to manage registrations page for this event
       const manageBtn = document.getElementById("viewRegistrationsBtn");
-      
+
       editBtn.href = `edit-event.html?id=${event.id}`;
     }
-}}
+  }
+}
 
 // --------------------------------------------------------------------- Student ---------------------------------------------------------------------
 
