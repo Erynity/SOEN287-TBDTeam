@@ -983,7 +983,6 @@ if (eventOverviewTable) {
 
     eventOverviewTable.innerHTML += `
       <tr>
-        <td><strong>${event.id}</strong></td>
         <td>${event.title}</td>
         <td>${event.date}</td>
         <td>${currentRegistrations}/ ${event.capacity}</td>
@@ -1021,7 +1020,6 @@ if (pasteventOverviewTable) {
 
     pasteventOverviewTable.innerHTML += `
       <tr>
-        <td><strong>${event.id}</strong></td>
         <td>${event.title}</td>
         <td>${event.date}</td>
         <td>${currentRegistrations}/ ${event.capacity}</td>
@@ -1070,6 +1068,7 @@ if (studentsTable) {
     });
   }
 }
+
 // --------------------------------------------------------------------- Registration  ---------------------------------------------------------------------
 
 const myRegistrationTable = document.getElementById("myRegistrationTable");
