@@ -60,6 +60,8 @@
       <p class="muted">
         Here you can view all registered students for this event
       </p>
+      <!-- Table headers are fixed; the tbody below is empty on purpose -
+     main.js fills it in from our registration data -->
       <div class="table-wrap">
         <table>
           <thead>
@@ -70,7 +72,9 @@
               <th>ATTENDANCE</th>
             </tr>
           </thead>
-          <tbody id="registeredStudentsTable"></tbody>
+          <tbody id="registeredStudentsTable">
+            <!-- ^ main.js finds this id and injects one row per student, counting registrations from the REGISTRATIONS data -->
+          </tbody>
         </table>
       </div>
     </main>
