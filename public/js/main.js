@@ -963,7 +963,7 @@ if (adminEventsTable) {
     `;
   });
 }
-//upcoming events for admin manage events
+
 
 //event registration table for admin registations page
 const eventOverviewTable = document.getElementById("eventOverviewTable");
@@ -1037,6 +1037,76 @@ if (pasteventOverviewTable) {
     `;
   });
 }
+
+//helper function to create event card for any page that needs it
+function createAdminEventCard(event) {
+  //get the correct badge class for the event status
+  const badgeClass = getBadgeClass(event.status);
+
+  return `
+        <div class="card event-card">
+
+        <div class="event-card-head">  
+        <h3>${event.title}</h3>
+        <span class="badge ${badgeClass}">${event.status}</span>
+      </div>
+
+            <p class="event-meta muted">
+                ${event.category} ·
+                ${event.date} 
+            </p>
+            <p class="event-meta muted">
+                ${event.startTime} ·
+                ${event.location}
+            </p>
+
+            <p class="event-desc">${event.description}</p>
+                
+            <div class="event-card-foot">
+              <span class="muted">
+                ${event.registered}/${event.capacity} spots filled
+              </span>
+                <a class="btn" href="event-details.html?id=${event.id}">View details</a>
+                <a class="btn" href="edit-event.html?id=${event.id}">Edit</a>
+            </div>
+
+        </div>
+    `;
+}
+
+//helper function for displaying a list of event cards
+function displayADMINEventCards(containerId, eventList) {
+  const container = document.getElementById(containerId);
+
+  if (!container) return;
+
+  container.innerHTML = "";
+  //loop through the event list and create a card for each event
+  eventList.forEach((event) => {
+    container.innerHTML += createAdminEventCard(event);
+  });
+}
+// Manage events upcoming events
+const ADMIN_EVENT_GRID = document.getElementById("ADMIN_EVENT_GRID");
+
+if (ADMIN_EVENT_GRID) {
+  const careerServicesEvents = EVENTS.filter(
+    (event) => event.organizer === "Career Services" && (event.status === "Open" || event.status === "Full")
+  );
+
+  displayADMINEventCards("ADMIN_EVENT_GRID", careerServicesEvents);
+}
+// Manage events past events
+const ADMIN_PAST_EVENT_GRID = document.getElementById("ADMIN_PAST_EVENT_GRID");
+
+if (ADMIN_PAST_EVENT_GRID) {
+  const careerServicesEvents = EVENTS.filter(
+    (event) => event.organizer === "Career Services" && (event.status === "Cancelled" || event.status === "Completed")
+  );
+
+  displayEventCards("ADMIN_PAST_EVENT_GRID", careerServicesEvents);
+}
+
 // Registered students table for the event from the admin registrations page
 const studentsTable = document.getElementById("registeredStudentsTable");
 
