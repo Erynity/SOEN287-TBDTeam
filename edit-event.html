@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-     <!-- ==========================================================
+    <!-- ==========================================================
                   Edit Event
        ========================================================== -->
     <meta charset="UTF-8" />
@@ -10,7 +10,7 @@
 
     <title>Edit Event - Campus Event Planner</title>
 
-    <!-- Shared font + stylesheet. Path is relative to /views/. -->
+    <!-- Shared font + stylesheet + logo and javascript defer -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
@@ -46,7 +46,7 @@
 
     <!-- ================= YOUR PAGE CONTENT ====================== -->
     <main>
-       <!-- Back button: returns to the previous page (admin dashboard) -->
+      <!-- Back button: returns to the previous page (admin dashboard) -->
       <button class="btn btn-secondary back-btn" onclick="history.back()">
         <span style="font-size: 1.5em; line-height: 1">←</span> Back
       </button>
@@ -54,7 +54,15 @@
       <span class="eyebrow">Event management</span>
       <h1>Edit Event</h1>
       <p class="muted">Fill in the details to edit the event.</p>
+
+      <!-- Edit Event form. main.js reads the event id from the URL (?id=) and
+     pre-fills these fields with that event's current details.
+     formValidation.js validates on submit (checks end time > start time) -->
+
       <form id="edit-event-form">
+        <!-- These fields match the Create Event form, but here they load with
+     the existing event's values so the admin can change them -->
+
         <label for="event-name">Event Title:</label>
         <input
           type="text"
@@ -64,6 +72,7 @@
           required
         />
 
+        <!-- Category dropdown - required, empty first option forces a choice -->
         <label for="event-category">Event Category:</label>
         <select id="event-category" name="event-category" required>
           <option value="">Select the event category</option>
@@ -87,6 +96,8 @@
           placeholder="e.g., Hackathon, Seminar, etc."
         />
 
+        <!-- Date, start and end time (all required).
+     JS also checks end time is after start time -->
         <label for="event-date">Event Date:</label>
         <input type="date" id="event-date" name="event-date" required />
 
@@ -99,6 +110,7 @@
         <label for="event-location">Event Location:</label>
         <input type="text" id="event-location" name="event-location" required />
 
+        <!-- Capacity: a number, minimum 1 -->
         <label for="capacity">Maximum number of participants:</label>
         <input
           type="number"
@@ -119,7 +131,13 @@
           required
         ></textarea>
 
+        <!-- Hidden message line - filled with a success/error message on submit -->
         <p id="event-msg" hidden></p>
+
+        <!-- Save applies the changes (validated first).
+     Delete Event and Cancel Event are type="button" so they DON'T submit
+     the form - main.js handles their clicks, each with a confirmation prompt.
+     No real save/delete yet; the backend does it in Deliverable 2 -->
 
         <button class="btn" type="submit">Save Changes</button>
         <button type="button" class="btn btn-danger" id="delete-event-btn">
