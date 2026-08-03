@@ -1,12 +1,6 @@
-// Shared frontend JavaScript - Smart Campus Event Planner
-// Week 2: our fake event data will live here as one array that
-// every page loops over, so all pages show the same sample events.
-// Deliverable 2: this file will fetch real data from the backend instead.
-
-// Example of what's coming (do not build yet - week 2 lesson):
-// const events = [
-//   { id: 1, title: "Intro to Rock Climbing", category: "Sports", ... },
-// ];
+// Runs once the page has loaded. Calls the setup functions for
+// features that appear on multiple pages (each checks if its
+// element exists, so it's safe to run everywhere).
 
 document.addEventListener("DOMContentLoaded", () => {
   setupNavToggle();
@@ -14,6 +8,9 @@ document.addEventListener("DOMContentLoaded", () => {
   setupProfileForm();
   setupEditEvent();
 });
+
+// Hamburger menu: opens/closes the nav, and also closes it when
+// you click outside the menu or press Escape.
 
 function setupNavToggle() {
   const toggle = document.querySelector(".nav-toggle");
@@ -44,11 +41,15 @@ function setupNavToggle() {
 }
 
 //navigation bar that changes depending on userRoles
+// The navigation links each type of user sees. guest = logged out,
+// student and admin see their own menus. Used by setupNavLinks below.
 //to log in as a student: localStorage.setItem("userRole", "student");
 //to log in as an admin: localStorage.setItem("userRole", "admin");
 //to log out: localStorage.removeItem("userRole");
 
 //navigation links for each user role
+// The navigation links each type of user sees. guest = logged out,
+// student and admin see their own menus. Used by setupNavLinks below.
 const links = {
   guest: [
     { name: "Home", href: `index.html` },
@@ -79,6 +80,8 @@ const links = {
 };
 
 //setup navbar links
+// Builds the navbar based on who is "logged in" (from localStorage).
+// Deliverable 1 fakes the role; Deliverable 2 the server decides.
 function setupNavLinks() {
   //get user role from localStorage, default to guest if not set
   const role = localStorage.getItem("userRole") || "guest";
@@ -123,7 +126,8 @@ function setupNavLinks() {
 // --------------------------------------------------------------------- Home Page ---------------------------------------------------------------------
 
 // --------------------------------------------------------------------- Events ---------------------------------------------------------------------
-
+// Sample event data for Deliverable 1 (hard-coded). Every page reads
+// from this one array. Deliverable 2 replaces it with data from the database.
 // Event categories:
 // Academic workshops, Career events, Club activities, Sports events,
 // Cultural events, Volunteering events, Social events,
@@ -490,6 +494,9 @@ const EVENTS = [
     rating: null,
   },
 ];
+
+// Sample student and registration data (hard-coded for D1). USERS holds
+// students; REGISTRATIONS links a student to an event they signed up for.
 //FAKE USER DATA TO POPULATE STUDENT DASHBOARD AND STUDENT REGISTRATION
 const USERS = [
   {
@@ -579,6 +586,8 @@ const REGISTRATIONS = [
   },
 ];
 
+// Builds the HTML for one public event card (title, badge, details, button).
+// Returned as a string that gets dropped into the events grid.
 //helper function to create event card for any page that needs it
 function createEventCard(event) {
   //get the correct badge class for the event status
@@ -615,6 +624,7 @@ function createEventCard(event) {
     `;
 }
 
+// Fills a container with event cards by looping over a list of events.
 //helper function for displaying a list of event cards
 function displayEventCards(containerId, eventList) {
   const container = document.getElementById(containerId);
@@ -628,6 +638,7 @@ function displayEventCards(containerId, eventList) {
   });
 }
 
+// Picks the coloured badge class (open/full/cancelled/completed) for a status.
 //helper function for the status badge switch
 //translates the event status to the right badge class
 function getBadgeClass(status) {
@@ -676,6 +687,8 @@ if (cancelBtn) {
 }
 //EVENTS.HTML
 //to populate event grid on events.html
+// Events page: show all events, then re-show a filtered list when the
+// user searches or changes the category/status/sort dropdowns.
 
 //get container where all event cards are displayed
 const EVENT_GRID = document.getElementById("EVENT_GRID");
@@ -766,6 +779,8 @@ if (EVENT_GRID) {
 
 // EVENTS-DETAILS.HTML
 //to populate event-details.html for each event
+// Event details page: reads the event id from the URL (?id=) and fills
+// in that event's title, badge, and info.
 
 //check to see if were on event-details.html
 const title = document.getElementById("eventTitle");
