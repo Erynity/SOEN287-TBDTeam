@@ -661,6 +661,19 @@ if (deleteBtn) {
   });
 }
 
+const cancelBtn = document.getElementById("cancel-event-btn");
+if (cancelBtn) {
+  cancelBtn.addEventListener("click", () => {
+    const sure = confirm(
+      "Are you sure you want to cancel this event? This cannot be undone.",
+    );
+    if (!sure) return;
+
+    // Deliverable 1: no backend, so we just confirm and go back.
+    // Deliverable 2: send a delete request to the server here.
+    alert("Event cancelled successfully!");
+  });
+}
 //EVENTS.HTML
 //to populate event grid on events.html
 
