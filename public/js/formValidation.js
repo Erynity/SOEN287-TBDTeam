@@ -10,20 +10,18 @@ function showMessage(box, text, ok) {
   box.hidden = false;
 }
 
-// Password: letters, numbers, at least one special character, min 8
-const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
 
 // ---- LOGIN (HTML checks required + email; JS checks the account) ----
 const testAccounts = [
   {
     email: "student@campus.ca",
-    password: "student123!",
+    password: "Student123!",
     page: "student-dashboard.html",
     role: "student",
   },
   {
     email: "admin@campus.ca",
-    password: "admin123!",
+    password: "Admin123!",
     page: "admin-dashboard.html",
     role: "admin",
   },
@@ -36,13 +34,6 @@ if (loginForm) {
     const pass = document.getElementById("password").value;
     const box = document.getElementById("login-error");
 
-    if (!passwordPattern.test(pass))
-      return showMessage(
-        box,
-        "Password must be 8+ characters with a letter, number, and special character.",
-        false,
-      );
-
     const match = testAccounts.find(
       (a) => a.email === email && a.password === pass,
     );
@@ -54,23 +45,65 @@ if (loginForm) {
 }
 
 // ---- REGISTER (HTML checks the fields; JS checks passwords match) ----
+// Regular Expression for password
+const passwordPattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])\S{8,}$/;
+
+// Regular Expression for email
+const emailPattern = /^(\S+@)(gmail|outlook)\.com$/i;
+
+// Regular Expression for first and last name
+const namePattern = /^[a-zA-Z \-]{2,}$/;
+
+// Links to registration form
 const registerForm = document.getElementById("register-form");
+
+// Verifies we're in registerForm
 if (registerForm) {
+
+  // Stops html file from reloading
   registerForm.addEventListener("submit", (e) => {
     e.preventDefault();
+
+    // Get IDs
+    const firstName = document.getElementById("firstname").value.trim();
+    const lastName = document.getElementById("lastname").value.trim();
+    const email = document.getElementById("email").value.trim();
     const pass = document.getElementById("password").value;
     const confirm = document.getElementById("confirmpassword").value;
     const box = document.getElementById("register-msg");
 
+    // Checks names input if it matches names pattern
+    if (!namePattern.test(firstName) && !namePattern.test(lastName))
+      return showMessage(
+        box,
+        "First and last name must be 2+ characters, containing only letters, spaces, or dashes (-).",
+        false,
+      );
+    // Checks email input if it matches email pattern
+    if (!emailPattern.test(email))
+      return showMessage(
+        box,
+        "Email must be a valid @gmail.com or @outlook.com address.",
+        false,
+      );
+
+    // Checks password input if it matches password pattern
     if (!passwordPattern.test(pass))
       return showMessage(
         box,
-        "Password must be 8+ characters with a letter, number, and special character.",
+        "Password must be 8+ characters with a capital letter, number, and special character.",
         false,
       );
+
+    // Verifies confirm password matches with password
     if (pass !== confirm)
-      return showMessage(box, "Passwords do not match.", false);
+      return showMessage(box, "Please make sure your passwords match.", false);
+
+    // Successful Account Creation Message
     showMessage(box, "Account created successfully!", true);
+
+    // Resets form to a blank page after submission
+    registerForm.reset();
   });
 }
 
@@ -88,7 +121,7 @@ if (profileForm) {
       if (!passwordPattern.test(newPass))
         return showMessage(
           box,
-          "Password must be 8+ characters with a letter, number, and special character.",
+          "Password must be 8+ characters with a capital letter, number, and special character.",
           false,
         );
       if (newPass !== confirm)
