@@ -869,7 +869,10 @@ if (title) {
       //send admin to manage registrations page for this event
       const manageBtn = document.getElementById("viewRegistrationsBtn");
 
+      const takeAttendanceBtn = document.getElementById("takeAttendanceBtn");
+
       editBtn.href = `edit-event.html?id=${event.id}`;
+      takeAttendanceBtn.href = `view-all-student-ids.html?id=${event.id}`;
     }
   }
 }
@@ -1166,6 +1169,7 @@ if (studentsTable) {
             <td>${student.firstName}</td>
             <td>${student.lastName}</td>
             <td>${student.email}</td>
+            <td><input type="checkbox" id="attended-${student.id}" name="attended-${student.id}"></td>
           </tr>
         `;
     });
