@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-     <!-- ==========================================================
+    <!-- ==========================================================
                   Event Details
        ========================================================== -->
     <meta charset="UTF-8" />
@@ -10,7 +10,7 @@
 
     <title>Event Details - Smart Campus Event Planner</title>
 
-    <!-- Shared font + stylesheet. Path is relative to /views/. -->
+    <!-- Shared font + stylesheet + logo and javascript defer -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
@@ -46,17 +46,24 @@
 
     <!-- ================= CONTENT ====================== -->
     <main>
-      
+      <!-- Back button: returns to the previous page (admin dashboard) -->
       <button class="btn btn-secondary back-btn" onclick="history.back()">
         <span style="font-size: 1.5em; line-height: 1">←</span> Back
       </button>
+
       <!-- Page heading: eyebrow label -->
       <span class="eyebrow">Event Details</span>
+
+      <!-- Everything in this card is empty in the HTML. main.js reads the event
+     id from the URL (?id=), finds that event, and fills in each element by
+     its id (eventTitle, eventStatus, eventCategory, etc.) -->
 
       <div class="card">
         <div class="flex-between">
           <h1 id="eventTitle"></h1>
+          <!-- filled by main.js -->
           <span id="eventStatus" class="badge badge-open"></span>
+          <!-- badge colour set by main.js from status -->
         </div>
         <div class="flex-between">
           <!-- category-->
@@ -76,16 +83,19 @@
         <!-- event description-->
         <p id="eventDescription"></p>
 
+        <!-- Action buttons depend on who is viewing. All three blocks start "hidden";
+     main.js un-hides the right one based on the logged-in role -->
+
         <div class="flex-between">
           <!--capacity-->
           <p id="eventCapacity" class="muted"></p>
 
-          <!--guest controls-->
+          <!-- Guest: not logged in - just a prompt to log in, no register button -->
           <div id="guestControls" hidden>
             <p class="muted">Please log in to register for this event.</p>
           </div>
 
-          <!-- student controls-->
+          <!-- Student: can Register, or Cancel Registration if already registered -->
           <div id="studentControls" hidden>
             <button id="registerBtn" class="btn">Register</button>
             <button id="cancelRegistrationBtn" class="btn btn-secondary">
@@ -93,12 +103,11 @@
             </button>
           </div>
 
-          <!-- admin controls-->
+          <!-- Admin: can Edit the event or Take Attendance (links set by main.js) -->
           <div id="adminControls" hidden>
             <a id="editEventBtn" class="btn" href="#">Edit Event</a>
-            
+
             <a id="takeAttendanceBtn" class="btn" href="#">Take Attendance</a>
-              
           </div>
         </div>
       </div>
