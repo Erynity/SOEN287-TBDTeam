@@ -58,7 +58,8 @@
       <span class="eyebrow">My Registrations</span>
       <p class="muted">Here you can view and manage your event registrations.</p>
 
-      <!-- Table -->
+      <!-- Table headers are fixed; the tbody below is empty on purpose -
+     main.js fills it in from our registration data -->
       <h2>Registered Events</h2>
       <div class="table-wrap">
         <table>
@@ -74,7 +75,9 @@
               <th>Action</th>
             </tr>
           </thead>
-          <tbody id="myRegistrationTable"></tbody>
+          <tbody id="myRegistrationTable">
+            <!-- ^ main.js finds this id and injects one row per event, counting registrations from the REGISTRATIONS data -->
+          </tbody>
         </table>
       </div>
     </main>

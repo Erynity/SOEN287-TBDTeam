@@ -43,7 +43,7 @@
         <ul class="navbar-links" id="navbar-links"></ul>
       </div>
     </nav>
-
+<!-- ================= YOUR PAGE CONTENT ====================== -->
     <main>
       <!-- Page heading: eyebrow label, page title -->
       <span class="eyebrow">Student Dashboard</span>
@@ -53,6 +53,8 @@
       <!-- dashboard stats -->
       <h2>Your Satistics</h2>
       <div class="grid">
+        <!-- Stat cards. The numbers have ids (registeredCount, upcomingCount, attendedCount)
+     so JavaScript can update them from the events data -->
         <div class="card stat-card">
           <div class="stat-number" id="registeredCount">7</div>
           <div class="stat-label">Registered Events</div>
@@ -75,11 +77,12 @@
       <h2>Suggested Events For You</h2>
       <div class="grid" id="suggestedEvents"></div>
 
-      <!-- Registration Table -->
+      <!-- Registered Events Table -->
       <h2>
         Registered Events
         <a href="my-registrations.html" class="btn">+ View all registrations</a>
       </h2>
+      <!-- Table of registered events -->
       <div class="table-wrap">
         <table>
           <thead>
@@ -92,7 +95,10 @@
               <th>Action</th>
             </tr>
           </thead>
-          <tbody id="registrationTable"></tbody>
+          <tbody id="registrationTable">
+            <!-- ^ main.js finds this id and injects one row per event,
+     counting registrations from the REGISTRATIONS data --> 
+          </tbody>
         </table>
       </div>
     </main>
