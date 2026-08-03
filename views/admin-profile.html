@@ -1,13 +1,16 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- ==========================================================
+                  Admin Profile
+       ========================================================== -->
     <meta charset="UTF-8" />
     <!-- viewport tag = required for responsive design on phones -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Admin Profile - Smart Campus Event Planner</title>
 
-    <!-- Shared font + stylesheet. Path is relative to /views/. -->
+    <!-- Shared font + stylesheet + logo and javascript defer -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
@@ -44,14 +47,18 @@
 
     <!-- ================= CONTENT ====================== -->
     <main>
+      <!-- Back button: returns to the previous page (admin dashboard) -->
       <button class="btn btn-secondary back-btn" onclick="history.back()">
         <span style="font-size: 1.5em; line-height: 1">←</span> Back
       </button>
 
+      <!-- Page heading: eyebrow label, page title, and short description -->
       <span class="eyebrow">My Account</span>
       <h1>Admin Profile</h1>
       <p>View and update your personal information.</p>
 
+      <!-- Read-only card showing the admin's current details.
+     Hard-coded for Deliverable 1; loaded from the account in D2 -->
       <div class="card">
         <h2>Your Details</h2>
         <p><strong>Full Name:</strong> Admin User</p>
@@ -59,9 +66,12 @@
         <p><strong>Role:</strong> Organizer / Admin</p>
       </div>
 
+      <!-- Edit form. Its id "profile-form" is how formValidation.js finds it
+     to check the inputs before submitting -->
       <div class="card">
         <h2>Edit Profile</h2>
         <form id="profile-form">
+          <!-- Full name and email are required (checked by the "required" attribute) -->
           <label for="fullname">Full Name</label>
           <input
             type="text"
@@ -80,6 +90,8 @@
             required
           />
 
+          <!-- Password change section. Current + new + confirm.
+     "minlength" gives a basic length check in the browser -->
           <label for="current-password">Current Password</label>
           <input
             type="password"
@@ -90,6 +102,8 @@
             minlength="6"
           />
 
+          <!-- New password is optional - leaving it blank keeps the current one.
+     formValidation.js only checks it if something is typed here -->
           <label for="new-password">New Password</label>
           <input
             type="password"
@@ -107,8 +121,12 @@
             placeholder="Confirm new password"
           />
 
+          <!-- Hidden message line. formValidation.js fills it with a green success
+     or red error message when the form is submitted -->
           <p id="profile-msg" hidden></p>
 
+          <!-- Submit runs the validation in formValidation.js (not a real save yet;
+     the backend saves it in Deliverable 2) -->
           <button class="btn" type="submit">Update Profile</button>
         </form>
       </div>
