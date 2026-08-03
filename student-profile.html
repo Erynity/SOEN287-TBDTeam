@@ -56,13 +56,14 @@
       <h1>Student Profile</h1>
       <p>View and update your personal information.</p>
 
+      <!-- Read-only card showing the student's current details. -->
       <div class="card">
         <h2>Your Details</h2>
         <p><strong>Full Name:</strong> Jane Doe</p>
         <p><strong>Email:</strong> student@campus.ca</p>
         <p><strong>Role:</strong> Student</p>
       </div>
-
+        <!-- Editable card for updating profile information -->
       <div class="card">
         <h2>Edit Profile</h2>
         <form id="profile-form">
@@ -74,7 +75,7 @@
             value="Student Name"
             required
           />
-
+          <!-- Email input -->
           <label for="email">Email</label>
           <input
             type="email"
@@ -83,7 +84,7 @@
             value="student@campus.ca"
             required
           />
-
+          <!-- Current password input -->
           <label for="current-password">Current Password</label>
           <input
             type="password"
@@ -91,7 +92,7 @@
             name="current-password"
             placeholder="Enter current password"
           />
-
+          <!-- New password input -->
           <label for="new-password">New Password</label>
           <input
             type="password"
@@ -102,6 +103,7 @@
             required
           />
 
+          <!-- Confirm new password input -->
           <label for="confirm-password">Confirm New Password</label>
           <input
             type="password"
@@ -109,9 +111,10 @@
             name="confirm-password"
             placeholder="Confirm new password"
           />
-
+          <!-- Hidden error message -->
           <p id="profile-msg" hidden></p>
-
+          
+          <!-- Submit button -->
           <button class="btn" type="submit">Update Profile</button>
         </form>
       </div>
