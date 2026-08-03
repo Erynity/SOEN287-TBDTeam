@@ -1,110 +1,103 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <!-- viewport tag = required for responsive design on phones -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Register - Smart Campus Event Planner</title>
+<head>
+  <meta charset="UTF-8" />
+  <!-- viewport tag = required for responsive design on phones -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Shared font + stylesheet. Path is relative to /views/. -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="../public/css/style.css" />
-    <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
-    <script src="../public/js/main.js" defer></script>
-    <script src="../public/js/registerFormValidation.js" defer></script>
-  </head>
+  <title>Register - Smart Campus Event Planner</title>
 
-  <body>
-    <!-- ================= NAVBAR ============-->
-    <nav class="navbar">
-      <div class="navbar-inner">
-        <a class="navbar-brand" href="index.html">
-          <img src="../public/images/logo.svg" alt="" width="28" height="28" />
-          Campus Events
-        </a>
+  <!-- Shared font + stylesheet. Path is relative to /views/. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="../public/css/style.css" />
+  <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
+  <script src="../public/js/main.js" defer></script>
+  <script src="../public/js/formValidation.js" defer></script>
+</head>
 
-        <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
+<body>
+  <!-- ================= NAVBAR ============-->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a class="navbar-brand" href="index.html">
+        <img src="../public/images/logo.svg" alt="" width="28" height="28" />
+        Campus Events
+      </a>
 
-        <ul class="navbar-links" id="navbar-links"></ul>
-      </div>
-    </nav>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
 
-    <!-- ================= CONTENT ============-->
-    <main class="createAccountPage">
-      <!-- Side Information -->
-      <section class="createAccountInformation">
-        <h1>Create Your Account</h1>
-        <p>
-          Join the Smart Campus community<br />and start discovering amazing
-          events.
-        </p>
-      </section>
+      <ul class="navbar-links" id="navbar-links"></ul>
+    </div>
+  </nav>
 
-      <!-- Form to create an account -->
-      <form class="card" id="register-form">
-        <!-- Title -->
-        <h2>Register</h2>
-        <p>Fill in the details below to create your account.</p>
+  <!-- ================= CONTENT ============-->
+  <main class="createAccountPage">
+    <!-- Side Information -->
+    <section class="createAccountInformation">
+      <h1>Create Your Account</h1>
+      <p>
+        Join the Smart Campus community<br />and start discovering amazing
+        events.
+      </p>
+    </section>
 
-        <!-- User Input Boxes -->
-        <label for="firstname">First Name</label>
-        <input type="text" id="firstname" name="firstname" required />
+    <!-- Form to create an account -->
+    <!-- Added novalidate to take over brower form validation with our JS instead. -->
+    <form class="card" id="register-form" novalidate>
 
-        <label for="lastname">Last Name</label>
-        <input type="text" id="lastname" name="lastname" required />
+      <!-- Title -->
+      <h2>Register</h2>
+      <p>Fill in the details below to create your account.</p>
 
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required />
+      <!-- User Input Boxes -->
+      <label for="firstname">First Name</label>
+      <input type="text" id="firstname" name="firstname" placeholder="Jane" required />
 
-        <label for="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          minlength="6"
-          required
-        />
+      <label for="lastname">Last Name</label>
+      <input type="text" id="lastname" name="lastname" placeholder="Doe" required />
 
-        <label for="confirmpassword">Confirm Password</label>
-        <input
-          type="password"
-          id="confirmpassword"
-          name="confirmpassword"
-          required
-        />
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="name@gmail.com" required />
 
-        <!-- Drop down list for roles -->
-        <label for="role">I am a(n)</label>
-        <select id="role" name="role" required>
-          <option>Student</option>
-          <option>Organizer</option>
-        </select>
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Create a password" required />
 
-        <!-- Hidden error message -->
-        <p id="register-error" hidden></p>
+      <label for="confirmpassword">Confirm Password</label>
+      <input type="password" id="confirmpassword" name="confirmpassword" placeholder="Re-enter your password"
+        required />
 
-        <!-- Submit/Create Account Button -->
-        <button class="btn" type="submit">Create Account</button>
+      <!-- Drop down list for roles -->
+      <label for="role">I am a(n)</label>
+      <select id="role" name="role" required>
+        <option value="" selected disabled hidden>--- Select role ---</option>
+        <option>Student</option>
+        <option>Admin</option>
+      </select>
 
-        <!-- Option to log in if user already has an account -->
-        <p>
-          Already have an account?
-          <a href="login.html" style="color: maroon">Log In</a>
-        </p>
-      </form>
-      <!-- End of form -->
-    </main>
+      <!-- Hidden error message -->
+      <p id="register-msg" hidden></p>
 
-    <!-- ================= FOOTER (same on every page) ============ -->
-    <footer class="footer">
-      Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 13
-    </footer>
-  </body>
+      <!-- Submit/Create Account Button -->
+      <button class="btn" type="submit" action="">Create Account</button>
+
+      <!-- Option to log in if user already has an account -->
+      <p>
+        Already have an account?
+        <a href="login.html" style="color: maroon">Log In</a>
+      </p>
+    </form>
+    <!-- End of form -->
+  </main>
+
+  <!-- ================= FOOTER (same on every page) ============ -->
+  <footer class="footer">
+    Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 13
+  </footer>
+</body>
+
 </html>

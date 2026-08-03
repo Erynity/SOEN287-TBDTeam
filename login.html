@@ -1,95 +1,95 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <!-- viewport tag = required for responsive design on phones -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Log In - Smart Campus Event Planner</title>
+<head>
+  <meta charset="UTF-8" />
+  <!-- viewport tag = required for responsive design on phones -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Shared font + stylesheet. Path is relative to /views/. -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="../public/css/style.css" />
-    <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
-    <script src="../public/js/main.js" defer></script>
-    <script src="../public/js/formValidation.js" defer></script>
-  </head>
+  <title>Log In - Smart Campus Event Planner</title>
 
-  <body>
-    <!-- ================= NAVBAR ============-->
-    <nav class="navbar">
-      <div class="navbar-inner">
-        <a class="navbar-brand" href="index.html">
-          <img src="../public/images/logo.svg" alt="" width="28" height="28" />
-          Campus Events
-        </a>
+  <!-- Shared font + stylesheet. Path is relative to /views/. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="../public/css/style.css" />
+  <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
+  <script src="../public/js/main.js" defer></script>
+  <script src="../public/js/formValidation.js" defer></script>
+</head>
 
-        <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
+<body>
+  <!-- ================= NAVBAR ============-->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a class="navbar-brand" href="index.html">
+        <img src="../public/images/logo.svg" alt="" width="28" height="28" />
+        Campus Events
+      </a>
 
-        <ul class="navbar-links" id="navbar-links"></ul>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <ul class="navbar-links" id="navbar-links"></ul>
+    </div>
+  </nav>
+
+  <!-- ================= CONTENT ============-->
+
+  <main class="lonInPage">
+    <!--  -->
+    <div class="logInInformation">
+      <h1>Welcome Back!</h1>
+      <p>
+        Log in to your account to discover events, <br />manage your schedule,
+        <br />and stay connected on campus.
+      </p>
+      <img src="" />
+      <div>
+        <p>Great events. New connections.<br />Endless opportunities.</p>
       </div>
-    </nav>
+    </div>
 
-    <!-- ================= CONTENT ============-->
+    <!-- Start of form -->
+    <form class="card" id="login-form">
+      <!-- Title -->
+      <h2>Log In</h2>
+      <p>Enter your credentials to access your account</p>
 
-    <main class="lonInPage">
-      <!--  -->
-      <div class="logInInformation">
-        <h1>Welcome Back!</h1>
-        <p>
-          Log in to your account to discover events, <br />manage your schedule,
-          <br />and stay connected on campus.
-        </p>
-        <img src="" />
-        <div>
-          <p>Great events. New connections.<br />Endless opportunities.</p>
-        </div>
-      </div>
+      <!-- User Input Boxes -->
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" required placeholder="name@gmail.com" />
 
-      <!-- Start of form -->
-      <form class="card" id="login-form">
-        <!-- Title -->
-        <h2>Log In</h2>
-        <p>Enter your credentials to access your account</p>
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Enter your password" required />
 
-        <!-- User Input Boxes -->
-        <label for="email">Email Address</label>
-        <input type="email" id="email" name="email" required />
+      <!-- Hidden error message -->
+      <p id="login-error" hidden></p>
 
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" required />
+      <!-- Submit/Log in Button -->
+      <button class="btn" type="submit">Log In</button>
 
-        <!-- Hidden error message -->
-        <p id="login-error" hidden></p>
+      <!-- Option to sign up if user already has an account -->
+      <p>
+        Don't have an account?
+        <a href="register.html" style="color: maroon">Create one</a>
+      </p>
 
-        <!-- Submit/Log in Button -->
-        <button class="btn" type="submit">Log In</button>
+      <!-- Demo Accounts Information -->
+      <p class="muted" style="font-size: 0.9rem; margin-top: 1rem">
+        Demo accounts —<br />
+        Student: student@campus.ca / Student123!<br />
+        Admin: admin@campus.ca / Admin123!
+      </p>
+    </form>
+    <!-- End of form -->
+  </main>
 
-        <!-- Option to sign up if user already has an account -->
-        <p>
-          Don't have an account?
-          <a href="register.html" style="color: maroon">Create one</a>
-        </p>
+  <!-- ================= FOOTER (same on every page) ============ -->
+  <footer class="footer">
+    Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 13
+  </footer>
+</body>
 
-        <!-- Demo Accounts Information -->
-        <p class="muted" style="font-size: 0.9rem; margin-top: 1rem">
-          Demo accounts —<br />
-          Student: student@campus.ca / student123!<br />
-          Admin: admin@campus.ca / admin123!
-        </p>
-      </form>
-      <!-- End of form -->
-    </main>
-
-    <!-- ================= FOOTER (same on every page) ============ -->
-    <footer class="footer">
-      Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 13
-    </footer>
-  </body>
 </html>

@@ -1,175 +1,162 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <!-- viewport tag = required for responsive design on phones -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Contact - Smart Campus Event Planner</title>
+<head>
+  <meta charset="UTF-8" />
+  <!-- viewport tag = required for responsive design on phones -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Shared font + stylesheet. Path is relative to /views/. -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="../public/css/style.css" />
-    <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
-    <script src="../public/js/main.js" defer></script>
-    <script src="../public/js/formValidation.js" defer></script>
-  </head>
+  <title>Contact - Smart Campus Event Planner</title>
 
-  <body data-back="auto">
-    <!-- ================= NAVBAR ============-->
-    <nav class="navbar">
-      <div class="navbar-inner">
-        <a class="navbar-brand" href="index.html">
-          <img src="../public/images/logo.svg" alt="" width="28" height="28" />
-          Campus Events
-        </a>
+  <!-- Shared font + stylesheet. Path is relative to /views/. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="../public/css/style.css" />
+  <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
+  <script src="../public/js/main.js" defer></script>
+  <script src="../public/js/formValidation.js" defer></script>
+</head>
 
-        <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
+<body data-back="auto">
+  <!-- ================= NAVBAR ============-->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a class="navbar-brand" href="index.html">
+        <img src="../public/images/logo.svg" alt="" width="28" height="28" />
+        Campus Events
+      </a>
 
-        <ul class="navbar-links" id="navbar-links"></ul>
-      </div>
-    </nav>
-    <!-- ================= CONTENT ============-->
-    <main>
-      <!-- Back Button -->
-      <button class="btn btn-secondary back-btn" onclick="history.back()">
-        <span style="font-size: 1.5em; line-height: 1">←</span> Back
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
       </button>
+
+      <ul class="navbar-links" id="navbar-links"></ul>
+    </div>
+  </nav>
+  <!-- ================= CONTENT ============-->
+  <main>
+    <!-- Back Button -->
+    <button class="btn btn-secondary back-btn" onclick="history.back()">
+      <span style="font-size: 1.5em; line-height: 1">←</span> Back
+    </button>
+    <br />
+
+    <!-------------------------------------------------------------  About Us Page Section Title ----------------------------------------------------------- -->
+    <section class="aboutUsInformation">
+      <!-- Title -->
+      <h1>About Us</h1>
+
+      <!-- Our Mission Information Card -->
+      <div>
+        <h2>Our Mission</h2>
+        <p>
+          Our mission is to connect students with meaningful events,<br />opportunities,
+          and experiences across campus. We aim to<br />make campus life more
+          engaging, organized, and accessible<br />for everyone.
+        </p>
+      </div>
+    </section>
+
+    <!-- Our Team Information Card -->
+    <section class="card">
+      <!-- Title -->
+      <h2>Our Team</h2>
+
+      <!-- Divider -->
+      <hr />
       <br />
 
-      <!-------------------------------------------------------------  About Us Page Section Title ----------------------------------------------------------- -->
-      <section class="aboutUsInformation">
-        <!-- Title -->
-        <h1>About Us</h1>
+      <!-- List of Teammates -->
+      <div class="teammate">
+        <h3>Karina</h3>
+        <p>Project Manager</p>
+      </div>
+      <div class="teammate">
+        <h3>Marie</h3>
+        <p>Developper</p>
+      </div>
+      <div class="teammate">
+        <h3>Joy</h3>
+        <p>Developper</p>
+      </div>
+      <div class="teammate">
+        <h3>Eryne</h3>
+        <p>Designer</p>
+      </div>
+    </section>
 
-        <!-- Our Mission Information Card -->
-        <div>
-          <h2>Our Mission</h2>
-          <p>
-            Our mission is to connect students with meaningful events,<br />opportunities,
-            and experiences across campus. We aim to<br />make campus life more
-            engaging, organized, and accessible<br />for everyone.
-          </p>
-        </div>
+    <!-- Spacing & Break -->
+    <br />
+    <hr />
+    <br /><br />
+
+    <!-------------------------------------------------------------  Contact Us Page Section Title-----------------------------------------------------------  -->
+    <section class="contactUsPage">
+      <!-- Title -->
+      <section class="contactInformation">
+        <h1>Contact Us</h1>
+        <p>
+          We'd love to hear from you!<br />Send us a message and we'll<br />get
+          back to you as soon as possible.
+        </p>
+        <!-- Information -->
+        <h2>Email</h2>
+        <p>info@smartcampus.ca</p>
+        <h2>Phone</h2>
+        <p>(514)-123-4567</p>
+        <h2>Office Hours</h2>
+        <p>Mon-Fri 9:00AM - 5:00PM</p>
+        <h2>Address</h2>
+        <p>1455 De Maisonneuve Blvd. W.<br />Montreal, QC H3G 1M8</p>
       </section>
 
-      <!-- Our Team Information Card -->
-      <section class="card">
+      <!-- Start of form -->
+      <form class="card" id="contactForm" action="" method="post">
         <!-- Title -->
-        <h2>Our Team</h2>
-
-        <!-- Divider -->
-        <hr />
+        <h2>Send us a Message</h2>
         <br />
 
-        <!-- List of Teammates -->
-        <div class="teammate">
-          <h3>Karina</h3>
-          <p>Project Manager</p>
+        <!-- User Input Boxes -->
+        <label for="fullname"><b>Full Name</b></label>
+        <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required />
+
+        <label for="email"><b>Email Address</b></label>
+        <input type="email" id="email" name="email" placeholder="name@example.com" required />
+
+        <label for="subject"><b>Subject</b></label>
+        <input type="text" id="subject" name="subject" placeholder="Enter a subject" required />
+
+        <label for="message"><b>Message</b></label>
+        <textarea id="message" name="message" style="height: 12rem" placeholder="Type your message here..."
+          required></textarea>
+
+        <br />
+        <br />
+
+        <!-- Hidden error message -->
+        <p id="contact-error" hidden></p>
+
+        <!-- Submit/Send Message Button -->
+        <div id="submitMessage">
+          <a class="btn" href="mailto:team13@example.com">Send Message</a>
         </div>
-        <div class="teammate">
-          <h3>Marie</h3>
-          <p>Developper</p>
-        </div>
-        <div class="teammate">
-          <h3>Joy</h3>
-          <p>Developper</p>
-        </div>
-        <div class="teammate">
-          <h3>Eryne</h3>
-          <p>Designer</p>
-        </div>
-      </section>
 
-      <!-- Spacing & Break -->
-      <br />
-      <hr />
-      <br /><br />
+        <br />
 
-      <!-------------------------------------------------------------  Contact Us Page Section Title-----------------------------------------------------------  -->
-      <section class="contactUsPage">
-        <!-- Title -->
-        <section class="contactInformation">
-          <h1>Contact Us</h1>
-          <p>
-            We'd love to hear from you!<br />Send us a message and we'll<br />get
-            back to you as soon as possible.
-          </p>
-          <br />
-          <!-- Information -->
-          <h2>Email</h2>
-          <p>info@smartcampus.ca</p>
-          <h2>Phone</h2>
-          <p>(514)-123-4567</p>
-          <h2>Office Hours</h2>
-          <p>Mon-Fri 9:00AM - 5:00PM</p>
-          <h2>Address</h2>
-          <p>1455 De Maisonneuve Blvd. W.<br />Montreal, QC H3G 1M8</p>
-        </section>
+        <!-- Small message -->
+        <p style="text-align: center">
+          <em>We typically respond within 24 hours.</em>
+        </p>
+      </form>
+      <!-- End of Form -->
+    </section>
+  </main>
 
-        <!-- Start of form -->
-        <form class="card" id="contactForm" action="" method="post">
-          <!-- Title -->
-          <h2>Send us a Message</h2>
-          <br />
+  <!-- ================= FOOTER (same on every page) ============ -->
+  <footer class="footer">
+    Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 13
+  </footer>
+</body>
 
-          <!-- User Input Boxes -->
-          <label for="fullname"><b>Full Name</b></label>
-          <input type="text" id="fullname" name="fullname" required />
-
-          <label for="email"><b>Email Address</b></label>
-          <input type="email" id="email" name="email" required />
-
-          <label for="subject"><b>Subject</b></label>
-          <input
-            type="text"
-            id="subject"
-            name="subject"
-            placeholder=""
-            required
-          />
-
-          <label for="message"><b>Message</b></label>
-          <textarea
-            id="message"
-            name="message"
-            style="height: 12rem"
-            placeholder="Type your message here..."
-            required
-          >
-          </textarea>
-
-          <br />
-          <br />
-
-          <!-- Hidden error message -->
-          <p id="contact-error" hidden></p>
-
-          <!-- Submit/Send Message Button -->
-          <div id="submitMessage">
-            <a class="btn" href="mailto:team13@example.com">Send Message</a>
-          </div>
-
-          <br />
-
-          <!-- Small message -->
-          <p style="text-align: center">
-            <em>We typically respond within 24 hours.</em>
-          </p>
-        </form>
-        <!-- End of Form -->
-      </section>
-    </main>
-
-    <!-- ================= FOOTER (same on every page) ============ -->
-    <footer class="footer">
-      Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 13
-    </footer>
-  </body>
 </html>
