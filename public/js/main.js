@@ -69,6 +69,7 @@ const links = {
 
   admin: [
     { name: "Dashboard", href: `admin-dashboard.html` },
+    { name: "Events", href: `events.html` },
     { name: "Manage Events", href: `manage-events.html` },
     { name: "My Registrations", href: `admin-registrations.html` },
     { name: "Statistics", href: `admin-statistics.html` },
