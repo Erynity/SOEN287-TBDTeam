@@ -48,10 +48,13 @@
     <!-- ================= YOUR PAGE CONTENT ====================== -->
     <main>
       <!-- Back button: returns to the previous page (admin dashboard) -->
+
       <button class="btn btn-secondary back-btn" onclick="history.back()">
         <span style="font-size: 1.5em; line-height: 1">←</span> Back
       </button>
+
       <!-- Page heading: eyebrow label, page title, and short description -->
+
       <span class="eyebrow">Event management</span>
       <h1>Creating event</h1>
       <p class="muted">Fill in the details to create a new event.</p>
@@ -73,6 +76,7 @@
 
         <!-- Category dropdown. The empty first option has value="" so "required"
      forces the admin to actually pick one -->
+
         <label for="event-category">Event Category:</label>
         <select id="event-category" name="event-category" required>
           <option value="">Select the event category</option>
@@ -98,6 +102,7 @@
 
         <!-- Date, start time and end time. All required.
      formValidation.js also checks that end time is after start time -->
+
         <label for="event-date">Event Date:</label>
         <input type="date" id="event-date" name="event-date" required />
 
@@ -123,6 +128,7 @@
         />
 
         <!-- Image upload input (optional) -->
+
         <label for="imageUpload">Add an image for your event:</label>
         <input
           type="file"
@@ -132,6 +138,7 @@
         />
 
         <!-- Description textarea (required) -->
+
         <label for="event-description">Event Description:</label>
         <textarea
           id="event-description"
@@ -143,9 +150,11 @@
 
         <!-- Hidden message line - formValidation.js fills it with a success
      or error message on submit -->
+
         <p id="event-msg" hidden></p>
 
         <!-- Submit runs the validation; no real save yet (backend in D2) -->
+
         <button class="btn" type="submit">Create Event</button>
       </form>
     </main>
