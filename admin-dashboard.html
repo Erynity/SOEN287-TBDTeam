@@ -23,10 +23,7 @@
   </head>
 
   <body>
-    <!-- ================= NAVBAR (same on every page) ============
-       During Deliverable 1 we show ALL links so the prof can
-       navigate everything. In Deliverable 2, the backend will
-       decide which links to show based on who is logged in.  -->
+    <!-- ================= NAVBAR (same on every page) ============  -->
     <nav class="navbar">
       <div class="navbar-inner">
         <a class="navbar-brand" href="index.html">
@@ -50,19 +47,23 @@
 
     <!-- ================= YOUR PAGE CONTENT ====================== -->
     <main>
-      <!-- Delete everything between here and the "END EXAMPLES"
-         comment. It exists only to show you the components. -->
-
+      <!-- Page heading: eyebrow label, admin/organizer name, and a short intro -->
       <span class="eyebrow">ADMIN DASHBOARD</span>
       <h1>Career Services</h1>
       <p class="muted">Here you can find all your events and statistics!</p>
-      <!-- Stat cards in a responsive grid -->
-      <h2>
+
+      <!-- Admin quick actions: create an event, manage events, edit profile -->
+      <div class="quick-actions">
         <a href="create-event.html" class="btn">+ Create Event</a>
         <a href="manage-events.html" class="btn">+ Manage events</a>
         <a href="admin-profile.html" class="btn btn-secondary">My Profile</a>
-      </h2>
+      </div>
+
+      <!-- Quick stats: two summary cards filled from our data -->
       <h2>Quick recap!</h2>
+
+      <!-- Stat cards. The numbers have ids (statUpcomingSoon, statTotalEvents)
+     so JavaScript can update them from the events data -->
       <div class="summary-grid">
         <div class="card stat-card">
           <div class="stat-number" id="statUpcomingSoon">3</div>
@@ -73,7 +74,9 @@
           <div class="stat-label">TOTAL NUMBER OF EVENTS</div>
         </div>
       </div>
-      <!-- Table -->
+
+      <!-- Table of upcoming events. The tbody is empty here on purpose -
+     main.js fills in the rows from our event data (see #upcomingadminEvents) -->
       <h2>All upcoming events</h2>
       <div class="table-wrap">
         <table style="margin-bottom: 24px">
@@ -93,7 +96,11 @@
         </table>
       </div>
 
+      <!-- Two summary cards: attendance overview, and most popular categories.
+     Values are hard-coded for Deliverable 1; the backend fills them in D2 -->
       <div class="summary-grid">
+        <!-- Card 1: attendance rate, full events, cancelled events, with a link
+     to the manage registrations page -->
         <div class="card stat-card">
           <h3>Registration & Attendance Summary</h3>
 
@@ -113,6 +120,9 @@
             >+ Manage my registrations</a
           >
         </div>
+
+        <!-- Card 2: registration percentage per category, with a link to the
+     full statistics page -->
         <div class="card stat-card">
           <h3>Most Popular Events by Category</h3>
           <div class="flex-between">
