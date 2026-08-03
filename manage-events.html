@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-     <!-- ==========================================================
+    <!-- ==========================================================
                   Manage Events
        ========================================================== -->
     <meta charset="UTF-8" />
@@ -10,7 +10,7 @@
 
     <title>Manage Events - Smart Campus Event Planner</title>
 
-    <!-- Shared font + stylesheet. Path is relative to /views/. -->
+    <!-- Shared font + stylesheet + logo and javascript defer -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
@@ -50,23 +50,23 @@
 
     <!-- ================= YOUR PAGE CONTENT ====================== -->
     <main>
-       <!-- Back button: returns to the previous page (admin dashboard) -->
+      <!-- Back button: returns to the previous page (admin dashboard) -->
       <button class="btn btn-secondary back-btn" onclick="history.back()">
         <span style="font-size: 1.5em; line-height: 1">←</span> Back
       </button>
       <!-- Page heading: eyebrow label, page title, and short description -->
       <span class="eyebrow">Event management</span>
       <h1>Managing events</h1>
-      
+
       <p class="muted">Here you can manage your events</p>
 
       <a href="create-event.html" class="btn">+ Create Event</a>
       <!-- Table -->
       <h2>All upcoming events</h2>
       <div class="grid" id="ADMIN_EVENT_GRID"></div>
-      
+
       <h2>Completed events</h2>
-       <div class="grid" id="ADMIN_PAST_EVENT_GRID"></div>
+      <div class="grid" id="ADMIN_PAST_EVENT_GRID"></div>
     </main>
 
     <!-- ================= FOOTER (same on every page) ============ -->
