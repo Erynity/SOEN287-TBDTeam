@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-     <!-- ==========================================================
+    <!-- ==========================================================
                   Admin Statistics
        ========================================================== -->
     <meta charset="UTF-8" />
@@ -23,10 +23,7 @@
   </head>
 
   <body>
-    <!-- ================= NAVBAR (same on every page) ============
-       During Deliverable 1 we show ALL links so the prof can
-       navigate everything. In Deliverable 2, the backend will
-       decide which links to show based on who is logged in.  -->
+    <!-- ================= NAVBAR (same on every page) ============ -->
     <nav class="navbar">
       <div class="navbar-inner">
         <a class="navbar-brand" href="index.html">
@@ -50,16 +47,18 @@
 
     <!-- ================= YOUR PAGE CONTENT ====================== -->
     <main>
-       <!-- Back button: returns to the previous page (admin dashboard) -->
+      <!-- Back button: returns to the previous page (admin dashboard) -->
       <button class="btn btn-secondary back-btn" onclick="history.back()">
         <span style="font-size: 1.5em; line-height: 1">←</span> Back
       </button>
 
+      <!-- Page heading: eyebrow label, title, and short description -->
       <span class="eyebrow">My Statistics</span>
       <h1>View All Statistics</h1>
       <p class="muted">Here you can see your statistics</p>
 
-      <!-- Stat cards in a responsive grid -->
+      <!-- General stats: three number cards. Each stat-number has an id
+     (statTotalEvents, statFullEvents) so main.js can update it from the data -->
 
       <div class="grid">
         <div class="card stat-card">
@@ -76,9 +75,14 @@
         </div>
       </div>
 
+      <!-- Event highlights: the top/bottom events and the attendance rate.
+     Also filled by main.js from the events + registration data -->
       <h2>Event highlights</h2>
       <div class="grid">
         <div class="card stat-card">
+          <!-- stat-text makes this smaller than the big number style,
+     since it shows an event name instead of a number -->
+
           <div class="stat-number stat-text" id="statHighestRatedEvent">
             Mock Interview Night
           </div>
