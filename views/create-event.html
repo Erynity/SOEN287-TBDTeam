@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-     <!-- ==========================================================
+    <!-- ==========================================================
                   Create Event
        ========================================================== -->
     <meta charset="UTF-8" />
@@ -10,7 +10,7 @@
 
     <title>Create Event - Smart Campus Event Planner</title>
 
-    <!-- Shared font + stylesheet. Path is relative to /views/. -->
+    <!-- Shared font + stylesheet + logo and javascript defer -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
@@ -23,10 +23,7 @@
   </head>
 
   <body>
-    <!-- ================= NAVBAR (same on every page) ============
-       During Deliverable 1 we show ALL links so the prof can
-       navigate everything. In Deliverable 2, the backend will
-       decide which links to show based on who is logged in.  -->
+    <!-- ================= NAVBAR (same on every page) ============ -->
     <nav class="navbar">
       <div class="navbar-inner">
         <a class="navbar-brand" href="index.html">
@@ -50,7 +47,7 @@
 
     <!-- ================= YOUR PAGE CONTENT ====================== -->
     <main>
-       <!-- Back button: returns to the previous page (admin dashboard) -->
+      <!-- Back button: returns to the previous page (admin dashboard) -->
       <button class="btn btn-secondary back-btn" onclick="history.back()">
         <span style="font-size: 1.5em; line-height: 1">←</span> Back
       </button>
@@ -58,7 +55,13 @@
       <span class="eyebrow">Event management</span>
       <h1>Creating event</h1>
       <p class="muted">Fill in the details to create a new event.</p>
+
+      <!-- Create Event form. id "create-event-form" is how formValidation.js
+     finds it to validate before submitting. Most checks are done by the
+     HTML attributes below (required, min); JS checks end time > start time -->
+
       <form id="create-event-form">
+        <!-- Title is required (the "required" attribute blocks an empty submit) -->
         <label for="event-name">Event Title:</label>
         <input
           type="text"
@@ -68,6 +71,8 @@
           required
         />
 
+        <!-- Category dropdown. The empty first option has value="" so "required"
+     forces the admin to actually pick one -->
         <label for="event-category">Event Category:</label>
         <select id="event-category" name="event-category" required>
           <option value="">Select the event category</option>
@@ -91,6 +96,8 @@
           placeholder="e.g., Hackathon, Seminar, etc."
         />
 
+        <!-- Date, start time and end time. All required.
+     formValidation.js also checks that end time is after start time -->
         <label for="event-date">Event Date:</label>
         <input type="date" id="event-date" name="event-date" required />
 
@@ -103,6 +110,7 @@
         <label for="event-location">Event Location:</label>
         <input type="text" id="event-location" name="event-location" required />
 
+        <!-- Capacity must be a number of at least 1 (min="1") -->
         <label for="capacity">Maximum number of participants:</label>
         <input
           type="number"
@@ -113,9 +121,17 @@
           min="1"
           required
         />
-        <label for="imageUpload">Add an image for your event:</label>
-        <input type="file" id="imageUpload" name="admin_image" accept="image/*">
 
+        <!-- Image upload input (optional) -->
+        <label for="imageUpload">Add an image for your event:</label>
+        <input
+          type="file"
+          id="imageUpload"
+          name="admin_image"
+          accept="image/*"
+        />
+
+        <!-- Description textarea (required) -->
         <label for="event-description">Event Description:</label>
         <textarea
           id="event-description"
@@ -125,8 +141,11 @@
           required
         ></textarea>
 
+        <!-- Hidden message line - formValidation.js fills it with a success
+     or error message on submit -->
         <p id="event-msg" hidden></p>
 
+        <!-- Submit runs the validation; no real save yet (backend in D2) -->
         <button class="btn" type="submit">Create Event</button>
       </form>
     </main>
