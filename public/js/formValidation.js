@@ -34,6 +34,13 @@ if (loginForm) {
     const pass = document.getElementById("password").value;
     const box = document.getElementById("login-error");
 
+    if (!emailPattern.test(email))
+      return showMessage(
+        box,
+        "Invalid email or password.",
+        false,
+      );
+
     const match = testAccounts.find(
       (a) => a.email === email && a.password === pass,
     );
@@ -49,7 +56,7 @@ if (loginForm) {
 const passwordPattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])\S{8,}$/;
 
 // Regular Expression for email
-const emailPattern = /^(\S+@)(gmail|outlook)\.com$/i;
+const emailPattern = /^(\S+@)(gmail|outlook|campus)\.(com|ca)$/i;
 
 // Regular Expression for first and last name
 const namePattern = /^[a-zA-Z \-]{2,}$/;
@@ -70,6 +77,7 @@ if (registerForm) {
     const email = document.getElementById("email").value.trim();
     const pass = document.getElementById("password").value;
     const confirm = document.getElementById("confirmpassword").value;
+    const role = document.getElementById("role").value;
     const box = document.getElementById("register-msg");
 
     // Checks names input if it matches names pattern
@@ -83,7 +91,7 @@ if (registerForm) {
     if (!emailPattern.test(email))
       return showMessage(
         box,
-        "Email must be a valid @gmail.com or @outlook.com address.",
+        "Email must be a valid @gmail.com, @outlook.com, or @campus.ca address.",
         false,
       );
 
@@ -98,6 +106,9 @@ if (registerForm) {
     // Verifies confirm password matches with password
     if (pass !== confirm)
       return showMessage(box, "Please make sure your passwords match.", false);
+
+    if (role === "")
+      return showMessage(box, "Please select a role before registering.", false);
 
     // Successful Account Creation Message
     showMessage(box, "Account created successfully!", true);
@@ -136,11 +147,20 @@ const contactForm = document.getElementById("contact-form");
 if (contactForm) {
   contactForm.addEventListener("submit", (e) => {
     e.preventDefault();
-    showMessage(
-      document.getElementById("contact-msg"),
-      "Message sent successfully!",
-      true,
-    );
+    const fullName = document.getElementById("fullname").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const subject = document.getElementById("subject").value.trim();
+    const message = document.getElementById("message").value.trim();
+    const box = document.getElementById("contact-msg");
+
+    if (!namePattern.test(fullName))
+      return showMessage(box, "Please enter a valid full name.", false);
+
+    if (!emailPattern.test(email))
+      return showMessage(box, "Please enter a valid @gmail.com, @outlook.com, or @campus.ca address.", false);
+
+    showMessage(box, "Message sent successfully!", true);
+    contactForm.reset();
   });
 }
 

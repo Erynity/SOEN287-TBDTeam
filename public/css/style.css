@@ -402,7 +402,7 @@ form button[type="submit"] {
   margin-top: 0;
 }
 
-main > .card {
+main>.card {
   margin-bottom: var(--space-3);
   /* gap between the cards */
 }
@@ -814,11 +814,15 @@ tbody tr:hover {
 }
 
 /* Send Us a Message - Position */
-#contactForm {
+#contact-form {
   width: 500px;
-  height: 700px;
-  margin: 0;
-  display: inline-block;
+  min-height: 700px;
+  height: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 /* ------------------------------------------------------------
