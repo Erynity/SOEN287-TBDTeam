@@ -142,18 +142,18 @@ const EVENTS = [
   // Academic Workshops
   {
     id: 1,
-    title: "Introduction to Web Development",
+    title: "Career Fair Networking & Pitch Essentials",
     description:
-      "Build your first responsive webpage using HTML, CSS, and JavaScript.",
-    category: "Academic workshops",
+      "Learn how to craft an impactful elevator pitch, navigate career fairs, and connect effectively with recruiters.",
+    category: "Career events",
     date: "2026-09-08",
     startTime: "1:00 PM",
     endTime: "3:00 PM",
     location: "EV 6.305",
     capacity: 40,
-    organizer: "Computer Science Society",
-    status: "Full",
-    registered: 40,
+    organizer: "Career Services",
+    status: "Open",
+    registered: 0,
     image: "images/web-development.jpg",
     rating: null,
   },
@@ -189,7 +189,7 @@ const EVENTS = [
     capacity: 300,
     organizer: "Career Services",
     status: "Open",
-    registered: 214,
+    registered: 2,
     image: "images/career-fair.jpg",
     rating: null,
   },
@@ -197,7 +197,7 @@ const EVENTS = [
     id: 4,
     title: "Resume & LinkedIn Clinic",
     description:
-      "Receive personalized feedback on your resume and LinkedIn profile.",
+      "Receive personalized feedback on your resume and LinkedIn profile from professionals.",
     category: "Career events",
     date: "2026-09-21",
     startTime: "2:00 PM",
@@ -206,7 +206,7 @@ const EVENTS = [
     capacity: 60,
     organizer: "Career Services",
     status: "Open",
-    registered: 48,
+    registered: 1,
     image: "images/resume-clinic.jpg",
     rating: null,
   },
@@ -223,7 +223,7 @@ const EVENTS = [
     capacity: 80,
     organizer: "Career Services",
     status: "Completed",
-    registered: 76,
+    registered: 0,
     image: "images/mock-interview.jpg",
     rating: null,
   },
@@ -568,6 +568,14 @@ const REGISTRATIONS = [
     status: "Registered",
     attended: false,
   },
+  {
+    registration_id: 3,
+    user_id: 103,
+    event_id: 3,
+    registration_date: "2026-08-21",
+    status: "Registered",
+    attended: false,
+  },
 ];
 
 //helper function to create event card for any page that needs it
@@ -634,6 +642,22 @@ function getBadgeClass(status) {
     default:
       return "";
   }
+}
+
+//helper function to show delete event confirmation and redirect to manage-events.html
+const deleteBtn = document.getElementById("delete-event-btn");
+if (deleteBtn) {
+  deleteBtn.addEventListener("click", () => {
+    const sure = confirm(
+      "Are you sure you want to delete this event? This cannot be undone.",
+    );
+    if (!sure) return;
+
+    // Deliverable 1: no backend, so we just confirm and go back.
+    // Deliverable 2: send a delete request to the server here.
+    alert("Event deleted successfully!");
+    window.location.href = "manage-events.html";
+  });
 }
 
 //EVENTS.HTML
@@ -782,10 +806,10 @@ if (title) {
       const currentUser = 101; //hardcoded for now, will be dynamic later
 
       const registration = REGISTRATIONS.find(
-        (reg) => 
-          reg.user_id === currentUser && 
+        (reg) =>
+          reg.user_id === currentUser &&
           reg.event_id === event.id &&
-          reg.status === "Registered"
+          reg.status === "Registered",
       );
 
       //if student is already registered, hide register button and show cancel button
@@ -815,10 +839,11 @@ if (title) {
       const editBtn = document.getElementById("editEventBtn");
       //send admin to manage registrations page for this event
       const manageBtn = document.getElementById("viewRegistrationsBtn");
-      
+
       editBtn.href = `edit-event.html?id=${event.id}`;
     }
-}}
+  }
+}
 
 // --------------------------------------------------------------------- Student ---------------------------------------------------------------------
 
@@ -938,7 +963,7 @@ if (adminEventsTable) {
     `;
   });
 }
-//upcoming events for admin manage events
+
 
 //event registration table for admin registations page
 const eventOverviewTable = document.getElementById("eventOverviewTable");
@@ -958,7 +983,6 @@ if (eventOverviewTable) {
 
     eventOverviewTable.innerHTML += `
       <tr>
-        <td><strong>${event.id}</strong></td>
         <td>${event.title}</td>
         <td>${event.date}</td>
         <td>${currentRegistrations}/ ${event.capacity}</td>
@@ -996,7 +1020,6 @@ if (pasteventOverviewTable) {
 
     pasteventOverviewTable.innerHTML += `
       <tr>
-        <td><strong>${event.id}</strong></td>
         <td>${event.title}</td>
         <td>${event.date}</td>
         <td>${currentRegistrations}/ ${event.capacity}</td>
@@ -1014,6 +1037,76 @@ if (pasteventOverviewTable) {
     `;
   });
 }
+
+//helper function to create event card for any page that needs it
+function createAdminEventCard(event) {
+  //get the correct badge class for the event status
+  const badgeClass = getBadgeClass(event.status);
+
+  return `
+        <div class="card event-card">
+
+        <div class="event-card-head">  
+        <h3>${event.title}</h3>
+        <span class="badge ${badgeClass}">${event.status}</span>
+      </div>
+
+            <p class="event-meta muted">
+                ${event.category} ·
+                ${event.date} 
+            </p>
+            <p class="event-meta muted">
+                ${event.startTime} ·
+                ${event.location}
+            </p>
+
+            <p class="event-desc">${event.description}</p>
+                
+            <div class="event-card-foot">
+              <span class="muted">
+                ${event.registered}/${event.capacity} spots filled
+              </span>
+                <a class="btn" href="event-details.html?id=${event.id}">View details</a>
+                <a class="btn" href="edit-event.html?id=${event.id}">Edit</a>
+            </div>
+
+        </div>
+    `;
+}
+
+//helper function for displaying a list of event cards
+function displayADMINEventCards(containerId, eventList) {
+  const container = document.getElementById(containerId);
+
+  if (!container) return;
+
+  container.innerHTML = "";
+  //loop through the event list and create a card for each event
+  eventList.forEach((event) => {
+    container.innerHTML += createAdminEventCard(event);
+  });
+}
+// Manage events upcoming events
+const ADMIN_EVENT_GRID = document.getElementById("ADMIN_EVENT_GRID");
+
+if (ADMIN_EVENT_GRID) {
+  const careerServicesEvents = EVENTS.filter(
+    (event) => event.organizer === "Career Services" && (event.status === "Open" || event.status === "Full")
+  );
+
+  displayADMINEventCards("ADMIN_EVENT_GRID", careerServicesEvents);
+}
+// Manage events past events
+const ADMIN_PAST_EVENT_GRID = document.getElementById("ADMIN_PAST_EVENT_GRID");
+
+if (ADMIN_PAST_EVENT_GRID) {
+  const careerServicesEvents = EVENTS.filter(
+    (event) => event.organizer === "Career Services" && (event.status === "Cancelled" || event.status === "Completed")
+  );
+
+  displayADMINEventCards("ADMIN_PAST_EVENT_GRID", careerServicesEvents);
+}
+
 // Registered students table for the event from the admin registrations page
 const studentsTable = document.getElementById("registeredStudentsTable");
 
@@ -1031,7 +1124,7 @@ if (studentsTable) {
   if (registeredStudents.length === 0) {
     studentsTable.innerHTML = `
         <tr>
-          <td colspan="3" style="text-align:center;">No students registered for this event yet.</td>
+          <td colspan="3" style="text-align:center;">No students registered for this event.</td>
         </tr>`;
   } else {
     registeredStudents.forEach((student) => {
@@ -1045,6 +1138,7 @@ if (studentsTable) {
     });
   }
 }
+
 // --------------------------------------------------------------------- Registration  ---------------------------------------------------------------------
 
 const myRegistrationTable = document.getElementById("myRegistrationTable");

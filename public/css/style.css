@@ -348,6 +348,7 @@ a:hover {
 
 .btn-danger {
   background: var(--status-cancelled);
+  color: #fff;
 }
 
 .btn-danger:hover {
@@ -401,7 +402,7 @@ form button[type="submit"] {
   margin-top: 0;
 }
 
-main>.card {
+main > .card {
   margin-bottom: var(--space-3);
   /* gap between the cards */
 }
@@ -593,6 +594,7 @@ textarea:focus {
 
 table {
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
   background: var(--surface);
   border: 1px solid var(--border);
@@ -707,7 +709,7 @@ tbody tr:hover {
   /* Background image and adjustments */
   background-image:
     linear-gradient(to right, var(--bg), 70%, transparent),
-    url('https://www.mtlblog.com/media-library/concordia-university-in-montreal.jpg?id=32250443&width=1245&height=700');
+    url("https://www.mtlblog.com/media-library/concordia-university-in-montreal.jpg?id=32250443&width=1245&height=700");
 
   background-position: center;
   background-size: cover;
@@ -761,10 +763,8 @@ tbody tr:hover {
 
   /* Icon Background */
   background-color: white;
-  border: 2px solid;
+  border: 2px solid black;
   border-radius: 50%;
-  width: 3.5em;
-  height: 3.5em;
 }
 
 /* Bottom Content Text */
@@ -789,14 +789,13 @@ tbody tr:hover {
 .card h2 {
   text-align: center;
   margin: 0 0 1em;
-
 }
 
 /* Teammate Names - Position*/
 .teammate {
   text-align: center;
   display: inline-block;
-  padding: 0 7%
+  padding: 0 7%;
 }
 
 /* ----------------------------------------------------------- Contact Us----------------------------------------------------------- */
@@ -838,7 +837,6 @@ tbody tr:hover {
   display: inline-block;
 }
 
-
 #register-form {
   width: 500px;
   height: 700px;
@@ -861,7 +859,6 @@ tbody tr:hover {
   margin-top: 13%;
   display: inline-block;
 }
-
 
 #login-form {
   width: 800px;
