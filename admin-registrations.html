@@ -47,16 +47,22 @@
 
     <!-- ================= YOUR PAGE CONTENT ====================== -->
     <main>
+      <!-- Back button: returns to the previous page (admin dashboard) -->
       <button class="btn btn-secondary back-btn" onclick="history.back()">
         <span style="font-size: 1.5em; line-height: 1">←</span> Back
       </button>
+
+      <!-- Page heading: eyebrow label, title, and short description -->
       <span class="eyebrow">My Registrations</span>
       <h1>View registrations</h1>
       <p class="muted">Here you can see all your event registrations</p>
 
-      <!-- Section 1: Active & Upcoming Events Registrations -->
+      <!-- Section 1: overview of current/upcoming events and how many
+     students registered for each. Rows are built by main.js -->
       <h2>Event Registrations Overview</h2>
       <div class="table-wrap mb-4">
+        <!-- Table headers are fixed; the tbody below is empty on purpose -
+     main.js fills it in from our registration data -->
         <table>
           <thead>
             <tr>
@@ -68,10 +74,13 @@
             </tr>
           </thead>
           <tbody id="eventOverviewTable"></tbody>
+          <!-- ^ main.js finds this id and injects one row per event,
+     counting registrations from the REGISTRATIONS data -->
         </table>
       </div>
 
-      <!-- Section 2: Attendance for Past Events -->
+      <!-- Section 2: past events and their attendance counts,
+     also filled by main.js from the registration data -->
       <h2 class="mt-4">Past Events Attendance Record</h2>
       <div class="table-wrap">
         <table>
@@ -85,6 +94,7 @@
             </tr>
           </thead>
           <tbody id="pasteventOverviewTable"></tbody>
+          <!-- ^ main.js fills this with past events and attendance numbers -->
         </table>
       </div>
     </main>
