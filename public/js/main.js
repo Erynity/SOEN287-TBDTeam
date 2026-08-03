@@ -1104,7 +1104,7 @@ if (ADMIN_PAST_EVENT_GRID) {
     (event) => event.organizer === "Career Services" && (event.status === "Cancelled" || event.status === "Completed")
   );
 
-  displayEventCards("ADMIN_PAST_EVENT_GRID", careerServicesEvents);
+  displayADMINEventCards("ADMIN_PAST_EVENT_GRID", careerServicesEvents);
 }
 
 // Registered students table for the event from the admin registrations page
