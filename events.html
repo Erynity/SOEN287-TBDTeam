@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-     <!-- ==========================================================
+    <!-- ==========================================================
                   Events
        ========================================================== -->
     <meta charset="UTF-8" />
@@ -10,7 +10,7 @@
 
     <title>Events - Smart Campus Event Planner</title>
 
-    <!-- Shared font + stylesheet. Path is relative to /views/. -->
+    <!-- Shared font + stylesheet + logo and javascript defer -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
@@ -22,7 +22,7 @@
     <script src="../public/js/formValidation.js" defer></script>
   </head>
 
-  <body data-back="auto">
+  <body>
     <nav class="navbar">
       <div class="navbar-inner">
         <a class="navbar-brand" href="index.html">
@@ -46,8 +46,8 @@
 
     <!-- ================= CONTENT ====================== -->
     <main>
-       <!-- Back button: returns to the previous page (admin dashboard) -->
-       <button class="btn btn-secondary back-btn" onclick="history.back()">
+      <!-- Back button: returns to the previous page -->
+      <button class="btn btn-secondary back-btn" onclick="history.back()">
         <span style="font-size: 1.5em; line-height: 1">←</span> Back
       </button>
       <!-- Page heading: eyebrow label, page title -->
@@ -55,11 +55,16 @@
       <h1>Every Event in one place</h1>
 
       <!--filters and search function
-        filters for category, date, location and organizer-->
+      Search + filter controls. main.js listens for changes here and
+     re-draws the event grid below to match (search text, category,
+     organizer, status, and sort order) -->
       <section class="filters">
+        <!-- Type to search by event title -->
         <label for="searchInput">Search Events</label>
         <input type="text" id="searchInput" placeholder="Search events..." />
 
+        <!-- Dropdown filters. Category/status/sort options are fixed here;
+     the organizer list is filled by main.js from the event data -->
         <div class="filter-row">
           <select id="categoryFilter">
             <option value="">All Categories</option>
@@ -76,6 +81,7 @@
           </select>
 
           <select id="organizerFilter">
+            <!-- only "All Organizers" here; main.js adds one option per organizer -->
             <option value="">All Organizers</option>
           </select>
 
@@ -94,7 +100,8 @@
         </div>
       </section>
 
-      <!--events populated by js in main.js-->
+      <!-- Empty grid. main.js builds an event card for each event and drops
+     them in here (filtered/sorted by the controls above) -->
       <div class="grid" id="EVENT_GRID"></div>
     </main>
 
