@@ -502,7 +502,16 @@ main > .card {
     grid-template-columns: 1fr;
   }
 }
-
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+@media (max-width: 640px) {
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+}
 /* ------------------------------------------------------------
    8. STATUS BADGES
    Event statuses from the project spec: open, full, cancelled,

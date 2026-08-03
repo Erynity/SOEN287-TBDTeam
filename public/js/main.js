@@ -964,7 +964,6 @@ if (adminEventsTable) {
   });
 }
 
-
 //event registration table for admin registations page
 const eventOverviewTable = document.getElementById("eventOverviewTable");
 if (eventOverviewTable) {
@@ -1062,12 +1061,13 @@ function createAdminEventCard(event) {
 
             <p class="event-desc">${event.description}</p>
                 
-            <div class="event-card-foot">
-              <span class="muted">
+            
+              <p class="muted">
                 ${event.registered}/${event.capacity} spots filled
-              </span>
-                <a class="btn" href="event-details.html?id=${event.id}">View details</a>
-                <a class="btn" href="edit-event.html?id=${event.id}">Edit</a>
+              </p>
+              <div class="event-card-foot">
+              <a class="btn" href="event-details.html?id=${event.id}">View details</a>
+              <a class="btn" href="edit-event.html?id=${event.id}">Edit</a>
             </div>
 
         </div>
@@ -1091,7 +1091,9 @@ const ADMIN_EVENT_GRID = document.getElementById("ADMIN_EVENT_GRID");
 
 if (ADMIN_EVENT_GRID) {
   const careerServicesEvents = EVENTS.filter(
-    (event) => event.organizer === "Career Services" && (event.status === "Open" || event.status === "Full")
+    (event) =>
+      event.organizer === "Career Services" &&
+      (event.status === "Open" || event.status === "Full"),
   );
 
   displayADMINEventCards("ADMIN_EVENT_GRID", careerServicesEvents);
@@ -1101,7 +1103,9 @@ const ADMIN_PAST_EVENT_GRID = document.getElementById("ADMIN_PAST_EVENT_GRID");
 
 if (ADMIN_PAST_EVENT_GRID) {
   const careerServicesEvents = EVENTS.filter(
-    (event) => event.organizer === "Career Services" && (event.status === "Cancelled" || event.status === "Completed")
+    (event) =>
+      event.organizer === "Career Services" &&
+      (event.status === "Cancelled" || event.status === "Completed"),
   );
 
   displayADMINEventCards("ADMIN_PAST_EVENT_GRID", careerServicesEvents);
