@@ -864,7 +864,7 @@ tbody tr:hover {
 /* ------------------------------------------------------------
    17. LOG IN
    ------------------------------------------------------------ */
-.lonInPage {
+.logInPage {
   display: flex;
   justify-content: center;
   margin-top: 3em;
