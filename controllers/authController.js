@@ -60,7 +60,7 @@ async function login(req, res) {
 
   if (user.role === "admin") {
     // Redirect to the admin dashboard
-    res.redirect("/admin/dashboard");
+    res.redirect("/admin-dashboard");
   } else {
     res.redirect("/student-dashboard");
   }

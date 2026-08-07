@@ -1,97 +1,110 @@
 <!doctype html>
 <html lang="en">
- <!-- ==========================================================
+  <!-- ==========================================================
                   Login
        ========================================================== -->
-<head>
-  <meta charset="UTF-8" />
-  <!-- viewport tag = required for responsive design on phones -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <head>
+    <meta charset="UTF-8" />
+    <!-- viewport tag = required for responsive design on phones -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Log In - Smart Campus Event Planner</title>
-<!-- Shared font + stylesheet + logo and javascript defer -->
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
-    rel="stylesheet" />
-  <link rel="stylesheet" href="../public/css/style.css" />
-  <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
-  <script src="../public/js/main.js" defer></script>
-  <script src="../public/js/formValidation.js" defer></script>
-</head>
+    <title>Log In - Smart Campus Event Planner</title>
+    <!-- Shared font + stylesheet + logo and javascript defer -->
 
-<body>
-  <!-- ================= NAVBAR ============-->
-  <nav class="navbar">
-    <div class="navbar-inner">
-      <a class="navbar-brand" href="index.html">
-        <img src="../public/images/logo.svg" alt="" width="28" height="28" />
-        Campus Events
-      </a>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../public/css/style.css" />
+    <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
+    <script src="../public/js/main.js" defer></script>
+    <script src="../public/js/formValidation.js" defer></script>
+  </head>
 
-      <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
+  <body>
+    <!-- ================= NAVBAR ============-->
+    <nav class="navbar">
+      <div class="navbar-inner">
+        <a class="navbar-brand" href="index.html">
+          <img src="../public/images/logo.svg" alt="" width="28" height="28" />
+          Campus Events
+        </a>
 
-      <ul class="navbar-links" id="navbar-links"></ul>
-    </div>
-  </nav>
+        <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
 
-  <!-- ================= YOUR PAGE CONTENT ====================== -->
-
-  <main class="logInPage">
-    <!-- Page heading: page title -->
-    <div class="logInInformation">
-      <h1>Welcome Back!</h1>
-      <p>
-        Log in to your account to discover events, <br />manage your schedule,
-        <br />and stay connected on campus.
-      </p>
-      <img src="" />
-      <div>
-        <p>Great events. New connections.<br />Endless opportunities.</p>
+        <ul class="navbar-links" id="navbar-links"></ul>
       </div>
-    </div>
+    </nav>
 
-    <!-- Start of form -->
-    <form class="card" id="login-form">
-      <!-- Title -->
-      <h2>Log In</h2>
-      <p>Enter your credentials to access your account</p>
+    <!-- ================= YOUR PAGE CONTENT ====================== -->
 
-      <!-- User Input Boxes -->
-      <label for="email">Email Address</label>
-      <input type="email" id="email" name="email" required placeholder="name@gmail.com" />
+    <main class="logInPage">
+      <!-- Page heading: page title -->
+      <div class="logInInformation">
+        <h1>Welcome Back!</h1>
+        <p>
+          Log in to your account to discover events, <br />manage your schedule,
+          <br />and stay connected on campus.
+        </p>
+        <img src="" />
+        <div>
+          <p>Great events. New connections.<br />Endless opportunities.</p>
+        </div>
+      </div>
 
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" placeholder="Enter your password" required />
+      <!-- Start of form -->
+      <form class="card" id="login-form" action="/auth/login" method="POST">
+        <!-- Title -->
+        <h2>Log In</h2>
+        <p>Enter your credentials to access your account</p>
 
-      <!-- Hidden error message -->
-      <p id="login-error" hidden></p>
+        <!-- User Input Boxes -->
+        <label for="email">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          placeholder="Your email address"
+        />
 
-      <!-- Submit/Log in Button -->
-      <button class="btn" type="submit">Log In</button>
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Enter your password"
+          required
+        />
 
-      <!-- Option to sign up if user already has an account -->
-      <p>
-        Don't have an account?
-        <a href="register.html" style="color: maroon">Create one</a>
-      </p>
+        <!-- Hidden error message -->
+        <p id="login-error" hidden></p>
 
-      <!-- Demo Accounts Information -->
-      <p class="muted" style="font-size: 0.9rem; margin-top: 1rem">
-        Demo accounts —<br />
-        Student: student@campus.ca / Student123!<br />
-        Admin: admin@campus.ca / Admin123!
-      </p>
-    </form>
-    <!-- End of form -->
-  </main>
+        <!-- Submit/Log in Button -->
+        <button class="btn" type="submit">Log In</button>
 
-  <!-- ================= FOOTER (same on every page) ============ -->
-  <footer class="footer">
-    Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 13
-  </footer>
-</body>
+        <!-- Option to sign up if user already has an account -->
+        <p>
+          Don't have an account?
+          <a href="register.html" style="color: maroon">Create one</a>
+        </p>
 
+        <!-- Demo Accounts Information -->
+        <p class="muted" style="font-size: 0.9rem; margin-top: 1rem">
+          Demo accounts —<br />
+          Student: student@campus.ca / Student123!<br />
+          Admin: admin@campus.ca / Admin123!
+        </p>
+      </form>
+      <!-- End of form -->
+    </main>
+
+    <!-- ================= FOOTER (same on every page) ============ -->
+    <footer class="footer">
+      Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 13
+    </footer>
+  </body>
 </html>

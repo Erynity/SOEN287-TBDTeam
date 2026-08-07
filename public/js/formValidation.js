@@ -28,7 +28,6 @@ const testAccounts = [
 const loginForm = document.getElementById("login-form");
 if (loginForm) {
   loginForm.addEventListener("submit", (e) => {
-    e.preventDefault();
     const email = document.getElementById("email").value.trim().toLowerCase();
     const pass = document.getElementById("password").value;
     const box = document.getElementById("login-error");

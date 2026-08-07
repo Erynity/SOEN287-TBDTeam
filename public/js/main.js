@@ -40,89 +40,63 @@ function setupNavToggle() {
   });
 }
 
-//navigation bar that changes depending on userRoles
-// The navigation links each type of user sees. guest = logged out,
-// student and admin see their own menus. Used by setupNavLinks below.
-//to log in as a student: localStorage.setItem("userRole", "student");
-//to log in as an admin: localStorage.setItem("userRole", "admin");
-//to log out: localStorage.removeItem("userRole");
-
 //navigation links for each user role
 // The navigation links each type of user sees. guest = logged out,
 // student and admin see their own menus. Used by setupNavLinks below.
 const links = {
   guest: [
-    { name: "Home", href: `index.html` },
-    { name: "Events", href: `events.html` },
-    { name: "Contact/About us", href: `contact.html` },
-    { name: "Log in", href: `login.html` },
-    { name: "Sign up", href: `register.html` },
+    { name: "Home", href: "/" },
+    { name: "Events", href: "/events" },
+    { name: "Contact/About us", href: "/contact" },
+    { name: "Log in", href: "/auth/login" },
+    { name: "Sign up", href: "/auth/register" },
   ],
 
   student: [
-    { name: "Dashboard", href: `student-dashboard.html` },
-    { name: "Events", href: `events.html` },
-    { name: "My Registrations", href: `my-registrations.html` },
-    { name: "Profile", href: `student-profile.html` },
-    { name: "Contact/About us", href: `contact.html` },
-    { name: "Log out", href: "#" },
+    { name: "Dashboard", href: "/student-dashboard" },
+    { name: "Events", href: "/events" },
+    { name: "My Registrations", href: "/my-registrations" },
+    { name: "Profile", href: "/student-profile" },
+    { name: "Contact/About us", href: "/contact" },
+    { name: "Log out", href: "/auth/logout" },
   ],
 
   admin: [
-    { name: "Dashboard", href: `admin-dashboard.html` },
-    { name: "Events", href: `events.html` },
-    { name: "Manage Events", href: `manage-events.html` },
-    { name: "My Registrations", href: `admin-registrations.html` },
-    { name: "Statistics", href: `admin-statistics.html` },
-    { name: "Contact/About us", href: `contact.html` },
-    { name: "Log out", href: "#" },
+    { name: "Dashboard", href: "/admin-dashboard" },
+    { name: "Events", href: "/events" },
+    { name: "Manage Events", href: "/manage-events" },
+    { name: "Registrations", href: "/admin-registrations" },
+    { name: "Statistics", href: "/admin-statistics" },
+    { name: "Contact/About us", href: "/contact" },
+    { name: "Log out", href: "/auth/logout" },
   ],
 };
 
-//setup navbar links
-// Builds the navbar based on who is "logged in" (from localStorage).
-// Deliverable 1 fakes the role; Deliverable 2 the server decides.
-function setupNavLinks() {
-  //get user role from localStorage, default to guest if not set
-  const role = localStorage.getItem("userRole") || "guest";
-  //get navbar links container
+// Build the navbar from the role the SERVER reports (from the session)
+async function setupNavLinks() {
   const navbarLinks = document.getElementById("navbar-links");
-  //get current page name to highlight active link
-  const currentPage = window.location.pathname.split("/").pop() || "index.html";
-
-  //if navbar links container not found, exit
   if (!navbarLinks) return;
 
-  //populate navbar links based on user role
+  // ask the server who is logged in (reads the session)
+  const me = await fetch("/api/me").then((r) => r.json());
+  const role = me.role || "guest";
+
+  // highlight the link for the page we're on
+  const currentPath = window.location.pathname;
+
   navbarLinks.innerHTML = links[role]
     .map((link) => {
-      //check if link is active
-      const isActive =
-        link.href.split("/").pop() === currentPage ? ' class="active"' : "";
+      const isActive = link.href === currentPath ? ' class="active"' : "";
 
-      //special case for logout link to add id for event listener
+      // Log out is styled as a button
       if (link.name === "Log out") {
-        return `<li><a class="btn" style="padding: 0.3rem 0.9rem" href="#" id="logout-btn">${link.name}</a></li>`;
+        return `<li><a class="btn" style="padding: 0.3rem 0.9rem" href="${link.href}">${link.name}</a></li>`;
       }
-      //return link html
+
       return `<li><a href="${link.href}"${isActive}>${link.name}</a></li>`;
     })
     .join("");
-
-  //logout feature
-  const logoutBtn = document.getElementById("logout-btn");
-  //if logout button exists, add click event listener to log out user
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      //remove login user
-      localStorage.removeItem("userRole");
-      //return to home page
-      window.location.href = "index.html";
-    });
-  }
 }
-
 // --------------------------------------------------------------------- Home Page ---------------------------------------------------------------------
 
 // --------------------------------------------------------------------- Events ---------------------------------------------------------------------
@@ -783,9 +757,10 @@ if (EVENT_GRID) {
 // in that event's title, badge, and info.
 
 //check to see if were on event-details.html
-const title = document.getElementById("eventTitle");
+async function setupEventDetails() {
+  const title = document.getElementById("eventTitle");
+  if (!title) return;
 
-if (title) {
   //read event id from url
   const params = new URLSearchParams(window.location.search);
   const id = Number(params.get("id"));
@@ -816,7 +791,8 @@ if (title) {
       `${event.registered}/${event.capacity} spots filled`;
 
     //check user role
-    const userRole = localStorage.getItem("userRole") || "guest";
+    const me = await fetch("/api/me").then((r) => r.json());
+    const userRole = me.role || "guest";
 
     //guest controls
     if (userRole === "guest") {
@@ -876,6 +852,9 @@ if (title) {
     }
   }
 }
+
+// run the event-details setup (only does something on that page)
+setupEventDetails();
 
 // --------------------------------------------------------------------- Student ---------------------------------------------------------------------
 
