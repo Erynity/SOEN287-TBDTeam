@@ -63,13 +63,13 @@
      finds it to validate before submitting. Most checks are done by the
      HTML attributes below (required, min); JS checks end time > start time -->
 
-      <form id="create-event-form">
+      <form id="create-event-form" action="/events/create" method="post">
         <!-- Title is required (the "required" attribute blocks an empty submit) -->
         <label for="event-name">Event Title:</label>
         <input
           type="text"
           id="event-name"
-          name="event-name"
+          name="title"
           placeholder="Give your event a title"
           required
         />
@@ -78,7 +78,7 @@
      forces the admin to actually pick one -->
 
         <label for="event-category">Event Category:</label>
-        <select id="event-category" name="event-category" required>
+        <select id="event-category" name="category" required>
           <option value="">Select the event category</option>
           <option value="academic-workshop">Academic workshops</option>
           <option value="career-events">Career events</option>
@@ -104,16 +104,16 @@
      formValidation.js also checks that end time is after start time -->
 
         <label for="event-date">Event Date:</label>
-        <input type="date" id="event-date" name="event-date" required />
+        <input type="date" id="event-date" name="event_date" required />
 
         <label for="start-time">Start Time:</label>
-        <input type="time" id="start-time" name="start-time" required />
+        <input type="time" id="start-time" name="start_time" required />
 
         <label for="end-time">End Time:</label>
-        <input type="time" id="end-time" name="end-time" required />
+        <input type="time" id="end-time" name="end_time" required />
 
         <label for="event-location">Event Location:</label>
-        <input type="text" id="event-location" name="event-location" required />
+        <input type="text" id="event-location" name="location" required />
 
         <!-- Capacity must be a number of at least 1 (min="1") -->
         <label for="capacity">Maximum number of participants:</label>
@@ -130,19 +130,14 @@
         <!-- Image upload input (optional) -->
 
         <label for="imageUpload">Add an image for your event:</label>
-        <input
-          type="file"
-          id="imageUpload"
-          name="admin_image"
-          accept="image/*"
-        />
+        <input type="file" id="imageUpload" name="image" accept="image/*" />
 
         <!-- Description textarea (required) -->
 
         <label for="event-description">Event Description:</label>
         <textarea
           id="event-description"
-          name="event-description"
+          name="description"
           rows="4"
           placeholder="Enter a brief description of the event to help participants understand what to expect."
           required

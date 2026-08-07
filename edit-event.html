@@ -67,14 +67,14 @@
         <input
           type="text"
           id="event-name"
-          name="event-name"
+          name="title"
           placeholder="Edit your event's title"
           required
         />
 
         <!-- Category dropdown - required, empty first option forces a choice -->
         <label for="event-category">Event Category:</label>
-        <select id="event-category" name="event-category" required>
+        <select id="event-category" name="category" required>
           <option value="">Select the event category</option>
           <option value="academic-workshop">Academic workshops</option>
           <option value="career-events">Career events</option>
@@ -99,16 +99,16 @@
         <!-- Date, start and end time (all required).
      JS also checks end time is after start time -->
         <label for="event-date">Event Date:</label>
-        <input type="date" id="event-date" name="event-date" required />
+        <input type="date" id="event-date" name="event_date" required />
 
         <label for="start-time">Start Time:</label>
-        <input type="time" id="start-time" name="start-time" required />
+        <input type="time" id="start-time" name="start_time" required />
 
         <label for="end-time">End Time:</label>
-        <input type="time" id="end-time" name="end-time" required />
+        <input type="time" id="end-time" name="end_time" required />
 
         <label for="event-location">Event Location:</label>
-        <input type="text" id="event-location" name="event-location" required />
+        <input type="text" id="event-location" name="location" required />
 
         <!-- Capacity: a number, minimum 1 -->
         <label for="capacity">Maximum number of participants:</label>
@@ -125,7 +125,7 @@
         <label for="event-description">Event Description:</label>
         <textarea
           id="event-description"
-          name="event-description"
+          name="description"
           rows="4"
           placeholder="Enter a brief description of the event to help participants understand what to expect."
           required
