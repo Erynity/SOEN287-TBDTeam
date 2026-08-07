@@ -10,7 +10,6 @@ function showMessage(box, text, ok) {
   box.hidden = false;
 }
 
-
 // ---- LOGIN (HTML checks required + email; JS checks the account) ----
 const testAccounts = [
   {
@@ -35,11 +34,7 @@ if (loginForm) {
     const box = document.getElementById("login-error");
 
     if (!emailPattern.test(email))
-      return showMessage(
-        box,
-        "Invalid email or password.",
-        false,
-      );
+      return showMessage(box, "Invalid email or password.", false);
 
     const match = testAccounts.find(
       (a) => a.email === email && a.password === pass,
@@ -53,7 +48,8 @@ if (loginForm) {
 
 // ---- REGISTER (HTML checks the fields; JS checks passwords match) ----
 // Regular Expression for password
-const passwordPattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])\S{8,}$/;
+const passwordPattern =
+  /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])\S{8,}$/;
 
 // Regular Expression for email
 const emailPattern = /^(\S+@)(gmail|outlook|campus)\.(com|ca)$/i;
@@ -66,17 +62,14 @@ const registerForm = document.getElementById("register-form");
 
 // Verifies we're in registerForm
 if (registerForm) {
-
   // Stops html file from reloading
   registerForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-
     // Get IDs
-    const firstName = document.getElementById("firstname").value.trim();
-    const lastName = document.getElementById("lastname").value.trim();
+    const firstName = document.getElementById("firstName").value.trim();
+    const lastName = document.getElementById("lastName").value.trim();
     const email = document.getElementById("email").value.trim();
     const pass = document.getElementById("password").value;
-    const confirm = document.getElementById("confirmpassword").value;
+    const confirm = document.getElementById("confirmPassword").value;
     const role = document.getElementById("role").value;
     const box = document.getElementById("register-msg");
 
@@ -104,11 +97,16 @@ if (registerForm) {
       );
 
     // Verifies confirm password matches with password
-    if (pass !== confirm)
+    if (pass !== confirm) {
+      e.preventDefault();
       return showMessage(box, "Please make sure your passwords match.", false);
-
+    }
     if (role === "")
-      return showMessage(box, "Please select a role before registering.", false);
+      return showMessage(
+        box,
+        "Please select a role before registering.",
+        false,
+      );
 
     // Successful Account Creation Message
     showMessage(box, "Account created successfully!", true);
@@ -157,7 +155,11 @@ if (contactForm) {
       return showMessage(box, "Please enter a valid full name.", false);
 
     if (!emailPattern.test(email))
-      return showMessage(box, "Please enter a valid @gmail.com, @outlook.com, or @campus.ca address.", false);
+      return showMessage(
+        box,
+        "Please enter a valid @gmail.com, @outlook.com, or @campus.ca address.",
+        false,
+      );
 
     showMessage(box, "Message sent successfully!", true);
     contactForm.reset();
