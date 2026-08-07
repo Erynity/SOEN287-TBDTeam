@@ -1,110 +1,144 @@
 <!doctype html>
 <html lang="en">
-<head>
-   <!-- ==========================================================
+  <head>
+    <!-- ==========================================================
                   Register
        ========================================================== -->
-  <meta charset="UTF-8" />
-  <!-- viewport tag = required for responsive design on phones -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <!-- viewport tag = required for responsive design on phones -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Register - Smart Campus Event Planner</title>
+    <title>Register - Smart Campus Event Planner</title>
 
-  <!-- Shared font + stylesheet + logo and javascript defer -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
-    rel="stylesheet" />
-  <link rel="stylesheet" href="../public/css/style.css" />
-  <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
-  <script src="../public/js/main.js" defer></script>
-  <script src="../public/js/formValidation.js" defer></script>
-</head>
+    <!-- Shared font + stylesheet + logo and javascript defer -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../public/css/style.css" />
+    <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
+    <script src="../public/js/main.js" defer></script>
+    <script src="../public/js/formValidation.js" defer></script>
+  </head>
 
-<body>
-  <!-- ================= NAVBAR ============-->
-  <nav class="navbar">
-    <div class="navbar-inner">
-      <a class="navbar-brand" href="index.html">
-        <img src="../public/images/logo.svg" alt="" width="28" height="28" />
-        Campus Events
-      </a>
+  <body>
+    <!-- ================= NAVBAR ============-->
+    <nav class="navbar">
+      <div class="navbar-inner">
+        <a class="navbar-brand" href="index.html">
+          <img src="../public/images/logo.svg" alt="" width="28" height="28" />
+          Campus Events
+        </a>
 
-      <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
+        <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
 
-      <ul class="navbar-links" id="navbar-links"></ul>
-    </div>
-  </nav>
+        <ul class="navbar-links" id="navbar-links"></ul>
+      </div>
+    </nav>
 
- <!-- ================= YOUR PAGE CONTENT ====================== -->
-  <main class="createAccountPage">
-    <!-- Side Information -->
-    <section class="createAccountInformation">
-      <!-- Page heading: page title and small description -->
-      <h1>Create Your Account</h1>
-      <p>
-        Join the Smart Campus community<br />and start discovering amazing
-        events.
-      </p>
-    </section>
+    <!-- ================= YOUR PAGE CONTENT ====================== -->
+    <main class="createAccountPage">
+      <!-- Side Information -->
+      <section class="createAccountInformation">
+        <!-- Page heading: page title and small description -->
+        <h1>Create Your Account</h1>
+        <p>
+          Join the Smart Campus community<br />and start discovering amazing
+          events.
+        </p>
+      </section>
 
-    <!-- Form to create an account -->
-    <form class="card" id="register-form">
+      <!-- Form to create an account -->
+      <form
+        class="card"
+        id="register-form"
+        action="/auth/register"
+        method="POST"
+      >
+        <!-- Title -->
+        <h2>Register</h2>
+        <p>Fill in the details below to create your account.</p>
 
-      <!-- Title -->
-      <h2>Register</h2>
-      <p>Fill in the details below to create your account.</p>
+        <!-- User Input Boxes -->
+        <!-- First name input -->
+        <label for="firstName">First Name</label>
+        <input
+          type="text"
+          id="firstName"
+          name="firstName"
+          placeholder="Jane"
+          required
+        />
 
-      <!-- User Input Boxes -->
-       <!-- First name input -->
-      <label for="firstname">First Name</label>
-      <input type="text" id="firstname" name="firstname" placeholder="Jane" required />
+        <!-- Last name input -->
+        <label for="lastName">Last Name</label>
+        <input
+          type="text"
+          id="lastName"
+          name="lastName"
+          placeholder="Doe"
+          required
+        />
 
-      <!-- Last name input -->
-      <label for="lastname">Last Name</label>
-      <input type="text" id="lastname" name="lastname" placeholder="Doe" required />
+        <!-- Email input -->
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="name@gmail.com"
+          required
+        />
 
-      <!-- Email input -->
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" placeholder="name@gmail.com" required />
+        <!-- Password input -->
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Create a password"
+          required
+        />
 
-      <!-- Password input -->
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" placeholder="Create a password" required />
+        <!-- Confirm password input -->
+        <label for="confirmPassword">Confirm Password</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          placeholder="Re-enter your password"
+          required
+        />
 
-      <!-- Confirm password input -->
-      <label for="confirmpassword">Confirm Password</label>
-      <input type="password" id="confirmpassword" name="confirmpassword" placeholder="Re-enter your password"
-        required />
+        <!-- Drop down list for roles -->
+        <label for="role">I am a(n)</label>
+        <select id="role" name="role" required>
+          <option value="" selected disabled hidden>--- Select role ---</option>
+          <option>Student</option>
+          <option>Admin</option>
+        </select>
 
-      <!-- Drop down list for roles -->
-      <label for="role">I am a(n)</label>
-      <select id="role" name="role" required>
-        <option value="" selected disabled hidden>--- Select role ---</option>
-        <option>Student</option>
-        <option>Admin</option>
-      </select>
+        <!-- Hidden error message -->
+        <p id="register-msg" hidden></p>
 
-      <!-- Hidden error message -->
-      <p id="register-msg" hidden></p>
+        <!-- Submit/Create Account Button -->
+        <button class="btn" type="submit">Create Account</button>
 
-      <!-- Submit/Create Account Button -->
-      <button class="btn" type="submit" action="">Create Account</button>
+        <!-- Option to log in if user already has an account -->
+        <p>
+          Already have an account?
+          <a href="login.html" style="color: maroon">Log In</a>
+        </p>
+      </form>
+      <!-- End of form -->
+    </main>
 
-      <!-- Option to log in if user already has an account -->
-      <p>
-        Already have an account?
-        <a href="login.html" style="color: maroon">Log In</a>
-      </p>
-    </form>
-    <!-- End of form -->
-  </main>
-
-  <!-- ================= FOOTER (same on every page) ============ -->
-  <footer class="footer">
-    Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 13
-  </footer>
-</body>
-
+    <!-- ================= FOOTER (same on every page) ============ -->
+    <footer class="footer">
+      Smart Campus Event Planner · SOEN 287 Summer 2026 · Team 13
+    </footer>
+  </body>
 </html>
