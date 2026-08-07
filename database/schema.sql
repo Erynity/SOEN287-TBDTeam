@@ -12,15 +12,16 @@ CREATE TABLE events (
     title VARCHAR(100) NOT NULL,
     description TEXT,
     category VARCHAR(50) NOT NULL,
-    date DATE NOT NULL,
+    event_date DATE NOT NULL,
     start_time TIME NOT NULL,
     end_time TIME NOT NULL,
     location VARCHAR(255) NOT NULL,
-    capacity INT NOT NULL,
-    organizer VARCHAR(100),
+    capacity INTEGER NOT NULL,
+    organizer_id INTEGER,
     status TEXT NOT NULL DEFAULT 'Open',
     image VARCHAR(255),
-    rating REAL DEFAULT 0
+    rating REAL DEFAULT 0,
+    created_on DATE DEFAULT CURRENT_DATE
 );
 
 CREATE TABLE registrations (

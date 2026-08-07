@@ -22,13 +22,13 @@ app.use(
 
 // Import routes
 const authRoutes = require("./routes/authRoutes");
-/*const eventRoutes = require("./routes/eventRoutes");
-const registrationRoutes = require("./routes/registrationRoutes");
+const eventRoutes = require("./routes/eventRoutes");
+/*const registrationRoutes = require("./routes/registrationRoutes");
 const adminRoutes = require("./routes/adminRoutes");*/
 
 app.use("/auth", authRoutes);
-/*app.use("/events", eventRoutes);
-app.use("/registrations", registrationRoutes);
+app.use("/events", eventRoutes);
+/*app.use("/registrations", registrationRoutes);
 app.use("/admin", adminRoutes);*/
 
 // Home route

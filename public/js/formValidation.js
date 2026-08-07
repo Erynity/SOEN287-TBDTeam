@@ -61,9 +61,7 @@ const registerForm = document.getElementById("register-form");
 
 // Verifies we're in registerForm
 if (registerForm) {
-  // Stops html file from reloading
   registerForm.addEventListener("submit", (e) => {
-    // Get IDs
     const firstName = document.getElementById("firstName").value.trim();
     const lastName = document.getElementById("lastName").value.trim();
     const email = document.getElementById("email").value.trim();
@@ -72,47 +70,47 @@ if (registerForm) {
     const role = document.getElementById("role").value;
     const box = document.getElementById("register-msg");
 
-    // Checks names input if it matches names pattern
-    if (!namePattern.test(firstName) && !namePattern.test(lastName))
+    // if ANY check fails, stop the submit and show the message
+    if (!namePattern.test(firstName) && !namePattern.test(lastName)) {
+      e.preventDefault();
       return showMessage(
         box,
-        "First and last name must be 2+ characters, containing only letters, spaces, or dashes (-).",
+        "First and last name must be 2+ characters, letters/spaces/dashes only.",
         false,
       );
-    // Checks email input if it matches email pattern
-    if (!emailPattern.test(email))
+    }
+    if (!emailPattern.test(email)) {
+      e.preventDefault();
       return showMessage(
         box,
         "Email must be a valid @gmail.com, @outlook.com, or @campus.ca address.",
         false,
       );
-
-    // Checks password input if it matches password pattern
-    if (!passwordPattern.test(pass))
+    }
+    if (!passwordPattern.test(pass)) {
+      e.preventDefault();
       return showMessage(
         box,
         "Password must be 8+ characters with a capital letter, number, and special character.",
         false,
       );
-
-    // Verifies confirm password matches with password
+    }
     if (pass !== confirm) {
       e.preventDefault();
       return showMessage(box, "Please make sure your passwords match.", false);
     }
-    if (role === "")
+    if (role === "") {
+      e.preventDefault();
       return showMessage(
         box,
         "Please select a role before registering.",
         false,
       );
-
-    // Successful Account Creation Message
-    showMessage(box, "Account created successfully!", true);
-
-    // Resets form to a blank page after submission
-    registerForm.reset();
+    }
   });
+
+  // Successful Account Creation Message
+  showMessage(box, "Account created successfully!", true);
 }
 
 // ---- PROFILE (HTML checks name/email; JS handles the password logic) ----
