@@ -676,12 +676,10 @@ if (EVENT_GRID) {
   loadEventsFromServer();
 }
 
-// Fetch events from the server and render them
-async function loadEventsFromServer() {
+//
+async function fetchEvents() {
   const raw = await fetch("/api/events").then((r) => r.json());
-
-  // map database column names to what createEventCard expects
-  const events = raw.map((e) => ({
+  return raw.map((e) => ({
     id: e.id,
     title: e.title,
     category: e.category,
@@ -692,8 +690,12 @@ async function loadEventsFromServer() {
     status: e.status,
     description: e.description,
     registered: e.registered ?? 0,
-  }));
+  })); // the existing map block, unchanged
+}
 
+// Fetch events from the server and render them
+async function loadEventsFromServer() {
+  const events = await fetchEvents();
   displayEventCards("EVENT_GRID", events);
 }
 
@@ -839,12 +841,13 @@ setupEventDetails();
 
 // --------------------------------------------------------------------- Student ---------------------------------------------------------------------
 
-if (document.getElementById("upcomingEvents")) {
-  const currentUser = 101;
-  //get all registrations for the current user
-  const myRegistrations = REGISTRATIONS.filter(
-    (reg) => reg.user_id === currentUser,
+async function loadStudentDashboard() {
+  if (!document.getElementById("upcomingEvents")) return;
+
+  const myRegistrations = await fetch("/registrations/mine").then((r) =>
+    r.json(),
   );
+  const allEvents = await fetchEvents();
 
   //stat cards for student dashboard
   document.getElementById("registeredCount").textContent =
@@ -861,7 +864,7 @@ if (document.getElementById("upcomingEvents")) {
   //get all events that the current user is registered for and sort by date
   const upcomingEvents = myRegistrations
     .filter((reg) => reg.status === "Registered")
-    .map((reg) => EVENTS.find((event) => event.id === reg.event_id))
+    .map((reg) => allEvents.find((event) => event.id === reg.event_id))
     .sort((a, b) => new Date(a.date) - new Date(b.date));
 
   //display upcoming events in the student dashboard
@@ -872,11 +875,12 @@ if (document.getElementById("upcomingEvents")) {
 
   if (suggestedContainer) {
     //get events that the current user is not registered for, sort by date, make sure theyre open status, and take the first 2
-    const suggestions = EVENTS.filter(
-      (event) =>
-        event.status === "Open" &&
-        !myRegistrations.some((reg) => reg.event_id === event.id),
-    )
+    const suggestions = allEvents
+      .filter(
+        (event) =>
+          event.status === "Open" &&
+          !myRegistrations.some((reg) => reg.event_id === event.id),
+      )
       .sort((a, b) => new Date(a.date) - new Date(b.date))
       .slice(0, 2);
 
@@ -884,16 +888,9 @@ if (document.getElementById("upcomingEvents")) {
   }
 
   //registrations table for student dashboard
-  const upcomingRegistrations = REGISTRATIONS.filter(
-    (reg) => reg.user_id === currentUser && reg.status === "Registered",
-  )
-    .map((reg) => {
-      return {
-        registration: reg,
-        event: EVENTS.find((e) => e.id === reg.event_id),
-      };
-    })
-    .sort((a, b) => new Date(a.event.date) - new Date(b.event.date));
+  const upcomingRegistrations = myRegistrations.filter(
+    (reg) => reg.status === "Registered",
+  );
 
   const regTable = document.getElementById("registrationTable");
 
@@ -901,14 +898,12 @@ if (document.getElementById("upcomingEvents")) {
     regTable.innerHTML = "";
     //loop through the upcoming registrations and add a row for each event
     upcomingRegistrations.forEach((item) => {
-      const event = item.event;
-
       regTable.innerHTML += `
             <tr>
-                <td>${event.title}</td>
-                <td>${event.date}</td>
-                <td>${event.startTime}</td>
-                <td>${event.location}</td>
+                <td>${item.title}</td>
+                <td>${item.event_date}</td>
+                <td>${item.start_time}</td>
+                <td>${item.location}</td>
                 <td>
                     <span class="badge badge-open">
                         Registered
@@ -924,16 +919,24 @@ if (document.getElementById("upcomingEvents")) {
     });
   }
 }
+
+loadStudentDashboard();
+
 // --------------------------------------------------------------------- Admin ---------------------------------------------------------------------
 //upcoming events for admin dashboard
 const adminEventsTable = document.getElementById("upcomingadminEvents");
-if (adminEventsTable) {
+async function loadAdminDashboard() {
+  if (!adminEventsTable) return;
+  const allEvents = await fetchEvents();
+
   adminEventsTable.innerHTML = "";
-  const upcomingEvents = EVENTS.filter(
-    (event) =>
-      (event.organizer === "Career Services" && event.status === "Open") ||
-      event.status === "Full",
-  ).sort((a, b) => new Date(b.date) - new Date(a.date));
+  const upcomingEvents = allEvents
+    .filter(
+      (event) =>
+        (event.organizer === "Career Services" && event.status === "Open") ||
+        event.status === "Full",
+    )
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
   upcomingEvents.forEach((event) => {
     const currentRegistrations =
       REGISTRATIONS.filter(
@@ -956,15 +959,22 @@ if (adminEventsTable) {
   });
 }
 
+loadAdminDashboard();
+
 //event registration table for admin registations page
 const eventOverviewTable = document.getElementById("eventOverviewTable");
-if (eventOverviewTable) {
+async function loadEventOverview() {
+  if (!eventOverviewTable) return;
+  const allEvents = await fetchEvents();
+
   eventOverviewTable.innerHTML = "";
-  const upcomingEvents = EVENTS.filter(
-    (event) =>
-      (event.organizer === "Career Services" && event.status === "Open") ||
-      event.status === "Full",
-  ).sort((a, b) => new Date(b.date) - new Date(a.date));
+  const upcomingEvents = allEvents
+    .filter(
+      (event) =>
+        (event.organizer === "Career Services" && event.status === "Open") ||
+        event.status === "Full",
+    )
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
   upcomingEvents.forEach((event) => {
     const currentRegistrations =
       REGISTRATIONS.filter(
@@ -991,17 +1001,25 @@ if (eventOverviewTable) {
     `;
   });
 }
+loadEventOverview();
+
 //event attendance table for admin registrations page
 const pasteventOverviewTable = document.getElementById(
   "pasteventOverviewTable",
 );
-if (pasteventOverviewTable) {
+async function loadPastEventOverview() {
+  if (!pasteventOverviewTable) return;
+  const allEvents = await fetchEvents();
+
   pasteventOverviewTable.innerHTML = "";
-  const upcomingEvents = EVENTS.filter(
-    (event) =>
-      (event.organizer === "Career Services" && event.status === "Cancelled") ||
-      event.status === "Completed",
-  ).sort((a, b) => new Date(b.date) - new Date(a.date));
+  const upcomingEvents = allEvents
+    .filter(
+      (event) =>
+        (event.organizer === "Career Services" &&
+          event.status === "Cancelled") ||
+        event.status === "Completed",
+    )
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
   upcomingEvents.forEach((event) => {
     const currentRegistrations =
       REGISTRATIONS.filter(
@@ -1028,6 +1046,7 @@ if (pasteventOverviewTable) {
     `;
   });
 }
+loadPastEventOverview();
 
 //helper function to create event card for any page that needs it
 function createAdminEventCard(event) {
@@ -1081,8 +1100,10 @@ function displayADMINEventCards(containerId, eventList) {
 // Manage events upcoming events
 const ADMIN_EVENT_GRID = document.getElementById("ADMIN_EVENT_GRID");
 
-if (ADMIN_EVENT_GRID) {
-  const careerServicesEvents = EVENTS.filter(
+async function loadManageEvents() {
+  if (!ADMIN_EVENT_GRID) return;
+  const allEvents = await fetchEvents();
+  const careerServicesEvents = allEvents.filter(
     (event) =>
       event.organizer === "Career Services" &&
       (event.status === "Open" || event.status === "Full"),
@@ -1090,11 +1111,16 @@ if (ADMIN_EVENT_GRID) {
 
   displayADMINEventCards("ADMIN_EVENT_GRID", careerServicesEvents);
 }
+loadManageEvents();
+
 // Manage events past events
 const ADMIN_PAST_EVENT_GRID = document.getElementById("ADMIN_PAST_EVENT_GRID");
 
-if (ADMIN_PAST_EVENT_GRID) {
-  const careerServicesEvents = EVENTS.filter(
+async function loadPastManageEvents() {
+  if (!ADMIN_PAST_EVENT_GRID) return;
+  const allEvents = await fetchEvents();
+
+  const careerServicesEvents = allEvents.filter(
     (event) =>
       event.organizer === "Career Services" &&
       (event.status === "Cancelled" || event.status === "Completed"),
@@ -1102,6 +1128,7 @@ if (ADMIN_PAST_EVENT_GRID) {
 
   displayADMINEventCards("ADMIN_PAST_EVENT_GRID", careerServicesEvents);
 }
+loadPastManageEvents();
 
 // Registered students table for the event from the admin registrations page
 const studentsTable = document.getElementById("registeredStudentsTable");
