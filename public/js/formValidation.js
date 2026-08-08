@@ -166,13 +166,14 @@ if (contactForm) {
 // ---- CREATE & EDIT EVENT (HTML checks fields; JS checks end > start) ----
 function validateEventForm(form) {
   form.addEventListener("submit", (e) => {
-    e.preventDefault();
     const start = document.getElementById("start-time").value;
     const end = document.getElementById("end-time").value;
     const box = document.getElementById("event-msg");
 
-    if (end <= start)
+    if (end <= start) {
+      e.preventDefault();
       return showMessage(box, "End time must be after start time.", false);
+    }
     showMessage(box, "Event saved successfully!", true);
   });
 }
