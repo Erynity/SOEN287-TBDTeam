@@ -32,5 +32,6 @@ CREATE TABLE registrations (
     status TEXT NOT NULL DEFAULT 'Registered',
     attended INTEGER NOT NULL DEFAULT 0,
     FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (event_id) REFERENCES events(id)
+    FOREIGN KEY (event_id) REFERENCES events(id),
+    UNIQUE(user_id, event_id)
 );

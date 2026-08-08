@@ -12,6 +12,7 @@ app.set("views", path.join(__dirname, "views"));
 // Set up middleware
 app.use("/public", express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(
   session({
     secret: "campus-events-secret",
@@ -24,13 +25,13 @@ app.use(
 const authRoutes = require("./routes/authRoutes");
 const eventRoutes = require("./routes/eventRoutes");
 const { requireLogin, requireAdmin } = require("./middleware/auth");
-/*const registrationRoutes = require("./routes/registrationRoutes");
-const adminRoutes = require("./routes/adminRoutes");*/
+const registrationRoutes = require("./routes/registrationRoutes");
+/*const adminRoutes = require("./routes/adminRoutes");*/
 
 app.use("/auth", authRoutes);
 app.use("/api/events", eventRoutes);
-/*app.use("/registrations", registrationRoutes);
-app.use("/admin", adminRoutes);*/
+app.use("/registrations", registrationRoutes);
+/*app.use("/admin", adminRoutes);*/
 
 // Home route
 app.get("/", (req, res) => {
