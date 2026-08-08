@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-     <!-- ==========================================================
+    <!-- ==========================================================
                   My Registrations
        ========================================================== -->
     <meta charset="UTF-8" />
@@ -10,7 +10,7 @@
 
     <title>Registrations - Smart Campus Event Planner</title>
 
-   <!-- Shared font + stylesheet + logo and javascript defer -->
+    <!-- Shared font + stylesheet + logo and javascript defer -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap"
@@ -26,7 +26,7 @@
     <!-- ================= NAVBAR (same on every page) ============ -->
     <nav class="navbar">
       <div class="navbar-inner">
-        <a class="navbar-brand" href="index.html">
+        <a class="navbar-brand" href="index">
           <img
             src="../public/images/logo.svg"
             alt=""
@@ -47,13 +47,15 @@
 
     <!-- ================= YOUR PAGE CONTENT ====================== -->
     <main>
-       <!-- Back button: returns to the previous page (admin dashboard) -->
+      <!-- Back button: returns to the previous page (admin dashboard) -->
       <button class="btn btn-secondary back-btn" onclick="history.back()">
         <span style="font-size: 1.5em; line-height: 1">←</span> Back
       </button>
       <!-- Page heading: eyebrow label and short description -->
       <span class="eyebrow">My Registrations</span>
-      <p class="muted">Here you can view and manage your event registrations.</p>
+      <p class="muted">
+        Here you can view and manage your event registrations.
+      </p>
 
       <!-- Table headers are fixed; the tbody below is empty on purpose -
      main.js fills it in from our registration data -->
