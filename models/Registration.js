@@ -38,7 +38,7 @@ function reactivate(id) {
 
 function findByUser(userId) {
   const query = db.prepare(
-    `SELECT r.*, e.title, e.event_date, e.location, e.category
+    `SELECT r.*, e.title, e.start_time, e.event_date, e.location, e.category
     FROM registrations r 
     JOIN events e 
     ON r.event_id = e.id 

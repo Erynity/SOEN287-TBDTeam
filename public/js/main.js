@@ -625,6 +625,10 @@ function getBadgeClass(status) {
       return "badge-cancelled";
     case "Completed":
       return "badge-completed";
+    case "Registered":
+      return "badge-open";
+    case "Attended":
+      return "badge-completed";
     default:
       return "";
   }
@@ -763,13 +767,9 @@ async function setupEventDetails() {
       const cancelBtn = document.getElementById("cancelRegistrationBtn");
 
       studentControls.hidden = false;
-      const currentUser = 101; //hardcoded for now, will be dynamic later
-
-      const registration = REGISTRATIONS.find(
-        (reg) =>
-          reg.user_id === currentUser &&
-          reg.event_id === event.id &&
-          reg.status === "Registered",
+      const myRegs = await fetch("/registrations/mine").then((r) => r.json());
+      const registration = myRegs.find(
+        (reg) => reg.event_id === event.id && reg.status === "Registered",
       );
 
       //if student is already registered, hide register button and show cancel button
@@ -787,6 +787,32 @@ async function setupEventDetails() {
           registerBtn.textContent = "Registration Unavailable";
         }
       }
+      registerBtn.addEventListener("click", async () => {
+        const result = await fetch("/registrations/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ eventId: event.id }),
+        }).then((r) => r.json());
+
+        if (result.success) {
+          window.location.reload();
+        } else {
+          alert(result.error);
+        }
+      });
+      cancelBtn.addEventListener("click", async () => {
+        const result = await fetch("/registrations/cancel", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ registrationId: registration.id }),
+        }).then((r) => r.json());
+
+        if (result.success) {
+          window.location.reload();
+        } else {
+          alert(result.error);
+        }
+      });
     }
 
     //admin controls
@@ -1113,43 +1139,68 @@ if (studentsTable) {
 // --------------------------------------------------------------------- Registration  ---------------------------------------------------------------------
 
 const myRegistrationTable = document.getElementById("myRegistrationTable");
-//get all registrations for the current user and sort by date
-if (myRegistrationTable) {
-  const currentUser = 101;
 
-  const studentRegistrations = REGISTRATIONS.filter(
-    (reg) => reg.user_id === currentUser,
-  )
-    .map((reg) => {
-      const event = EVENTS.find((event) => event.id === reg.event_id);
-      return { registration: reg, event: event };
-    })
-    .sort((a, b) => new Date(a.event.date) - new Date(b.event.date));
+//cancelRegistrations
+async function cancelRegistration(id) {
+  const result = await fetch("/registrations/cancel", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ registrationId: id }),
+  }).then((r) => r.json());
+
+  if (result.success) {
+    window.location.reload();
+  } else {
+    alert(result.error);
+  }
+}
+
+//Register again after pressing cancel button on my registration table
+async function registerAgain(eventId) {
+  const result = await fetch("/registrations/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ eventId: eventId }),
+  }).then((r) => r.json());
+
+  if (result.success) {
+    window.location.reload();
+  } else {
+    alert(result.error);
+  }
+}
+
+//get all registrations for the current user and sort by date
+async function loadMyRegistrations() {
+  if (!myRegistrationTable) return;
+  const studentRegistrations = await fetch("/registrations/mine").then((r) =>
+    r.json(),
+  );
 
   myRegistrationTable.innerHTML = "";
 
   studentRegistrations.forEach((item) => {
-    const event = item.event;
-    const registration = item.registration;
-
+    let actionButton;
+    if (item.status === "Registered") {
+      actionButton = `<button class="btn btn-danger" onclick="cancelRegistration(${item.id})">Cancel</button>`;
+    } else {
+      actionButton = `<button class="btn" onclick="registerAgain(${item.event_id})">Register</button>`;
+    }
     myRegistrationTable.innerHTML += `
       <tr>
-        <td>${event.title}</td>
-        <td>${event.date}</td>
-        <td>${event.startTime}</td>
-        <td>${event.location}</td>
-        <td>${registration.registration_date}</td>
-        <td><span class="badge ${getBadgeClass(event.status)}">${event.status}</span></td>
-        <td>${registration.attended ? "Attended" : "Not attended"}</td>
-        <td>
-          <button class="btn btn-danger" onclick="cancelRegistration(${registration.registration_id})">
-            Cancel
-          </button>
-        </td>
+        <td>${item.title}</td>
+        <td>${item.event_date}</td>
+        <td>${item.start_time}</td>
+        <td>${item.location}</td>
+        <td>${item.registration_date}</td>
+        <td><span class="badge ${getBadgeClass(item.status)}">${item.status}</span></td>
+        <td>${item.attended ? "Attended" : "Not attended"}</td>
+        <td>${actionButton}</td>      
       </tr>
     `;
   });
 }
+loadMyRegistrations();
 
 // Student Profile page - check the edit form before saving
 function setupProfileForm() {

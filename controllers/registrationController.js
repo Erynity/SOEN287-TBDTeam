@@ -63,7 +63,14 @@ function cancelRegistration(req, res) {
   res.json({ success: true, message: "Registration cancelled" });
 }
 
+function myRegistrations(req, res) {
+  const userId = req.session.userId;
+  const registrations = Registration.findByUser(userId);
+  res.json(registrations);
+}
+
 module.exports = {
   register,
   cancelRegistration,
+  myRegistrations,
 };
