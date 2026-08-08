@@ -19,6 +19,6 @@ router.get("/logout", authController.logout);
 
 // View and update the logged-in user's profile
 router.get("/profile", authController.showProfile);
-router.post("/profile", authController.updateProfile);
+router.post("/profile", authController.showProfile);
 
 module.exports = router;

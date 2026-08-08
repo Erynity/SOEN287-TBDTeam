@@ -15,11 +15,11 @@ function findById(id) {
 }
 
 // Create a new user. Returns the newly created user object.
-function create(firstName, lastName, email, password, role) {
+function create(firstName, lastName, email, password_hash, role) {
   const query = db.prepare(
-    "INSERT INTO users (first_name, last_name, email, password, role) VALUES (?, ?, ?, ?, ?)",
+    "INSERT INTO users (first_name, last_name, email, password_hash, role) VALUES (?, ?, ?, ?, ?)",
   );
-  const result = query.run(firstName, lastName, email, password, role);
+  const result = query.run(firstName, lastName, email, password_hash, role);
   return findById(result.lastInsertRowid);
 }
 

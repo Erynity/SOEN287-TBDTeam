@@ -10,7 +10,7 @@ function showRegister(req, res) {
 
 // Handle registration form submission
 async function register(req, res) {
-  const { firstName, lastName, email, password } = req.body;
+  const { firstName, lastName, email, password, role } = req.body;
   // Check if the email is already registered
   const existingUser = User.findByEmail(email);
   if (existingUser) {
@@ -21,13 +21,7 @@ async function register(req, res) {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   // Create the new user
-  const newUser = User.create(
-    firstName,
-    lastName,
-    email,
-    hashedPassword,
-    "student",
-  );
+  const newUser = User.create(firstName, lastName, email, hashedPassword, role);
 
   // Redirect to the login page
   res.redirect("/auth/login");
@@ -49,7 +43,7 @@ async function login(req, res) {
   }
 
   // Check the password
-  const isMatch = await bcrypt.compare(password, user.password);
+  const isMatch = await bcrypt.compare(password, user.password_hash);
   if (!isMatch) {
     return res.send("Invalid email or password.");
   }
@@ -78,13 +72,8 @@ function logout(req, res) {
 }
 
 function showProfile(req, res) {
-  // This is a stub for showing the profile page.
+  // This is a stub for showing the profile page and edit it.
   res.sendFile("student-profile.html", { root: "./views" });
-}
-
-// This is a stub for updating the profile. In a real application, you would handle form submission and update the database.
-function updateProfile(req, res) {
-  res.send("Profile update coming soon!");
 }
 
 // Export the functions so they can be used in routes
@@ -95,5 +84,4 @@ module.exports = {
   login,
   logout,
   showProfile,
-  updateProfile,
 };
