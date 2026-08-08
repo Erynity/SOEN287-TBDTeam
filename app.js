@@ -23,6 +23,7 @@ app.use(
 // Import routes
 const authRoutes = require("./routes/authRoutes");
 const eventRoutes = require("./routes/eventRoutes");
+const { requireLogin, requireAdmin } = require("./middleware/auth");
 /*const registrationRoutes = require("./routes/registrationRoutes");
 const adminRoutes = require("./routes/adminRoutes");*/
 
@@ -36,29 +37,10 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "views", "index.html"));
 });
 
-// Middleware to require login for protected routes
-function requireLogin(req, res, next) {
-  if (!req.session.userId) {
-    return res.redirect("/auth/login"); // not logged in -> go log in
-  }
-  next(); // logged in -> continue to the page
-}
-
 // Student dashboard route (protected)
 app.get("/student-dashboard", requireLogin, (req, res) => {
   res.sendFile(path.join(__dirname, "views", "student-dashboard.html"));
 });
-
-// Middleware to require admin role for admin routes
-function requireAdmin(req, res, next) {
-  if (!req.session.userId) {
-    return res.redirect("/auth/login"); // not logged in at all
-  }
-  if (req.session.role !== "admin") {
-    return res.status(403).send("Access denied - admins only."); // logged in, but not admin
-  }
-  next(); // logged in AND admin -> continue
-}
 
 // Admin dashboard route (protected)
 app.get("/admin-dashboard", requireAdmin, (req, res) => {
