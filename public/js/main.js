@@ -667,88 +667,30 @@ if (cancelBtn) {
 //get container where all event cards are displayed
 const EVENT_GRID = document.getElementById("EVENT_GRID");
 
-//Events search/filter function
-
 if (EVENT_GRID) {
-  //function to display the event list in the event grid
-  displayEventCards("EVENT_GRID", EVENTS);
+  // load real events from the database, then show them
+  loadEventsFromServer();
+}
 
-  //get references to all search and filter controls
-  const searchInput = document.getElementById("searchInput");
-  const categoryFilter = document.getElementById("categoryFilter");
-  const organizerFilter = document.getElementById("organizerFilter");
-  const statusFilter = document.getElementById("statusFilter");
+// Fetch events from the server and render them
+async function loadEventsFromServer() {
+  const raw = await fetch("/api/events").then((r) => r.json());
 
-  //populate organizer filter automatically using event data
-  if (organizerFilter) {
-    //create array of organizer names
-    const organizers = [...new Set(EVENTS.map((event) => event.organizer))];
-    //sort organizers alphabetically
-    organizers.sort();
-    //add each organizer option in the dropdown
-    organizers.forEach((org) => {
-      organizerFilter.innerHTML += `<option value="${org}">${org}</option>`;
-    });
-  }
+  // map database column names to what createEventCard expects
+  const events = raw.map((e) => ({
+    id: e.id,
+    title: e.title,
+    category: e.category,
+    date: e.event_date, // DB "event_date" -> card "date"
+    startTime: e.start_time, // DB "start_time" -> card "startTime"
+    location: e.location,
+    capacity: e.capacity,
+    status: e.status,
+    description: e.description,
+    registered: e.registered ?? 0,
+  }));
 
-  //filter function
-
-  //filter events list based on selections
-  function filterEvents() {
-    //keep only what matches every filter
-    let filtered = EVENTS.filter((event) => {
-      //search by event title not case sensitive
-      const matchesSearch = event.title
-        .toLowerCase()
-        .includes(searchInput.value.toLowerCase());
-      //match category
-      const matchesCategory =
-        categoryFilter.value === "" || event.category === categoryFilter.value;
-      //match organizer
-      const matchesOrganizer =
-        organizerFilter.value === "" ||
-        event.organizer === organizerFilter.value;
-      //match event status
-      const matchesStatus =
-        statusFilter.value === "" || event.status === statusFilter.value;
-      //only keep events that match with every selection
-      return (
-        matchesSearch && matchesCategory && matchesOrganizer && matchesStatus
-      );
-    });
-    //get sorting dropdown
-    const sortFilter = document.getElementById("sortFilter");
-
-    if (sortFilter) {
-      //sort alphabetically by title
-      if (sortFilter.value === "title") {
-        filtered.sort((a, b) => a.title.localeCompare(b.title));
-      }
-      //sort events by date
-      if (sortFilter.value === "date") {
-        filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
-      }
-    }
-    //display filtered events
-    displayEventCards("EVENT_GRID", filtered);
-  }
-
-  //event listeners
-
-  //run filterEvents whenever the selection changes so that the event list updates automatically
-  searchInput.addEventListener("input", filterEvents);
-
-  categoryFilter.addEventListener("change", filterEvents);
-
-  organizerFilter.addEventListener("change", filterEvents);
-
-  statusFilter.addEventListener("change", filterEvents);
-  //refilter when sorting option changes
-  const sortFilter = document.getElementById("sortFilter");
-
-  if (sortFilter) {
-    sortFilter.addEventListener("change", filterEvents);
-  }
+  displayEventCards("EVENT_GRID", events);
 }
 
 // EVENTS-DETAILS.HTML

@@ -27,7 +27,7 @@ const eventRoutes = require("./routes/eventRoutes");
 const adminRoutes = require("./routes/adminRoutes");*/
 
 app.use("/auth", authRoutes);
-app.use("/events", eventRoutes);
+app.use("/api/events", eventRoutes);
 /*app.use("/registrations", registrationRoutes);
 app.use("/admin", adminRoutes);*/
 
@@ -68,6 +68,47 @@ app.get("/admin-dashboard", requireAdmin, (req, res) => {
 // Reports the logged-in user's role from the session (guest if not logged in)
 app.get("/api/me", (req, res) => {
   res.json({ role: req.session.role || "guest" });
+});
+
+// Events page (the styled page; its data comes from /api/events)
+app.get("/events", (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "events.html"));
+});
+
+// ---- Public pages ----
+app.get("/contact", (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "contact.html"));
+});
+app.get("/event-details", (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "event-details.html"));
+});
+
+// ---- Student pages (must be logged in) ----
+app.get("/my-registrations", requireLogin, (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "my-registrations.html"));
+});
+app.get("/student-profile", requireLogin, (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "student-profile.html"));
+});
+
+// ---- Admin pages (must be admin) ----
+app.get("/manage-events", requireAdmin, (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "manage-events.html"));
+});
+app.get("/create-event", requireAdmin, (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "create-event.html"));
+});
+app.get("/edit-event", requireAdmin, (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "edit-event.html"));
+});
+app.get("/admin-registrations", requireAdmin, (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "admin-registrations.html"));
+});
+app.get("/admin-statistics", requireAdmin, (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "admin-statistics.html"));
+});
+app.get("/admin-profile", requireAdmin, (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "admin-profile.html"));
 });
 
 app.listen(PORT, () => {
