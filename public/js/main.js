@@ -707,7 +707,20 @@ async function setupEventDetails() {
   const params = new URLSearchParams(window.location.search);
   const id = Number(params.get("id"));
   //find matching event id in events array
-  const event = EVENTS.find((e) => e.id === id);
+  const raw = await fetch(`/api/events/${id}`).then((r) => r.json());
+  const event = {
+    id: raw.id,
+    title: raw.title,
+    category: raw.category,
+    date: raw.event_date,
+    startTime: raw.start_time,
+    endTime: raw.end_time,
+    location: raw.location,
+    capacity: raw.capacity,
+    status: raw.status,
+    description: raw.description,
+    registered: raw.registered ?? 0,
+  };
 
   if (event) {
     //fill page with selected event info
