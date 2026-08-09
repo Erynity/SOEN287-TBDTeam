@@ -40,4 +40,41 @@ function markAttendance(req, res) {
   Registration.setAttendance(registrationId, attended);
   res.json({ success: true });
 }
-module.exports = { listMyEvents, listEventRegistrations, markAttendance };
+
+function getStats(req, res) {
+  const adminId = req.session.userId;
+  const events = Event.getAllWithCounts().filter(
+    (e) => e.organizer_id === adminId,
+  );
+  const attendance = Registration.countAttendance();
+  const sorted = [...events].sort((a, b) => b.registered - a.registered);
+  const perCategory = Registration.mostPopularByCategory();
+  const topPerCategory = [];
+  perCategory.forEach((row) => {
+    if (!topPerCategory.some((t) => t.category === row.category)) {
+      topPerCategory.push(row);
+    }
+  });
+  topPerCategory.sort((a, b) => b.total - a.total);
+
+  res.json({
+    topPerCategory,
+    totalEvents: events.length,
+    fullEvents: events.filter((e) => e.registered >= e.capacity).length,
+    totalRegistrations: events.reduce((sum, e) => sum + e.registered, 0),
+    categories: Registration.countByCategory(),
+    attendanceRate:
+      attendance.total > 0
+        ? Math.round(((attendance.attended || 0) / attendance.total) * 100)
+        : 0,
+    mostRegistered: sorted.length ? sorted[0].title : "None",
+    leastRegistered: sorted.length ? sorted[sorted.length - 1].title : "None",
+  });
+}
+
+module.exports = {
+  listMyEvents,
+  listEventRegistrations,
+  markAttendance,
+  getStats,
+};

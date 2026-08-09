@@ -499,8 +499,11 @@ const adminEventsTable = document.getElementById("upcomingadminEvents");
 async function loadAdminDashboard() {
   if (!adminEventsTable) return;
   const allEvents = await fetchAdminEvents();
-
+  const stats = await fetch("/admin/stats").then((r) => r.json());
   const today = new Date().toISOString().split("T")[0];
+
+  document.getElementById("statOverallAttendance").textContent =
+    stats.attendanceRate + "%";
 
   document.getElementById("statTotalEvents").textContent = allEvents.length;
 
@@ -513,6 +516,21 @@ async function loadAdminDashboard() {
 
   document.getElementById("statCancelledEvents").textContent =
     allEvents.filter((e) => e.status === "Cancelled").length + " Event(s)";
+
+  const catBox = document.getElementById("statPopularCategory");
+  if (stats.topPerCategory.length === 0) {
+    catBox.innerHTML = `<p class="muted">No registrations yet.</p>`;
+  } else {
+    catBox.innerHTML = stats.topPerCategory
+      .slice(0, 3)
+      .map(
+        (c) => `<div class="flex-between">
+        <strong>${c.category}:</strong>
+        <span class="muted">${c.title}: ${c.total} regs</span>
+      </div>`,
+      )
+      .join("");
+  }
 
   adminEventsTable.innerHTML = "";
 
@@ -933,4 +951,21 @@ async function loadProfileDetails() {
   document.getElementById("email").value = me.email;
 }
 loadProfileDetails();
+
+async function loadAdminStatistics() {
+  if (!document.getElementById("statAttendanceRate")) return;
+  const stats = await fetch("/admin/stats").then((r) => r.json());
+
+  document.getElementById("statTotalRegistrations").textContent =
+    stats.totalRegistrations;
+  document.getElementById("statTotalEvents").textContent = stats.totalEvents;
+  document.getElementById("statFullEvents").textContent = stats.fullEvents;
+  document.getElementById("statHighestRatedEvent").textContent =
+    stats.mostRegistered;
+  document.getElementById("statLowestRatedEvent").textContent =
+    stats.leastRegistered;
+  document.getElementById("statAttendanceRate").textContent =
+    stats.attendanceRate + "%";
+}
+loadAdminStatistics();
 // --------------------------------------------------------------------- About ---------------------------------------------------------------------

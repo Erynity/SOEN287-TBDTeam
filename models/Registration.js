@@ -7,6 +7,16 @@ function countForEvent(eventId) {
   return query.get(eventId).count;
 }
 
+function countByCategory() {
+  const query = db.prepare(`SELECT e.category, COUNT(r.id) AS total
+FROM registrations r
+JOIN events e ON r.event_id = e.id
+WHERE r.status IN ('Registered', 'Attended', 'Missed')
+GROUP BY e.category
+ORDER BY total DESC`);
+  return query.all();
+}
+
 function findByUserAndEvent(userId, eventId) {
   const query = db.prepare(
     "SELECT * FROM registrations WHERE user_id = ? AND event_id = ?",
@@ -45,6 +55,17 @@ function setAttendance(id, attended) {
   return query.run(attended ? 1 : 0, status, id);
 }
 
+function countAttendance() {
+  const query = db.prepare(
+    `SELECT
+  COUNT(*) AS total,
+  SUM(CASE WHEN status = 'Attended' THEN 1 ELSE 0 END) AS attended
+FROM registrations
+WHERE status IN ('Registered', 'Attended', 'Missed')`,
+  );
+  return query.get();
+}
+
 function findByUser(userId) {
   const query = db.prepare(
     `SELECT r.*, e.title, e.start_time, e.event_date, e.location, e.category
@@ -69,8 +90,19 @@ function findByEvent(eventId) {
   return query.all(eventId);
 }
 
+function mostPopularByCategory() {
+  const query = db.prepare(`SELECT e.category, e.title, COUNT(r.id) AS total
+FROM registrations r
+JOIN events e ON r.event_id = e.id
+WHERE r.status IN ('Registered', 'Attended', 'Missed')
+GROUP BY e.category, e.id
+ORDER BY e.category, total DESC`);
+  return query.all();
+}
+
 module.exports = {
   countForEvent,
+  countByCategory,
   findByUserAndEvent,
   create,
   reactivate,
@@ -79,4 +111,6 @@ module.exports = {
   getById,
   findByEvent,
   setAttendance,
+  countAttendance,
+  mostPopularByCategory,
 };

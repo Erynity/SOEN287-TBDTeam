@@ -9,6 +9,8 @@ router.get(
   requireAdmin,
   adminController.listEventRegistrations,
 );
+router.get("/stats", requireAdmin, adminController.getStats);
+
 router.post(
   "/registrations/:id/attendance",
   requireAdmin,
