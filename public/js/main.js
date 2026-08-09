@@ -12,6 +12,197 @@ window.addEventListener("pageshow", (e) => {
   if (e.persisted) window.location.reload();
 });
 
+//helper function to show delete event confirmation and redirect to manage-events.html
+const deleteBtn = document.getElementById("delete-event-btn");
+if (deleteBtn) {
+  deleteBtn.addEventListener("click", () => {
+    const sure = confirm(
+      "Are you sure you want to delete this event? This cannot be undone.",
+    );
+    if (!sure) return;
+
+    // Deliverable 1: no backend, so we just confirm and go back.
+    // Deliverable 2: send a delete request to the server here.
+    alert("Event deleted successfully!");
+    window.location.href = "manage-events";
+  });
+}
+
+const cancelBtn = document.getElementById("cancel-event-btn");
+if (cancelBtn) {
+  cancelBtn.addEventListener("click", () => {
+    const sure = confirm(
+      "Are you sure you want to cancel this event? This cannot be undone.",
+    );
+    if (!sure) return;
+
+    // Deliverable 1: no backend, so we just confirm and go back.
+    // Deliverable 2: send a delete request to the server here.
+    alert("Event cancelled successfully!");
+  });
+}
+
+// ============================================================
+//  SHARED HELPERS
+// ============================================================
+
+// Picks the coloured badge class (open/full/cancelled/completed) for a status.
+//helper function for the status badge switch
+//translates the event status to the right badge class
+function getBadgeClass(status) {
+  switch (status) {
+    case "Open":
+      return "badge-open";
+    case "Full":
+      return "badge-full";
+    case "Cancelled":
+      return "badge-cancelled";
+    case "Completed":
+      return "badge-completed";
+    case "Registered":
+      return "badge-open";
+    case "Attended":
+      return "badge-completed";
+    case "Event cancelled":
+      return "badge-cancelled";
+    case "You cancelled":
+      return "badge-cancelled";
+    default:
+      return "";
+  }
+}
+
+// Fetch events from a given endpoint and map DB column names to display names.
+async function fetchEventsFrom(url) {
+  const raw = await fetch(url).then((r) => r.json());
+  return raw.map((e) => ({
+    id: e.id,
+    title: e.title,
+    category: e.category,
+    organizer: e.organizer,
+    date: e.event_date,
+    startTime: e.start_time,
+    location: e.location,
+    capacity: e.capacity,
+    status:
+      e.status === "Open" && e.registered >= e.capacity ? "Full" : e.status,
+    description: e.description,
+    registered: e.registered,
+  }));
+}
+
+async function fetchEvents() {
+  return fetchEventsFrom("/api/events");
+}
+async function fetchAdminEvents() {
+  return fetchEventsFrom("/admin/events");
+}
+
+// Builds the HTML for one public event card (title, badge, details, button).
+// Returned as a string that gets dropped into the events grid.
+//helper function to create event card for any page that needs it
+function createEventCard(event) {
+  //get the correct badge class for the event status
+  const badgeClass = getBadgeClass(event.status);
+
+  return `
+        <div class="card event-card">
+
+        <div class="event-card-head">  
+        <h3>${event.title}</h3>
+        <span class="badge ${badgeClass}">${event.status}</span>
+      </div>
+
+            <p class="event-meta muted">
+                ${event.category} ·
+                ${event.date} 
+            </p>
+            <p class="event-meta muted">
+                ${event.startTime} ·
+                ${event.location}
+            </p>
+
+            <p class="event-desc">${event.description}</p>
+                
+            <div class="event-card-foot">
+              <span class="muted">
+                ${event.registered}/${event.capacity} spots filled
+              </span>
+                <a class="btn" href="event-details?id=${event.id}">View details</a>
+
+            </div>
+
+        </div>
+    `;
+}
+
+// Fills a container with event cards by looping over a list of events.
+//helper function for displaying a list of event cards
+function displayEventCards(containerId, eventList) {
+  const container = document.getElementById(containerId);
+
+  if (!container) return;
+
+  container.innerHTML = "";
+  //loop through the event list and create a card for each event
+  eventList.forEach((event) => {
+    container.innerHTML += createEventCard(event);
+  });
+}
+
+//helper function to create event card for any page that needs it
+function createAdminEventCard(event) {
+  //get the correct badge class for the event status
+  const badgeClass = getBadgeClass(event.status);
+
+  return `
+        <div class="card event-card">
+
+        <div class="event-card-head">  
+        <h3>${event.title}</h3>
+        <span class="badge ${badgeClass}">${event.status}</span>
+      </div>
+
+            <p class="event-meta muted">
+                ${event.category} ·
+                ${event.date} 
+            </p>
+            <p class="event-meta muted">
+                ${event.startTime} ·
+                ${event.location}
+            </p>
+
+            <p class="event-desc">${event.description}</p>
+                
+            
+              <p class="muted">
+                ${event.registered}/${event.capacity} spots filled
+              </p>
+              <div class="event-card-foot">
+              <a class="btn" href="event-details?id=${event.id}">View details</a>
+              <a class="btn" href="edit-event?id=${event.id}">Edit</a>
+            </div>
+
+        </div>
+    `;
+}
+
+//helper function for displaying a list of event cards
+function displayADMINEventCards(containerId, eventList) {
+  const container = document.getElementById(containerId);
+
+  if (!container) return;
+
+  container.innerHTML = "";
+  //loop through the event list and create a card for each event
+  eventList.forEach((event) => {
+    container.innerHTML += createAdminEventCard(event);
+  });
+}
+
+// ============================================================
+//  NAVIGATION
+// ============================================================
 // Hamburger menu: opens/closes the nav, and also closes it when
 // you click outside the menu or press Escape.
 
@@ -101,114 +292,10 @@ async function setupNavLinks() {
     .join("");
 }
 
-// Builds the HTML for one public event card (title, badge, details, button).
-// Returned as a string that gets dropped into the events grid.
-//helper function to create event card for any page that needs it
-function createEventCard(event) {
-  //get the correct badge class for the event status
-  const badgeClass = getBadgeClass(event.status);
+// ============================================================
+//  PUBLIC PAGES  (events list, event details)
+// ============================================================
 
-  return `
-        <div class="card event-card">
-
-        <div class="event-card-head">  
-        <h3>${event.title}</h3>
-        <span class="badge ${badgeClass}">${event.status}</span>
-      </div>
-
-            <p class="event-meta muted">
-                ${event.category} ·
-                ${event.date} 
-            </p>
-            <p class="event-meta muted">
-                ${event.startTime} ·
-                ${event.location}
-            </p>
-
-            <p class="event-desc">${event.description}</p>
-                
-            <div class="event-card-foot">
-              <span class="muted">
-                ${event.registered}/${event.capacity} spots filled
-              </span>
-                <a class="btn" href="event-details?id=${event.id}">View details</a>
-
-            </div>
-
-        </div>
-    `;
-}
-
-// Fills a container with event cards by looping over a list of events.
-//helper function for displaying a list of event cards
-function displayEventCards(containerId, eventList) {
-  const container = document.getElementById(containerId);
-
-  if (!container) return;
-
-  container.innerHTML = "";
-  //loop through the event list and create a card for each event
-  eventList.forEach((event) => {
-    container.innerHTML += createEventCard(event);
-  });
-}
-
-// Picks the coloured badge class (open/full/cancelled/completed) for a status.
-//helper function for the status badge switch
-//translates the event status to the right badge class
-function getBadgeClass(status) {
-  switch (status) {
-    case "Open":
-      return "badge-open";
-    case "Full":
-      return "badge-full";
-    case "Cancelled":
-      return "badge-cancelled";
-    case "Completed":
-      return "badge-completed";
-    case "Registered":
-      return "badge-open";
-    case "Attended":
-      return "badge-completed";
-    case "Event cancelled":
-      return "badge-cancelled";
-    case "You cancelled":
-      return "badge-cancelled";
-    default:
-      return "";
-  }
-}
-
-//helper function to show delete event confirmation and redirect to manage-events.html
-const deleteBtn = document.getElementById("delete-event-btn");
-if (deleteBtn) {
-  deleteBtn.addEventListener("click", () => {
-    const sure = confirm(
-      "Are you sure you want to delete this event? This cannot be undone.",
-    );
-    if (!sure) return;
-
-    // Deliverable 1: no backend, so we just confirm and go back.
-    // Deliverable 2: send a delete request to the server here.
-    alert("Event deleted successfully!");
-    window.location.href = "manage-events";
-  });
-}
-
-const cancelBtn = document.getElementById("cancel-event-btn");
-if (cancelBtn) {
-  cancelBtn.addEventListener("click", () => {
-    const sure = confirm(
-      "Are you sure you want to cancel this event? This cannot be undone.",
-    );
-    if (!sure) return;
-
-    // Deliverable 1: no backend, so we just confirm and go back.
-    // Deliverable 2: send a delete request to the server here.
-    alert("Event cancelled successfully!");
-  });
-}
-//EVENTS.HTML
 //to populate event grid on events.html
 // Events page: show all events, then re-show a filtered list when the
 // user searches or changes the category/status/sort dropdowns.
@@ -216,43 +303,11 @@ if (cancelBtn) {
 //get container where all event cards are displayed
 const EVENT_GRID = document.getElementById("EVENT_GRID");
 
-//
-// Fetch events from a given endpoint and map DB column names to display names.
-async function fetchEventsFrom(url) {
-  const raw = await fetch(url).then((r) => r.json());
-  return raw.map((e) => ({
-    id: e.id,
-    title: e.title,
-    category: e.category,
-    organizer: e.organizer,
-    date: e.event_date,
-    startTime: e.start_time,
-    location: e.location,
-    capacity: e.capacity,
-    status:
-      e.status === "Open" && e.registered >= e.capacity ? "Full" : e.status,
-    description: e.description,
-    registered: e.registered,
-  }));
-}
-
-async function fetchEvents() {
-  return fetchEventsFrom("/api/events");
-}
-async function fetchAdminEvents() {
-  return fetchEventsFrom("/admin/events");
-}
-
 // Fetch events from the server and render them
 async function loadEventsFromServer() {
   const events = await fetchEvents();
   displayEventCards("EVENT_GRID", events);
 }
-
-// EVENTS-DETAILS.HTML
-//to populate event-details.html for each event
-// Event details page: reads the event id from the URL (?id=) and fills
-// in that event's title, badge, and info.
 
 // Fills the event-details page with one event's information.
 function fillEventDetails(event) {
@@ -388,9 +443,9 @@ async function setupEventDetails() {
   }
 }
 
-// run the event-details setup (only does something on that page)
-
-// --------------------------------------------------------------------- Student ---------------------------------------------------------------------
+// ============================================================
+//  STUDENT PAGES
+// ============================================================
 
 async function loadStudentDashboard() {
   if (!document.getElementById("upcomingEvents")) return;
@@ -476,9 +531,93 @@ async function loadStudentDashboard() {
   }
 }
 
-// --------------------------------------------------------------------- Admin ---------------------------------------------------------------------
+const myRegistrationTable = document.getElementById("myRegistrationTable");
+
+//get all registrations for the current user and sort by date
+async function loadMyRegistrations() {
+  if (!myRegistrationTable) return;
+  const studentRegistrations = await fetch("/registrations/mine").then((r) =>
+    r.json(),
+  );
+
+  myRegistrationTable.innerHTML = "";
+
+  studentRegistrations.forEach((item) => {
+    let displayStatus;
+    if (item.event_status === "Cancelled") {
+      displayStatus = "Event cancelled";
+    } else if (item.status === "Cancelled") {
+      displayStatus = "You cancelled";
+    } else if (item.registered >= item.capacity) {
+      displayStatus = "Full";
+    } else {
+      displayStatus = item.status;
+    }
+
+    let actionButton;
+    if (item.status === "Registered") {
+      actionButton = `<button class="btn btn-danger" onclick="cancelRegistration(${item.id})">Cancel</button>`;
+    } else {
+      actionButton = `<button class="btn" onclick="registerAgain(${item.event_id})">Register</button>`;
+    }
+    myRegistrationTable.innerHTML += `
+      <tr>
+        <td>${item.title}</td>
+        <td>${item.event_date}</td>
+        <td>${item.start_time}</td>
+        <td>${item.location}</td>
+        <td>${item.registration_date}</td>
+        <td><span class="badge ${getBadgeClass(displayStatus)}">${displayStatus}</span></td>
+        <td>${item.attended ? "Attended" : "Not attended"}</td>
+        <td>${actionButton}</td>      
+      </tr>
+    `;
+  });
+}
+
+//cancelRegistrations
+async function cancelRegistration(id) {
+  const result = await fetch("/registrations/cancel", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ registrationId: id }),
+  }).then((r) => r.json());
+
+  if (result.success) {
+    window.location.reload();
+  } else {
+    alert(result.error);
+  }
+}
+
+//Register again after pressing cancel button on my registration table
+async function registerAgain(eventId) {
+  const result = await fetch("/registrations/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ eventId: eventId }),
+  }).then((r) => r.json());
+
+  if (result.success) {
+    window.location.reload();
+  } else {
+    alert(result.error);
+  }
+}
+
+// ============================================================
+//  ADMIN PAGES
+// ============================================================
 //upcoming events for admin dashboard
 const adminEventsTable = document.getElementById("upcomingadminEvents");
+
+//event registration table for admin registations page
+const eventOverviewTable = document.getElementById("eventOverviewTable");
+const pasteventOverviewTable = document.getElementById(
+  "pasteventOverviewTable",
+);
+const cancelledEventsTable = document.getElementById("cancelledEventsTable");
+
 async function loadAdminDashboard() {
   if (!adminEventsTable) return;
   const allEvents = await fetchAdminEvents();
@@ -542,13 +681,6 @@ async function loadAdminDashboard() {
   });
 }
 
-//event registration table for admin registations page
-const eventOverviewTable = document.getElementById("eventOverviewTable");
-const pasteventOverviewTable = document.getElementById(
-  "pasteventOverviewTable",
-);
-const cancelledEventsTable = document.getElementById("cancelledEventsTable");
-
 // Renders a table of events into `table`, filtered by `filterFn`.
 async function loadEventTable(table, filterFn) {
   if (!table) return;
@@ -580,56 +712,6 @@ async function loadEventTable(table, filterFn) {
     .join("");
 }
 
-//helper function to create event card for any page that needs it
-function createAdminEventCard(event) {
-  //get the correct badge class for the event status
-  const badgeClass = getBadgeClass(event.status);
-
-  return `
-        <div class="card event-card">
-
-        <div class="event-card-head">  
-        <h3>${event.title}</h3>
-        <span class="badge ${badgeClass}">${event.status}</span>
-      </div>
-
-            <p class="event-meta muted">
-                ${event.category} ·
-                ${event.date} 
-            </p>
-            <p class="event-meta muted">
-                ${event.startTime} ·
-                ${event.location}
-            </p>
-
-            <p class="event-desc">${event.description}</p>
-                
-            
-              <p class="muted">
-                ${event.registered}/${event.capacity} spots filled
-              </p>
-              <div class="event-card-foot">
-              <a class="btn" href="event-details?id=${event.id}">View details</a>
-              <a class="btn" href="edit-event?id=${event.id}">Edit</a>
-            </div>
-
-        </div>
-    `;
-}
-
-//helper function for displaying a list of event cards
-function displayADMINEventCards(containerId, eventList) {
-  const container = document.getElementById(containerId);
-
-  if (!container) return;
-
-  container.innerHTML = "";
-  //loop through the event list and create a card for each event
-  eventList.forEach((event) => {
-    container.innerHTML += createAdminEventCard(event);
-  });
-}
-// Manage events upcoming events
 // Renders event cards into a grid, filtered by filterFn.
 async function loadEventGrid(gridId, filterFn) {
   if (!document.getElementById(gridId)) return;
@@ -674,40 +756,6 @@ async function loadRegisteredStudents() {
   }
 }
 
-// --------------------------------------------------------------------- Registration  ---------------------------------------------------------------------
-
-const myRegistrationTable = document.getElementById("myRegistrationTable");
-
-//cancelRegistrations
-async function cancelRegistration(id) {
-  const result = await fetch("/registrations/cancel", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ registrationId: id }),
-  }).then((r) => r.json());
-
-  if (result.success) {
-    window.location.reload();
-  } else {
-    alert(result.error);
-  }
-}
-
-//Register again after pressing cancel button on my registration table
-async function registerAgain(eventId) {
-  const result = await fetch("/registrations/register", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ eventId: eventId }),
-  }).then((r) => r.json());
-
-  if (result.success) {
-    window.location.reload();
-  } else {
-    alert(result.error);
-  }
-}
-
 async function markAttendance(registrationId, attended) {
   const result = await fetch(
     `/admin/registrations/${registrationId}/attendance`,
@@ -723,49 +771,21 @@ async function markAttendance(registrationId, attended) {
   }
 }
 
-//get all registrations for the current user and sort by date
-async function loadMyRegistrations() {
-  if (!myRegistrationTable) return;
-  const studentRegistrations = await fetch("/registrations/mine").then((r) =>
-    r.json(),
-  );
+async function loadAdminStatistics() {
+  if (!document.getElementById("statAttendanceRate")) return;
+  const stats = await fetch("/admin/stats").then((r) => r.json());
 
-  myRegistrationTable.innerHTML = "";
-
-  studentRegistrations.forEach((item) => {
-    let displayStatus;
-    if (item.event_status === "Cancelled") {
-      displayStatus = "Event cancelled";
-    } else if (item.status === "Cancelled") {
-      displayStatus = "You cancelled";
-    } else if (item.registered >= item.capacity) {
-      displayStatus = "Full";
-    } else {
-      displayStatus = item.status;
-    }
-
-    let actionButton;
-    if (item.status === "Registered") {
-      actionButton = `<button class="btn btn-danger" onclick="cancelRegistration(${item.id})">Cancel</button>`;
-    } else {
-      actionButton = `<button class="btn" onclick="registerAgain(${item.event_id})">Register</button>`;
-    }
-    myRegistrationTable.innerHTML += `
-      <tr>
-        <td>${item.title}</td>
-        <td>${item.event_date}</td>
-        <td>${item.start_time}</td>
-        <td>${item.location}</td>
-        <td>${item.registration_date}</td>
-        <td><span class="badge ${getBadgeClass(displayStatus)}">${displayStatus}</span></td>
-        <td>${item.attended ? "Attended" : "Not attended"}</td>
-        <td>${actionButton}</td>      
-      </tr>
-    `;
-  });
+  document.getElementById("statTotalRegistrations").textContent =
+    stats.totalRegistrations;
+  document.getElementById("statTotalEvents").textContent = stats.totalEvents;
+  document.getElementById("statFullEvents").textContent = stats.fullEvents;
+  document.getElementById("statHighestRatedEvent").textContent =
+    stats.mostRegistered;
+  document.getElementById("statLowestRatedEvent").textContent =
+    stats.leastRegistered;
+  document.getElementById("statAttendanceRate").textContent =
+    stats.attendanceRate + "%";
 }
-
-// --------------------------------------------------------------------- About ---------------------------------------------------------------------
 
 // EDIT EVENT page - load the chosen event into the form, then handle save
 async function setupEditEvent() {
@@ -814,6 +834,10 @@ async function setupEditEvent() {
   form.method = "post";
 }
 
+// ============================================================
+//  PROFILE
+// ============================================================
+
 async function loadProfileDetails() {
   if (!document.getElementById("profileEmail")) return;
   const me = await fetch("/api/me").then((r) => r.json());
@@ -824,22 +848,6 @@ async function loadProfileDetails() {
   document.getElementById("firstname").value = me.firstName;
   document.getElementById("lastname").value = me.lastName;
   document.getElementById("email").value = me.email;
-}
-
-async function loadAdminStatistics() {
-  if (!document.getElementById("statAttendanceRate")) return;
-  const stats = await fetch("/admin/stats").then((r) => r.json());
-
-  document.getElementById("statTotalRegistrations").textContent =
-    stats.totalRegistrations;
-  document.getElementById("statTotalEvents").textContent = stats.totalEvents;
-  document.getElementById("statFullEvents").textContent = stats.fullEvents;
-  document.getElementById("statHighestRatedEvent").textContent =
-    stats.mostRegistered;
-  document.getElementById("statLowestRatedEvent").textContent =
-    stats.leastRegistered;
-  document.getElementById("statAttendanceRate").textContent =
-    stats.attendanceRate + "%";
 }
 
 // ============================================================
