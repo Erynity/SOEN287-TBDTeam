@@ -52,6 +52,14 @@ function getById(id) {
   return query.get(id);
 }
 
+function findByEvent(eventId) {
+  const query = db.prepare(`SELECT r.*, u.first_name, u.last_name, u.email
+    FROM registrations r
+    JOIN users u ON r.user_id = u.id
+    WHERE r.event_id = ? AND r.status = 'Registered'`);
+  return query.all(eventId);
+}
+
 module.exports = {
   countForEvent,
   findByUserAndEvent,
@@ -60,4 +68,5 @@ module.exports = {
   cancel,
   findByUser,
   getById,
+  findByEvent,
 };

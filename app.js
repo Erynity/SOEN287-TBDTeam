@@ -26,12 +26,12 @@ const authRoutes = require("./routes/authRoutes");
 const eventRoutes = require("./routes/eventRoutes");
 const { requireLogin, requireAdmin } = require("./middleware/auth");
 const registrationRoutes = require("./routes/registrationRoutes");
-/*const adminRoutes = require("./routes/adminRoutes");*/
+const adminRoutes = require("./routes/adminRoutes");
 
 app.use("/auth", authRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/registrations", registrationRoutes);
-/*app.use("/admin", adminRoutes);*/
+app.use("/admin", adminRoutes);
 
 // Home route
 app.get("/", (req, res) => {
@@ -92,6 +92,9 @@ app.get("/admin-statistics", requireAdmin, (req, res) => {
 });
 app.get("/admin-profile", requireAdmin, (req, res) => {
   res.sendFile(path.join(__dirname, "views", "admin-profile.html"));
+});
+app.get("/view-all-student-ids", requireAdmin, (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "view-all-student-ids.html"));
 });
 
 app.listen(PORT, () => {

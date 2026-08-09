@@ -8,6 +8,16 @@ function getAll() {
   return query.all();
 }
 
+function getAllWithCounts() {
+  const query = db.prepare(
+    `SELECT e.*, COUNT(r.id) AS registered
+    FROM events e
+    LEFT JOIN registrations r ON r.event_id = e.id AND r.status = 'Registered'
+    GROUP BY e.id`,
+  );
+  return query.all();
+}
+
 // Get one event by its id. Returns the event or undefined.
 function getById(id) {
   const query = db.prepare("SELECT * FROM events WHERE id = ?");
@@ -142,4 +152,5 @@ module.exports = {
   update,
   remove,
   cancel,
+  getAllWithCounts,
 };
