@@ -171,6 +171,10 @@ function getBadgeClass(status) {
       return "badge-open";
     case "Attended":
       return "badge-completed";
+    case "Event cancelled":
+      return "badge-cancelled";
+    case "You cancelled":
+      return "badge-cancelled";
     default:
       return "";
   }
@@ -225,6 +229,7 @@ async function fetchEvents() {
     id: e.id,
     title: e.title,
     category: e.category,
+    organizer: e.organizer,
     date: e.event_date, // DB "event_date" -> card "date"
     startTime: e.start_time, // DB "start_time" -> card "startTime"
     location: e.location,
@@ -244,6 +249,7 @@ async function fetchAdminEvents() {
     id: e.id,
     title: e.title,
     category: e.category,
+    organizer: e.organizer,
     date: e.event_date, // DB "event_date" -> card "date"
     startTime: e.start_time, // DB "start_time" -> card "startTime"
     location: e.location,
@@ -280,6 +286,7 @@ async function setupEventDetails() {
     id: raw.id,
     title: raw.title,
     category: raw.category,
+    organizer: raw.organizer,
     date: raw.event_date,
     startTime: raw.start_time,
     endTime: raw.end_time,
@@ -855,6 +862,17 @@ async function loadMyRegistrations() {
   myRegistrationTable.innerHTML = "";
 
   studentRegistrations.forEach((item) => {
+    let displayStatus;
+    if (item.event_status === "Cancelled") {
+      displayStatus = "Event cancelled";
+    } else if (item.status === "Cancelled") {
+      displayStatus = "You cancelled";
+    } else if (item.registered >= item.capacity) {
+      displayStatus = "Full";
+    } else {
+      displayStatus = item.status;
+    }
+
     let actionButton;
     if (item.status === "Registered") {
       actionButton = `<button class="btn btn-danger" onclick="cancelRegistration(${item.id})">Cancel</button>`;
@@ -868,7 +886,7 @@ async function loadMyRegistrations() {
         <td>${item.start_time}</td>
         <td>${item.location}</td>
         <td>${item.registration_date}</td>
-        <td><span class="badge ${getBadgeClass(item.status)}">${item.status}</span></td>
+        <td><span class="badge ${getBadgeClass(displayStatus)}">${displayStatus}</span></td>
         <td>${item.attended ? "Attended" : "Not attended"}</td>
         <td>${actionButton}</td>      
       </tr>

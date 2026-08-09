@@ -10,21 +10,25 @@ function getAll() {
 
 function getAllWithCounts() {
   const query = db.prepare(
-    `SELECT e.*, COUNT(r.id) AS registered
-    FROM events e
-    LEFT JOIN registrations r ON r.event_id = e.id AND r.status IN ('Registered', 'Attended', 'Missed')
-    GROUP BY e.id`,
+    `SELECT e.*, COUNT(r.id) AS registered,
+       u.first_name || ' ' || u.last_name AS organizer
+FROM events e
+LEFT JOIN registrations r ON r.event_id = e.id AND r.status IN ('Registered', 'Attended', 'Missed')
+JOIN users u ON e.organizer_id = u.id
+GROUP BY e.id`,
   );
   return query.all();
 }
 
 function getByIdWithCounts(id) {
   const query = db.prepare(
-    `SELECT e.*, COUNT(r.id) AS registered
-    FROM events e
-    LEFT JOIN registrations r ON r.event_id = e.id AND r.status IN ('Registered', 'Attended', 'Missed')
-    WHERE e.id = ?
-    GROUP BY e.id`,
+    `SELECT e.*, COUNT(r.id) AS registered,
+       u.first_name || ' ' || u.last_name AS organizer
+FROM events e
+LEFT JOIN registrations r ON r.event_id = e.id AND r.status IN ('Registered', 'Attended', 'Missed')
+JOIN users u ON e.organizer_id = u.id
+WHERE e.id = ?
+GROUP BY e.id`,
   );
   return query.get(id);
 }

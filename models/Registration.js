@@ -47,7 +47,7 @@ function reactivate(id) {
 }
 
 function setAttendance(id, attended) {
-  const status = attended ? "Attended" : "Missed";
+  const status = attended ? "Attended" : "Registered";
   const query = db.prepare(
     `UPDATE registrations SET attended = ?, status = ?
      WHERE id = ?`,
@@ -68,7 +68,7 @@ WHERE status IN ('Registered', 'Attended', 'Missed')`,
 
 function findByUser(userId) {
   const query = db.prepare(
-    `SELECT r.*, e.title, e.start_time, e.event_date, e.location, e.category
+    `SELECT r.*, e.title, e.event_date, e.location, e.category, e.start_time, e.status AS event_status    
     FROM registrations r 
     JOIN events e 
     ON r.event_id = e.id 
