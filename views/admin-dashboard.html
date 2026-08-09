@@ -66,11 +66,11 @@
      so JavaScript can update them from the events data -->
       <div class="summary-grid">
         <div class="card stat-card">
-          <div class="stat-number" id="statUpcomingSoon">3</div>
+          <div class="stat-number" id="statUpcomingSoon"></div>
           <div class="stat-label">UPCOMING SOON</div>
         </div>
         <div class="card stat-card">
-          <div class="stat-number" id="statTotalEvents">4</div>
+          <div class="stat-number" id="statTotalEvents"></div>
           <div class="stat-label">TOTAL NUMBER OF EVENTS</div>
         </div>
       </div>
@@ -108,11 +108,11 @@
           </div>
           <div class="flex-between">
             <strong>Full capacity events</strong>
-            <span class="muted">1 Event(s)</span>
+            <span class="muted" id="statFullEvents"></span>
           </div>
           <div class="flex-between">
             <strong>Cancelled events</strong>
-            <span class="muted">0 Event(s)</span>
+            <span class="muted" id="statCancelledEvents"></span>
           </div>
           <a href="admin-registrations" class="btn mt-3"
             >+ Manage my registrations</a

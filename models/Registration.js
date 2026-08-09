@@ -2,7 +2,7 @@ const db = require("../database/db");
 
 function countForEvent(eventId) {
   const query = db.prepare(
-    "SELECT COUNT(*) AS count FROM registrations WHERE event_id = ? AND status = 'Registered'",
+    "SELECT COUNT(*) AS count FROM registrations WHERE event_id = ? AND status IN ('Registered', 'Attended', 'Missed')",
   );
   return query.get(eventId).count;
 }
@@ -36,6 +36,15 @@ function reactivate(id) {
   return query.run(id);
 }
 
+function setAttendance(id, attended) {
+  const status = attended ? "Attended" : "Missed";
+  const query = db.prepare(
+    `UPDATE registrations SET attended = ?, status = ?
+     WHERE id = ?`,
+  );
+  return query.run(attended ? 1 : 0, status, id);
+}
+
 function findByUser(userId) {
   const query = db.prepare(
     `SELECT r.*, e.title, e.start_time, e.event_date, e.location, e.category
@@ -56,7 +65,7 @@ function findByEvent(eventId) {
   const query = db.prepare(`SELECT r.*, u.first_name, u.last_name, u.email
     FROM registrations r
     JOIN users u ON r.user_id = u.id
-    WHERE r.event_id = ? AND r.status = 'Registered'`);
+    WHERE r.event_id = ? AND r.status IN ('Registered', 'Attended', 'Missed')`);
   return query.all(eventId);
 }
 
@@ -69,4 +78,5 @@ module.exports = {
   findByUser,
   getById,
   findByEvent,
+  setAttendance,
 };

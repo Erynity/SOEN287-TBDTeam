@@ -22,4 +22,22 @@ function listEventRegistrations(req, res) {
   res.json(Registration.findByEvent(eventId));
 }
 
-module.exports = { listMyEvents, listEventRegistrations };
+function markAttendance(req, res) {
+  const registrationId = req.params.id;
+  const attended = req.body.attended;
+  const adminId = req.session.userId;
+
+  const registration = Registration.getById(registrationId);
+  if (!registration) {
+    return res.status(404).json({ error: "Attendance not found" });
+  }
+
+  const event = Event.getById(registration.event_id);
+  if (event.organizer_id !== adminId) {
+    return res.status(403).json({ error: "This is not your Attendance" });
+  }
+
+  Registration.setAttendance(registrationId, attended);
+  res.json({ success: true });
+}
+module.exports = { listMyEvents, listEventRegistrations, markAttendance };

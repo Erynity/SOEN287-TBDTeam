@@ -9,6 +9,10 @@ document.addEventListener("DOMContentLoaded", () => {
   setupEditEvent();
 });
 
+window.addEventListener("pageshow", (e) => {
+  if (e.persisted) window.location.reload();
+});
+
 // Hamburger menu: opens/closes the nav, and also closes it when
 // you click outside the menu or press Escape.
 
@@ -225,9 +229,10 @@ async function fetchEvents() {
     startTime: e.start_time, // DB "start_time" -> card "startTime"
     location: e.location,
     capacity: e.capacity,
-    status: e.status,
+    status:
+      e.status === "Open" && e.registered >= e.capacity ? "Full" : e.status,
     description: e.description,
-    registered: e.registered ?? 0,
+    registered: e.registered,
   }));
 }
 
@@ -243,7 +248,8 @@ async function fetchAdminEvents() {
     startTime: e.start_time, // DB "start_time" -> card "startTime"
     location: e.location,
     capacity: e.capacity,
-    status: e.status,
+    status:
+      e.status === "Open" && e.registered >= e.capacity ? "Full" : e.status,
     description: e.description,
     registered: e.registered,
   }));
@@ -279,7 +285,10 @@ async function setupEventDetails() {
     endTime: raw.end_time,
     location: raw.location,
     capacity: raw.capacity,
-    status: raw.status,
+    status:
+      raw.status === "Open" && raw.registered >= raw.capacity
+        ? "Full"
+        : raw.status,
     description: raw.description,
     registered: raw.registered ?? 0,
   };
@@ -431,16 +440,22 @@ async function loadStudentDashboard() {
 
   if (suggestedContainer) {
     //get events that the current user is not registered for, sort by date, make sure theyre open status, and take the first 2
+    const today = new Date().toISOString().split("T")[0];
     const suggestions = allEvents
       .filter(
         (event) =>
+          event.date >= today &&
           event.status === "Open" &&
           !myRegistrations.some((reg) => reg.event_id === event.id),
       )
       .sort((a, b) => new Date(a.date) - new Date(b.date))
       .slice(0, 2);
 
-    displayEventCards("suggestedEvents", suggestions);
+    if (suggestions.length === 0) {
+      suggestedContainer.innerHTML = `<p class="muted">No suggestions right now.</p>`;
+    } else {
+      displayEventCards("suggestedEvents", suggestions);
+    }
   }
 
   //registrations table for student dashboard
@@ -466,7 +481,7 @@ async function loadStudentDashboard() {
                     </span>
                 </td>
                 <td>
-                    <button class="btn btn-danger">
+                    <button class="btn btn-danger" onclick="cancelRegistration(${item.id})">
                         Cancel
                     </button>
                 </td>
@@ -485,7 +500,22 @@ async function loadAdminDashboard() {
   if (!adminEventsTable) return;
   const allEvents = await fetchAdminEvents();
 
+  const today = new Date().toISOString().split("T")[0];
+
+  document.getElementById("statTotalEvents").textContent = allEvents.length;
+
+  document.getElementById("statUpcomingSoon").textContent = allEvents.filter(
+    (e) => e.date >= today && e.status !== "Cancelled",
+  ).length;
+
+  document.getElementById("statFullEvents").textContent =
+    allEvents.filter((e) => e.registered >= e.capacity).length + " Event(s)";
+
+  document.getElementById("statCancelledEvents").textContent =
+    allEvents.filter((e) => e.status === "Cancelled").length + " Event(s)";
+
   adminEventsTable.innerHTML = "";
+
   const upcomingEvents = allEvents
     .filter((event) => event.status === "Open" || event.status === "Full")
     .sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -689,7 +719,7 @@ async function loadRegisteredStudents() {
             <td>${student.first_name}</td>
             <td>${student.last_name}</td>
             <td>${student.email}</td>
-            <td><input type="checkbox" id="attended-${student.id}" name="attended-${student.id}"></td>
+            <td><input type="checkbox" id="attended-${student.id}" name="attended-${student.id}" ${student.attended ? "checked" : ""} onchange="markAttendance(${student.id}, this.checked)" ></td>
           </tr>
         `;
     });
@@ -728,6 +758,21 @@ async function registerAgain(eventId) {
     window.location.reload();
   } else {
     alert(result.error);
+  }
+}
+
+async function markAttendance(registrationId, attended) {
+  const result = await fetch(
+    `/admin/registrations/${registrationId}/attendance`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ attended }),
+    },
+  ).then((r) => r.json());
+
+  if (!result.success) {
+    alert(result.error || "Could not save attendance");
   }
 }
 
@@ -853,7 +898,10 @@ async function setupEditEvent() {
     endTime: raw.end_time,
     location: raw.location,
     capacity: raw.capacity,
-    status: raw.status,
+    status:
+      raw.status === "Open" && raw.registered >= raw.capacity
+        ? "Full"
+        : raw.status,
     description: raw.description,
     registered: raw.registered ?? 0,
   };

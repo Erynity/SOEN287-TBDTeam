@@ -12,10 +12,21 @@ function getAllWithCounts() {
   const query = db.prepare(
     `SELECT e.*, COUNT(r.id) AS registered
     FROM events e
-    LEFT JOIN registrations r ON r.event_id = e.id AND r.status = 'Registered'
+    LEFT JOIN registrations r ON r.event_id = e.id AND r.status IN ('Registered', 'Attended', 'Missed')
     GROUP BY e.id`,
   );
   return query.all();
+}
+
+function getByIdWithCounts(id) {
+  const query = db.prepare(
+    `SELECT e.*, COUNT(r.id) AS registered
+    FROM events e
+    LEFT JOIN registrations r ON r.event_id = e.id AND r.status IN ('Registered', 'Attended', 'Missed')
+    WHERE e.id = ?
+    GROUP BY e.id`,
+  );
+  return query.get(id);
 }
 
 // Get one event by its id. Returns the event or undefined.
@@ -119,4 +130,5 @@ module.exports = {
   remove,
   cancel,
   getAllWithCounts,
+  getByIdWithCounts,
 };

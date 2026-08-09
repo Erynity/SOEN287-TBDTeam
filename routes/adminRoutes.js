@@ -9,5 +9,10 @@ router.get(
   requireAdmin,
   adminController.listEventRegistrations,
 );
+router.post(
+  "/registrations/:id/attendance",
+  requireAdmin,
+  adminController.markAttendance,
+);
 
 module.exports = router;

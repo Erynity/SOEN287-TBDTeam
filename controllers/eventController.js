@@ -5,13 +5,13 @@ const Event = require("../models/Event");
 
 // Send every event as JSON. The frontend fetches this to fill the events grid.
 function listEvents(req, res) {
-  const events = Event.getAll();
+  const events = Event.getAllWithCounts();
   res.json(events);
 }
 
 // Send one event as JSON, looked up by ?id= in the URL.
 function getEvent(req, res) {
-  const event = Event.getById(req.params.id);
+  const event = Event.getByIdWithCounts(req.params.id);
   if (!event) {
     return res.status(404).json({ error: "Event not found" });
   }
