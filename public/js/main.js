@@ -425,7 +425,6 @@ async function loadStudentDashboard() {
   ).length;
 
   //upcoming events for student dashboard
-  const upcoming = document.getElementById("upcomingEvents");
   //get all events that the current user is registered for and sort by date
   const upcomingEvents = myRegistrations
     .filter((reg) => reg.status === "Registered")
@@ -501,6 +500,10 @@ async function loadAdminDashboard() {
   const allEvents = await fetchAdminEvents();
   const stats = await fetch("/admin/stats").then((r) => r.json());
   const today = new Date().toISOString().split("T")[0];
+  const me = await fetch("/api/me").then((r) => r.json());
+
+  document.getElementById("profileName").textContent =
+    me.firstName + " " + me.lastName;
 
   document.getElementById("statOverallAttendance").textContent =
     stats.attendanceRate + "%";
@@ -591,21 +594,21 @@ async function loadEventOverview() {
 }
 loadEventOverview();
 
-//event attendance table for admin registrations page
 const pasteventOverviewTable = document.getElementById(
   "pasteventOverviewTable",
 );
+const cancelledEventsTable = document.getElementById("cancelledEventsTable");
+
+//event attendance table for admin registrations page
 async function loadPastEventOverview() {
   if (!pasteventOverviewTable) return;
   const allEvents = await fetchAdminEvents();
 
   pasteventOverviewTable.innerHTML = "";
-  const upcomingEvents = allEvents
-    .filter(
-      (event) => event.status === "Cancelled" || event.status === "Completed",
-    )
+  const completedEvents = allEvents
+    .filter((event) => event.status === "Completed")
     .sort((a, b) => new Date(b.date) - new Date(a.date));
-  upcomingEvents.forEach((event) => {
+  completedEvents.forEach((event) => {
     const badgeClass = getBadgeClass(event.status);
 
     pasteventOverviewTable.innerHTML += `
@@ -628,6 +631,38 @@ async function loadPastEventOverview() {
   });
 }
 loadPastEventOverview();
+
+async function loadCancelledEvents() {
+  if (!cancelledEventsTable) return;
+  const allEvents = await fetchAdminEvents();
+
+  cancelledEventsTable.innerHTML = "";
+  const cancelledEvents = allEvents
+    .filter((event) => event.status === "Cancelled")
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
+  cancelledEvents.forEach((event) => {
+    const badgeClass = getBadgeClass(event.status);
+
+    cancelledEventsTable.innerHTML += `
+      <tr>
+        <td>${event.title}</td>
+        <td>${event.date}</td>
+        <td>${event.registered} / ${event.capacity}</td>
+        <td>
+            <a class="btn btn-primary" href="view-all-student-ids?id=${event.id}">
+              View All Students
+            </a>
+        </td>
+        <td>
+          <a class="btn btn-outline" href="event-details?id=${event.id}">
+            View details
+          </a>
+        </td>
+      </tr>
+    `;
+  });
+}
+loadCancelledEvents();
 
 //helper function to create event card for any page that needs it
 function createAdminEventCard(event) {
@@ -684,11 +719,11 @@ const ADMIN_EVENT_GRID = document.getElementById("ADMIN_EVENT_GRID");
 async function loadManageEvents() {
   if (!ADMIN_EVENT_GRID) return;
   const allEvents = await fetchAdminEvents();
-  const careerServicesEvents = allEvents.filter(
+  const completedEvents = allEvents.filter(
     (event) => event.status === "Open" || event.status === "Full",
   );
 
-  displayADMINEventCards("ADMIN_EVENT_GRID", careerServicesEvents);
+  displayADMINEventCards("ADMIN_EVENT_GRID", completedEvents);
 }
 loadManageEvents();
 
@@ -699,13 +734,29 @@ async function loadPastManageEvents() {
   if (!ADMIN_PAST_EVENT_GRID) return;
   const allEvents = await fetchAdminEvents();
 
-  const careerServicesEvents = allEvents.filter(
-    (event) => event.status === "Cancelled" || event.status === "Completed",
+  const completedEvents = allEvents.filter(
+    (event) => event.status === "Completed",
   );
 
-  displayADMINEventCards("ADMIN_PAST_EVENT_GRID", careerServicesEvents);
+  displayADMINEventCards("ADMIN_PAST_EVENT_GRID", completedEvents);
 }
 loadPastManageEvents();
+
+const ADMIN_CANCELLED_EVENT_GRID = document.getElementById(
+  "ADMIN_CANCELLED_EVENT_GRID",
+);
+
+async function loadCancelledManageEvents() {
+  if (!ADMIN_CANCELLED_EVENT_GRID) return;
+  const allEvents = await fetchAdminEvents();
+
+  const cancelledEvents = allEvents.filter(
+    (event) => event.status === "Cancelled",
+  );
+
+  displayADMINEventCards("ADMIN_CANCELLED_EVENT_GRID", cancelledEvents);
+}
+loadCancelledManageEvents();
 
 // Registered students table for the event from the admin registrations page
 const studentsTable = document.getElementById("registeredStudentsTable");
@@ -940,7 +991,7 @@ async function setupEditEvent() {
 }
 
 async function loadProfileDetails() {
-  if (!document.getElementById("profileName")) return;
+  if (!document.getElementById("profileEmail")) return;
   const me = await fetch("/api/me").then((r) => r.json());
   document.getElementById("profileName").textContent =
     me.firstName + " " + me.lastName;
