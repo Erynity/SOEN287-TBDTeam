@@ -272,10 +272,19 @@ async function setupNavLinks() {
 
 async function setupHomePage() {
   const createBtn = document.getElementById("createAccountBtn");
-  if (!createBtn) return;
+  const dashboardBtn = document.getElementById("dashboardBtn");
+  if (!createBtn || !dashboardBtn) return;
 
   const me = await fetch("/api/me").then((r) => r.json());
-  if (me.role === "guest") createBtn.hidden = false;
+
+  if (me.role === "guest") {
+    createBtn.hidden = false;
+    return;
+  }
+
+  dashboardBtn.href =
+    me.role === "admin" ? "/admin-dashboard" : "/student-dashboard";
+  dashboardBtn.hidden = false;
 }
 
 //get container where all event cards are displayed
