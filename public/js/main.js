@@ -5,7 +5,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   setupNavToggle();
   setupNavLinks();
-  setupProfileForm();
   setupEditEvent();
 });
 
@@ -217,21 +216,17 @@ if (cancelBtn) {
 //get container where all event cards are displayed
 const EVENT_GRID = document.getElementById("EVENT_GRID");
 
-if (EVENT_GRID) {
-  // load real events from the database, then show them
-  loadEventsFromServer();
-}
-
 //
-async function fetchEvents() {
-  const raw = await fetch("/api/events").then((r) => r.json());
+// Fetch events from a given endpoint and map DB column names to display names.
+async function fetchEventsFrom(url) {
+  const raw = await fetch(url).then((r) => r.json());
   return raw.map((e) => ({
     id: e.id,
     title: e.title,
     category: e.category,
     organizer: e.organizer,
-    date: e.event_date, // DB "event_date" -> card "date"
-    startTime: e.start_time, // DB "start_time" -> card "startTime"
+    date: e.event_date,
+    startTime: e.start_time,
     location: e.location,
     capacity: e.capacity,
     status:
@@ -241,24 +236,11 @@ async function fetchEvents() {
   }));
 }
 
-//helper function for fetching adminpage events
-
+async function fetchEvents() {
+  return fetchEventsFrom("/api/events");
+}
 async function fetchAdminEvents() {
-  const raw = await fetch("/admin/events").then((r) => r.json());
-  return raw.map((e) => ({
-    id: e.id,
-    title: e.title,
-    category: e.category,
-    organizer: e.organizer,
-    date: e.event_date, // DB "event_date" -> card "date"
-    startTime: e.start_time, // DB "start_time" -> card "startTime"
-    location: e.location,
-    capacity: e.capacity,
-    status:
-      e.status === "Open" && e.registered >= e.capacity ? "Full" : e.status,
-    description: e.description,
-    registered: e.registered,
-  }));
+  return fetchEventsFrom("/admin/events");
 }
 
 // Fetch events from the server and render them
@@ -272,10 +254,31 @@ async function loadEventsFromServer() {
 // Event details page: reads the event id from the URL (?id=) and fills
 // in that event's title, badge, and info.
 
-//check to see if were on event-details.html
+// Fills the event-details page with one event's information.
+function fillEventDetails(event) {
+  document.getElementById("eventTitle").textContent = event.title;
+
+  const badge = document.getElementById("eventStatus");
+  badge.textContent = event.status;
+  badge.className = `badge ${getBadgeClass(event.status)}`;
+
+  document.getElementById("eventCategory").textContent = event.category;
+
+  document.getElementById("eventOrganizer").textContent = event.organizer;
+
+  document.getElementById("eventDateTime").textContent =
+    `${event.date} · ${event.startTime} to ${event.endTime}`;
+
+  document.getElementById("eventLocation").textContent = `at ${event.location}`;
+
+  document.getElementById("eventDescription").textContent = event.description;
+
+  document.getElementById("eventCapacity").textContent =
+    `${event.registered}/${event.capacity} spots filled`;
+}
+
 async function setupEventDetails() {
-  const title = document.getElementById("eventTitle");
-  if (!title) return;
+  if (!document.getElementById("eventTitle")) return;
 
   //read event id from url
   const params = new URLSearchParams(window.location.search);
@@ -299,117 +302,93 @@ async function setupEventDetails() {
     description: raw.description,
     registered: raw.registered ?? 0,
   };
+  fillEventDetails(event);
 
-  if (event) {
-    //fill page with selected event info
-    title.textContent = event.title;
+  //check user role
+  const me = await fetch("/api/me").then((r) => r.json());
+  const userRole = me.role || "guest";
 
-    const badge = document.getElementById("eventStatus");
-    badge.textContent = event.status;
-    badge.className = `badge ${getBadgeClass(event.status)}`;
+  //guest controls
+  if (userRole === "guest") {
+    const guestControls = document.getElementById("guestControls");
+    guestControls.hidden = false;
+  }
 
-    document.getElementById("eventCategory").textContent = event.category;
+  //student controls
+  if (userRole === "student") {
+    const studentControls = document.getElementById("studentControls");
 
-    document.getElementById("eventOrganizer").textContent = event.organizer;
+    const registerBtn = document.getElementById("registerBtn");
+    const cancelBtn = document.getElementById("cancelRegistrationBtn");
 
-    document.getElementById("eventDateTime").textContent =
-      `${event.date} · ${event.startTime} to ${event.endTime}`;
+    studentControls.hidden = false;
+    const myRegs = await fetch("/registrations/mine").then((r) => r.json());
+    const registration = myRegs.find(
+      (reg) => reg.event_id === event.id && reg.status === "Registered",
+    );
 
-    document.getElementById("eventLocation").textContent =
-      `at ${event.location}`;
-
-    document.getElementById("eventDescription").textContent = event.description;
-
-    document.getElementById("eventCapacity").textContent =
-      `${event.registered}/${event.capacity} spots filled`;
-
-    //check user role
-    const me = await fetch("/api/me").then((r) => r.json());
-    const userRole = me.role || "guest";
-
-    //guest controls
-    if (userRole === "guest") {
-      const guestControls = document.getElementById("guestControls");
-      guestControls.hidden = false;
+    //if student is already registered, hide register button and show cancel button
+    if (registration) {
+      registerBtn.hidden = true;
+      cancelBtn.hidden = false;
     }
+    //if student is not registered, show register button and hide cancel button
+    else {
+      registerBtn.hidden = false;
+      cancelBtn.hidden = true;
 
-    //student controls
-    if (userRole === "student") {
-      const studentControls = document.getElementById("studentControls");
-
-      const registerBtn = document.getElementById("registerBtn");
-      const cancelBtn = document.getElementById("cancelRegistrationBtn");
-
-      studentControls.hidden = false;
-      const myRegs = await fetch("/registrations/mine").then((r) => r.json());
-      const registration = myRegs.find(
-        (reg) => reg.event_id === event.id && reg.status === "Registered",
-      );
-
-      //if student is already registered, hide register button and show cancel button
-      if (registration) {
-        registerBtn.hidden = true;
-        cancelBtn.hidden = false;
+      if (event.status !== "Open") {
+        registerBtn.disabled = true;
+        registerBtn.textContent = "Registration Unavailable";
       }
-      //if student is not registered, show register button and hide cancel button
-      else {
-        registerBtn.hidden = false;
-        cancelBtn.hidden = true;
+    }
+    registerBtn.addEventListener("click", async () => {
+      const result = await fetch("/registrations/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ eventId: event.id }),
+      }).then((r) => r.json());
 
-        if (event.status !== "Open") {
-          registerBtn.disabled = true;
-          registerBtn.textContent = "Registration Unavailable";
-        }
+      if (result.success) {
+        window.location.reload();
+      } else {
+        alert(result.error);
       }
-      registerBtn.addEventListener("click", async () => {
-        const result = await fetch("/registrations/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ eventId: event.id }),
-        }).then((r) => r.json());
+    });
+    cancelBtn.addEventListener("click", async () => {
+      const result = await fetch("/registrations/cancel", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ registrationId: registration.id }),
+      }).then((r) => r.json());
 
-        if (result.success) {
-          window.location.reload();
-        } else {
-          alert(result.error);
-        }
-      });
-      cancelBtn.addEventListener("click", async () => {
-        const result = await fetch("/registrations/cancel", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ registrationId: registration.id }),
-        }).then((r) => r.json());
+      if (result.success) {
+        window.location.reload();
+      } else {
+        alert(result.error);
+      }
+    });
+  }
 
-        if (result.success) {
-          window.location.reload();
-        } else {
-          alert(result.error);
-        }
-      });
-    }
+  //admin controls
+  if (userRole === "admin") {
+    const adminControls = document.getElementById("adminControls");
 
-    //admin controls
-    if (userRole === "admin") {
-      const adminControls = document.getElementById("adminControls");
+    adminControls.hidden = false;
 
-      adminControls.hidden = false;
+    //send admin to edit page for this event
+    const editBtn = document.getElementById("editEventBtn");
+    //send admin to manage registrations page for this event
+    const manageBtn = document.getElementById("viewRegistrationsBtn");
 
-      //send admin to edit page for this event
-      const editBtn = document.getElementById("editEventBtn");
-      //send admin to manage registrations page for this event
-      const manageBtn = document.getElementById("viewRegistrationsBtn");
+    const takeAttendanceBtn = document.getElementById("takeAttendanceBtn");
 
-      const takeAttendanceBtn = document.getElementById("takeAttendanceBtn");
-
-      editBtn.href = `edit-event?id=${event.id}`;
-      takeAttendanceBtn.href = `view-all-student-ids?id=${event.id}`;
-    }
+    editBtn.href = `edit-event?id=${event.id}`;
+    takeAttendanceBtn.href = `view-all-student-ids?id=${event.id}`;
   }
 }
 
 // run the event-details setup (only does something on that page)
-setupEventDetails();
 
 // --------------------------------------------------------------------- Student ---------------------------------------------------------------------
 
@@ -497,8 +476,6 @@ async function loadStudentDashboard() {
   }
 }
 
-loadStudentDashboard();
-
 // --------------------------------------------------------------------- Admin ---------------------------------------------------------------------
 //upcoming events for admin dashboard
 const adminEventsTable = document.getElementById("upcomingadminEvents");
@@ -565,111 +542,43 @@ async function loadAdminDashboard() {
   });
 }
 
-loadAdminDashboard();
-
 //event registration table for admin registations page
 const eventOverviewTable = document.getElementById("eventOverviewTable");
-async function loadEventOverview() {
-  if (!eventOverviewTable) return;
-  const allEvents = await fetchAdminEvents();
-
-  eventOverviewTable.innerHTML = "";
-  const upcomingEvents = allEvents
-    .filter((event) => event.status === "Open" || event.status === "Full")
-    .sort((a, b) => new Date(b.date) - new Date(a.date));
-  upcomingEvents.forEach((event) => {
-    const badgeClass = getBadgeClass(event.status);
-
-    eventOverviewTable.innerHTML += `
-      <tr>
-        <td>${event.title}</td>
-        <td>${event.date}</td>
-        <td>${event.registered} / ${event.capacity}</td>
-      <td>
-              <a class="btn btn-primary" href="view-all-student-ids?id=${event.id}">
-                View All Students
-              </a>
-            </td>
-            <td>
-              <a class="btn btn-outline" href="event-details?id=${event.id}">
-                View details
-              </a>
-            </td>
-      </tr>
-    `;
-  });
-}
-loadEventOverview();
-
 const pasteventOverviewTable = document.getElementById(
   "pasteventOverviewTable",
 );
 const cancelledEventsTable = document.getElementById("cancelledEventsTable");
 
-//event attendance table for admin registrations page
-async function loadPastEventOverview() {
-  if (!pasteventOverviewTable) return;
+// Renders a table of events into `table`, filtered by `filterFn`.
+async function loadEventTable(table, filterFn) {
+  if (!table) return;
   const allEvents = await fetchAdminEvents();
 
-  pasteventOverviewTable.innerHTML = "";
-  const completedEvents = allEvents
-    .filter((event) => event.status === "Completed")
+  const events = allEvents
+    .filter(filterFn)
     .sort((a, b) => new Date(b.date) - new Date(a.date));
-  completedEvents.forEach((event) => {
-    const badgeClass = getBadgeClass(event.status);
 
-    pasteventOverviewTable.innerHTML += `
+  table.innerHTML = events
+    .map(
+      (event) => `
       <tr>
         <td>${event.title}</td>
         <td>${event.date}</td>
         <td>${event.registered} / ${event.capacity}</td>
         <td>
-            <a class="btn btn-primary" href="view-all-student-ids?id=${event.id}">
-              View All Students
-            </a>
+          <a class="btn btn-primary" href="view-all-student-ids?id=${event.id}">
+            View All Students
+          </a>
         </td>
         <td>
           <a class="btn btn-outline" href="event-details?id=${event.id}">
             View details
           </a>
         </td>
-      </tr>
-    `;
-  });
+      </tr>`,
+    )
+    .join("");
 }
-loadPastEventOverview();
-
-async function loadCancelledEvents() {
-  if (!cancelledEventsTable) return;
-  const allEvents = await fetchAdminEvents();
-
-  cancelledEventsTable.innerHTML = "";
-  const cancelledEvents = allEvents
-    .filter((event) => event.status === "Cancelled")
-    .sort((a, b) => new Date(b.date) - new Date(a.date));
-  cancelledEvents.forEach((event) => {
-    const badgeClass = getBadgeClass(event.status);
-
-    cancelledEventsTable.innerHTML += `
-      <tr>
-        <td>${event.title}</td>
-        <td>${event.date}</td>
-        <td>${event.registered} / ${event.capacity}</td>
-        <td>
-            <a class="btn btn-primary" href="view-all-student-ids?id=${event.id}">
-              View All Students
-            </a>
-        </td>
-        <td>
-          <a class="btn btn-outline" href="event-details?id=${event.id}">
-            View details
-          </a>
-        </td>
-      </tr>
-    `;
-  });
-}
-loadCancelledEvents();
 
 //helper function to create event card for any page that needs it
 function createAdminEventCard(event) {
@@ -721,49 +630,12 @@ function displayADMINEventCards(containerId, eventList) {
   });
 }
 // Manage events upcoming events
-const ADMIN_EVENT_GRID = document.getElementById("ADMIN_EVENT_GRID");
-
-async function loadManageEvents() {
-  if (!ADMIN_EVENT_GRID) return;
+// Renders event cards into a grid, filtered by filterFn.
+async function loadEventGrid(gridId, filterFn) {
+  if (!document.getElementById(gridId)) return;
   const allEvents = await fetchAdminEvents();
-  const completedEvents = allEvents.filter(
-    (event) => event.status === "Open" || event.status === "Full",
-  );
-
-  displayADMINEventCards("ADMIN_EVENT_GRID", completedEvents);
+  displayADMINEventCards(gridId, allEvents.filter(filterFn));
 }
-loadManageEvents();
-
-// Manage events past events
-const ADMIN_PAST_EVENT_GRID = document.getElementById("ADMIN_PAST_EVENT_GRID");
-
-async function loadPastManageEvents() {
-  if (!ADMIN_PAST_EVENT_GRID) return;
-  const allEvents = await fetchAdminEvents();
-
-  const completedEvents = allEvents.filter(
-    (event) => event.status === "Completed",
-  );
-
-  displayADMINEventCards("ADMIN_PAST_EVENT_GRID", completedEvents);
-}
-loadPastManageEvents();
-
-const ADMIN_CANCELLED_EVENT_GRID = document.getElementById(
-  "ADMIN_CANCELLED_EVENT_GRID",
-);
-
-async function loadCancelledManageEvents() {
-  if (!ADMIN_CANCELLED_EVENT_GRID) return;
-  const allEvents = await fetchAdminEvents();
-
-  const cancelledEvents = allEvents.filter(
-    (event) => event.status === "Cancelled",
-  );
-
-  displayADMINEventCards("ADMIN_CANCELLED_EVENT_GRID", cancelledEvents);
-}
-loadCancelledManageEvents();
 
 // Registered students table for the event from the admin registrations page
 const studentsTable = document.getElementById("registeredStudentsTable");
@@ -801,7 +673,6 @@ async function loadRegisteredStudents() {
     });
   }
 }
-loadRegisteredStudents();
 
 // --------------------------------------------------------------------- Registration  ---------------------------------------------------------------------
 
@@ -893,72 +764,7 @@ async function loadMyRegistrations() {
     `;
   });
 }
-loadMyRegistrations();
 
-// Student Profile page - check the edit form before saving
-function setupProfileForm() {
-  const form = document.querySelector("#profile-form");
-  if (!form) return; // only runs on the profile page
-
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const firstName = document.querySelector("#firstname").value.trim();
-    const lastName = document.querySelector("#lastname").value.trim();
-    const email = document.querySelector("#email").value.trim();
-    const currentPassword = document.querySelector("#current-password").value;
-    const newPassword = document.querySelector("#new-password").value;
-    const confirmPassword = document.querySelector("#confirm-password").value;
-    const msg = document.querySelector("#profile-msg");
-
-    // Name and email are always required
-    if (firstName === "") {
-      showProfileMessage(msg, "Please enter your first name.", false);
-      return;
-    }
-    if (lastName === "") {
-      showProfileMessage(msg, "Please enter your last name.", false);
-      return;
-    }
-    if (email === "" || !email.includes("@") || !email.includes(".")) {
-      showProfileMessage(msg, "Please enter a valid email address.", false);
-      return;
-    }
-
-    // Only check the password if they are actually changing it
-    if (newPassword !== "") {
-      if (currentPassword === "") {
-        showProfileMessage(
-          msg,
-          "Enter your current password to change it.",
-          false,
-        );
-        return;
-      }
-      if (newPassword.length < 6) {
-        showProfileMessage(
-          msg,
-          "New password must be at least 6 characters.",
-          false,
-        );
-        return;
-      }
-      if (newPassword !== confirmPassword) {
-        showProfileMessage(msg, "New passwords do not match.", false);
-        return;
-      }
-    }
-
-    showProfileMessage(msg, "Profile updated successfully!", true);
-  });
-}
-
-// Show a message under the profile form: green for success, red for error
-function showProfileMessage(box, text, ok) {
-  box.textContent = text;
-  box.style.color = ok ? "var(--status-open)" : "var(--status-cancelled)";
-  box.hidden = false;
-}
 // --------------------------------------------------------------------- About ---------------------------------------------------------------------
 
 // EDIT EVENT page - load the chosen event into the form, then handle save
@@ -1019,7 +825,6 @@ async function loadProfileDetails() {
   document.getElementById("lastname").value = me.lastName;
   document.getElementById("email").value = me.email;
 }
-loadProfileDetails();
 
 async function loadAdminStatistics() {
   if (!document.getElementById("statAttendanceRate")) return;
@@ -1036,5 +841,33 @@ async function loadAdminStatistics() {
   document.getElementById("statAttendanceRate").textContent =
     stats.attendanceRate + "%";
 }
+
+// ============================================================
+//  PAGE INITIALISERS
+//  Every loader below exits immediately if the element it needs
+//  isn't on the current page, so this list is safe to run everywhere.
+// ============================================================
+if (EVENT_GRID) {
+  // load real events from the database, then show them
+  loadEventsFromServer();
+}
+setupEventDetails();
+loadStudentDashboard();
+loadAdminDashboard();
+loadRegisteredStudents();
+loadMyRegistrations();
+loadProfileDetails();
 loadAdminStatistics();
-// --------------------------------------------------------------------- About ---------------------------------------------------------------------
+loadEventGrid(
+  "ADMIN_EVENT_GRID",
+  (e) => e.status === "Open" || e.status === "Full",
+);
+loadEventGrid("ADMIN_PAST_EVENT_GRID", (e) => e.status === "Completed");
+loadEventGrid("ADMIN_CANCELLED_EVENT_GRID", (e) => e.status === "Cancelled");
+
+loadEventTable(
+  eventOverviewTable,
+  (e) => e.status === "Open" || e.status === "Full",
+);
+loadEventTable(pasteventOverviewTable, (e) => e.status === "Completed");
+loadEventTable(cancelledEventsTable, (e) => e.status === "Cancelled");
