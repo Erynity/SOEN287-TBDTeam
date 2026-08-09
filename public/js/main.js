@@ -771,7 +771,8 @@ function setupProfileForm() {
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    const fullName = document.querySelector("#fullname").value.trim();
+    const firstName = document.querySelector("#firstname").value.trim();
+    const lastName = document.querySelector("#lastname").value.trim();
     const email = document.querySelector("#email").value.trim();
     const currentPassword = document.querySelector("#current-password").value;
     const newPassword = document.querySelector("#new-password").value;
@@ -779,8 +780,12 @@ function setupProfileForm() {
     const msg = document.querySelector("#profile-msg");
 
     // Name and email are always required
-    if (fullName === "") {
-      showProfileMessage(msg, "Please enter your full name.", false);
+    if (firstName === "") {
+      showProfileMessage(msg, "Please enter your first name.", false);
+      return;
+    }
+    if (lastName === "") {
+      showProfileMessage(msg, "Please enter your last name.", false);
       return;
     }
     if (email === "" || !email.includes("@") || !email.includes(".")) {
@@ -867,4 +872,17 @@ async function setupEditEvent() {
   form.action = `/api/events/${id}/edit`;
   form.method = "post";
 }
+
+async function loadProfileDetails() {
+  if (!document.getElementById("profileName")) return;
+  const me = await fetch("/api/me").then((r) => r.json());
+  document.getElementById("profileName").textContent =
+    me.firstName + " " + me.lastName;
+  document.getElementById("profileEmail").textContent = me.email;
+  document.getElementById("profileRole").textContent = me.role;
+  document.getElementById("firstname").value = me.firstName;
+  document.getElementById("lastname").value = me.lastName;
+  document.getElementById("email").value = me.email;
+}
+loadProfileDetails();
 // --------------------------------------------------------------------- About ---------------------------------------------------------------------

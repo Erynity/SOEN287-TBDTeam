@@ -10,41 +10,6 @@ function showMessage(box, text, ok) {
   box.hidden = false;
 }
 
-// ---- LOGIN (HTML checks required + email; JS checks the account) ----
-const testAccounts = [
-  {
-    email: "student@campus.ca",
-    password: "Student123!",
-    page: "student-dashboard.html",
-    role: "student",
-  },
-  {
-    email: "admin@campus.ca",
-    password: "Admin123!",
-    page: "admin-dashboard.html",
-    role: "admin",
-  },
-];
-const loginForm = document.getElementById("login-form");
-if (loginForm) {
-  loginForm.addEventListener("submit", (e) => {
-    const email = document.getElementById("email").value.trim().toLowerCase();
-    const pass = document.getElementById("password").value;
-    const box = document.getElementById("login-error");
-
-    if (!emailPattern.test(email))
-      return showMessage(box, "Invalid email or password.", false);
-
-    const match = testAccounts.find(
-      (a) => a.email === email && a.password === pass,
-    );
-    if (match) {
-      localStorage.setItem("userRole", match.role);
-      window.location.href = match.page;
-    } else showMessage(box, "Invalid email or password.", false);
-  });
-}
-
 // ---- REGISTER (HTML checks the fields; JS checks passwords match) ----
 // Regular Expression for password
 const passwordPattern =
@@ -108,9 +73,6 @@ if (registerForm) {
       );
     }
   });
-
-  // Successful Account Creation Message
-  showMessage(box, "Account created successfully!", true);
 }
 
 // ---- PROFILE (HTML checks name/email; JS handles the password logic) ----

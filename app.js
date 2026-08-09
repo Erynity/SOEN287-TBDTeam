@@ -2,6 +2,7 @@
 const express = require("express");
 const session = require("express-session");
 const path = require("path");
+const User = require("./models/User");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -50,7 +51,16 @@ app.get("/admin-dashboard", requireAdmin, (req, res) => {
 
 // Reports the logged-in user's role from the session (guest if not logged in)
 app.get("/api/me", (req, res) => {
-  res.json({ role: req.session.role || "guest" });
+  if (!req.session.userId) {
+    return res.json({ role: "guest" });
+  }
+  const user = User.findById(req.session.userId);
+  res.json({
+    role: user.role,
+    firstName: user.first_name,
+    lastName: user.last_name,
+    email: user.email,
+  });
 });
 
 // Events page (the styled page; its data comes from /api/events)

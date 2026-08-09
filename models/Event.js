@@ -110,40 +110,6 @@ function cancel(id) {
   return getById(id);
 }
 
-// Update an existing event from the edit-event form.
-function updateEvent(req, res) {
-  const id = req.params.id;
-  const {
-    title,
-    description,
-    category,
-    event_date,
-    startTime,
-    endTime,
-    location,
-    capacity,
-    organizer_id,
-    status,
-  } = req.body;
-
-  Event.update(
-    id,
-    title,
-    description,
-    category,
-    event_date,
-    startTime,
-    endTime,
-    location,
-    capacity,
-    organizer_id,
-    status,
-    null,
-  );
-
-  res.redirect("/manage-events");
-}
-
 // Export the functions so they can be used in other files.
 module.exports = {
   getAll,
