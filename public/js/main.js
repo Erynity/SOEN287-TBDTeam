@@ -270,6 +270,14 @@ async function setupNavLinks() {
 // Events page: show all events, then re-show a filtered list when the
 // user searches or changes the category/status/sort dropdowns.
 
+async function setupHomePage() {
+  const createBtn = document.getElementById("createAccountBtn");
+  if (!createBtn) return;
+
+  const me = await fetch("/api/me").then((r) => r.json());
+  if (me.role === "guest") createBtn.hidden = false;
+}
+
 //get container where all event cards are displayed
 const EVENT_GRID = document.getElementById("EVENT_GRID");
 
@@ -863,6 +871,7 @@ if (EVENT_GRID) {
   // load real events from the database, then show them
   loadEventsFromServer();
 }
+setupHomePage();
 setupEventDetails();
 setupEditEventButtons();
 loadStudentDashboard();
