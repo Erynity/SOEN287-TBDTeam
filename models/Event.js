@@ -114,10 +114,10 @@ function update(
 
 // Delete an event by id.
 function remove(id) {
+  db.prepare("DELETE FROM registrations WHERE event_id = ?").run(id);
   const query = db.prepare("DELETE FROM events WHERE id = ?");
   return query.run(id);
 }
-
 // Cancel an event by id (keeps it in the database, just marks it Cancelled).
 function cancel(id) {
   const query = db.prepare("UPDATE events SET status = ? WHERE id = ?");

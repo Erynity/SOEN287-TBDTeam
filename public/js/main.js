@@ -12,36 +12,6 @@ window.addEventListener("pageshow", (e) => {
   if (e.persisted) window.location.reload();
 });
 
-//helper function to show delete event confirmation and redirect to manage-events.html
-const deleteBtn = document.getElementById("delete-event-btn");
-if (deleteBtn) {
-  deleteBtn.addEventListener("click", () => {
-    const sure = confirm(
-      "Are you sure you want to delete this event? This cannot be undone.",
-    );
-    if (!sure) return;
-
-    // Deliverable 1: no backend, so we just confirm and go back.
-    // Deliverable 2: send a delete request to the server here.
-    alert("Event deleted successfully!");
-    window.location.href = "manage-events";
-  });
-}
-
-const cancelBtn = document.getElementById("cancel-event-btn");
-if (cancelBtn) {
-  cancelBtn.addEventListener("click", () => {
-    const sure = confirm(
-      "Are you sure you want to cancel this event? This cannot be undone.",
-    );
-    if (!sure) return;
-
-    // Deliverable 1: no backend, so we just confirm and go back.
-    // Deliverable 2: send a delete request to the server here.
-    alert("Event cancelled successfully!");
-  });
-}
-
 // ============================================================
 //  SHARED HELPERS
 // ============================================================
@@ -834,6 +804,40 @@ async function setupEditEvent() {
   form.method = "post";
 }
 
+function setupEditEventButtons() {
+  const deleteBtn = document.getElementById("delete-event-btn");
+  const cancelBtn = document.getElementById("cancel-event-btn");
+
+  if (!deleteBtn || !cancelBtn) return;
+
+  //helper function to show delete event confirmation and redirect to manage-events.html
+
+  deleteBtn.addEventListener("click", async () => {
+    const sure = confirm(
+      "Are you sure you want to delete this event? This cannot be undone.",
+    );
+    if (!sure) return;
+
+    const id = Number(new URLSearchParams(window.location.search).get("id"));
+    const res = await fetch(`/api/events/${id}/delete`, { method: "POST" });
+    if (!res.ok) {
+      alert("Could not delete this event.");
+      return;
+    }
+    window.location.href = "/manage-events";
+  });
+
+  cancelBtn.addEventListener("click", async () => {
+    const sure = confirm(
+      "Are you sure you want to cancel this event? This cannot be undone.",
+    );
+    if (!sure) return;
+
+    const id = Number(new URLSearchParams(window.location.search).get("id"));
+    await fetch(`/api/events/${id}/cancel`, { method: "POST" });
+    window.location.reload();
+  });
+}
 // ============================================================
 //  PROFILE
 // ============================================================
@@ -860,6 +864,7 @@ if (EVENT_GRID) {
   loadEventsFromServer();
 }
 setupEventDetails();
+setupEditEventButtons();
 loadStudentDashboard();
 loadAdminDashboard();
 loadRegisteredStudents();
