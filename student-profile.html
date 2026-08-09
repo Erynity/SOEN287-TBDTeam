@@ -59,31 +59,23 @@
       <!-- Read-only card showing the student's current details. -->
       <div class="card">
         <h2>Your Details</h2>
-        <p><strong>Full Name:</strong> Jane Doe</p>
-        <p><strong>Email:</strong> student@campus.ca</p>
-        <p><strong>Role:</strong> Student</p>
+        <p><strong>Full Name:</strong> <span id="profileName"></span></p>
+        <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+        <p><strong>Role:</strong> <span id="profileRole"></span></p>
       </div>
       <!-- Editable card for updating profile information -->
       <div class="card">
         <h2>Edit Profile</h2>
         <form id="profile-form">
-          <label for="fullname">Full Name</label>
-          <input
-            type="text"
-            id="fullname"
-            name="fullname"
-            value="Student Name"
-            required
-          />
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstname" name="firstname" required />
+
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastname" name="lirstname" required />
+
           <!-- Email input -->
           <label for="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value="student@campus.ca"
-            required
-          />
+          <input type="email" id="email" name="email" required />
           <!-- Current password input -->
           <label for="current-password">Current Password</label>
           <input
