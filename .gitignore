@@ -1,6 +1,14 @@
-# ===== Node / npm =====
-# Installed packages - teammates run "npm install" to get their own copy
+# Dependencies
 node_modules/
 
-# npm debug logs
+# Database file (rebuilt with setup.js + seed.js)
+database/campus.sqlite
+
+# Editor and OS noise
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Logs
 npm-debug.log*
+*.log
