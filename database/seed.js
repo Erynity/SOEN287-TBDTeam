@@ -1,4 +1,22 @@
 const Event = require("../models/Event");
+const bcrypt = require("bcrypt");
+const User = require("../models/User");
+
+User.create(
+  "Admin",
+  "User",
+  "admin@campus.ca",
+  bcrypt.hashSync("Admin123!", 10),
+  "admin",
+);
+
+User.create(
+  "Student",
+  "User",
+  "student@campus.ca",
+  bcrypt.hashSync("Student123!", 10),
+  "student",
+);
 
 Event.create(
   "Fall Hackathon",
