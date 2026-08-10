@@ -3,6 +3,9 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 
+const passwordPattern =
+  /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])\S{8,}$/;
+
 // Show the registration form
 function showRegister(req, res) {
   res.sendFile("register.html", { root: "./views" });
@@ -17,8 +20,10 @@ async function register(req, res) {
     return res.send("Email is already registered.");
   }
 
-  if (!password || password.length < 8) {
-    return res.send("Password must be at least 8 characters.");
+  if (!passwordPattern.test(password)) {
+    return res.send(
+      "Password must be 8+ characters with a capital letter, lowercase letter, number, and special character.",
+    );
   }
 
   // Hash the password
@@ -109,9 +114,10 @@ async function updateProfile(req, res) {
 
   User.updateProfile(userId, firstName, lastName, email);
 
-  if (newPassword && newPassword.length < 8) {
+  if (newPassword && !passwordPattern.test(newPassword)) {
     return res.status(400).json({
-      error: "New password must be at least 8 characters",
+      error:
+        "Password must be 8+ characters with a capital letter, lowercase letter, number, and special character.",
     });
   }
 

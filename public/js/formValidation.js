@@ -75,30 +75,6 @@ if (registerForm) {
   });
 }
 
-// ---- PROFILE (HTML checks name/email; JS handles the password logic) ----
-const profileForm = document.getElementById("profile-form");
-if (profileForm) {
-  profileForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const newPass = document.getElementById("new-password").value;
-    const confirm = document.getElementById("confirm-password").value;
-    const box = document.getElementById("profile-msg");
-
-    // password is optional - only check the match if they typed a new one
-    if (newPass !== "") {
-      if (!passwordPattern.test(newPass))
-        return showMessage(
-          box,
-          "Password must be 8+ characters with a capital letter, number, and special character.",
-          false,
-        );
-      if (newPass !== confirm)
-        return showMessage(box, "New passwords do not match.", false);
-    }
-    showMessage(box, "Profile updated successfully!", true);
-  });
-}
-
 // ---- CONTACT (HTML checks everything; JS just confirms) ----
 const contactForm = document.getElementById("contact-form");
 if (contactForm) {

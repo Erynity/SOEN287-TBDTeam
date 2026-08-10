@@ -4,6 +4,7 @@
 // ============================================================
 const express = require("express");
 const router = express.Router();
+const { requireLogin } = require("../middleware/auth");
 const authController = require("../controllers/authController");
 
 // Show the login page and handle the login form
@@ -17,8 +18,11 @@ router.post("/register", authController.register);
 // Log the user out
 router.get("/logout", authController.logout);
 
-// View and update the logged-in user's profile
+// View logged-in user's profile
 router.get("/profile", authController.showProfile);
 router.post("/profile", authController.showProfile);
+
+//Edit logged-in user's profile
+router.post("/profile", requireLogin, authController.updateProfile);
 
 module.exports = router;

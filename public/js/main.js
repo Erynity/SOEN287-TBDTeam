@@ -923,6 +923,49 @@ async function loadProfileDetails() {
   document.getElementById("email").value = me.email;
 }
 
+function setupProfileUpdate() {
+  const form = document.getElementById("profile-form");
+  if (!form) return;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const body = {
+      firstname: document.getElementById("firstname").value.trim(),
+      lastname: document.getElementById("lastname").value.trim(),
+      email: document.getElementById("email").value.trim(),
+      "current-password": document.getElementById("current-password").value,
+      "new-password": document.getElementById("new-password").value,
+    };
+
+    const confirmPassword = document.getElementById("confirm-password").value;
+    const msg = document.getElementById("profile-msg");
+    msg.hidden = false;
+
+    if (body["new-password"] && body["new-password"] !== confirmPassword) {
+      msg.hidden = false;
+      msg.textContent = "New passwords do not match.";
+      msg.style.color = "var(--status-cancelled)";
+      return;
+    }
+
+    const result = await fetch("/auth/profile", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    }).then((r) => r.json());
+
+    if (result.success) {
+      msg.textContent = "Profile updated successfully!";
+      msg.style.color = "var(--status-open)";
+      document.getElementById("current-password").value = "";
+      document.getElementById("new-password").value = "";
+    } else {
+      msg.textContent = result.error;
+      msg.style.color = "var(--status-cancelled)";
+    }
+  });
+}
+
 // ============================================================
 //  PAGE INITIALISERS
 //  Every loader below exits immediately if the element it needs
@@ -935,6 +978,7 @@ if (EVENT_GRID) {
 setupHomePage();
 setupEventDetails();
 setupEditEventButtons();
+setupProfileUpdate();
 loadStudentDashboard();
 loadAdminDashboard();
 loadRegisteredStudents();
