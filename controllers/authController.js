@@ -6,6 +6,8 @@ const bcrypt = require("bcrypt");
 const passwordPattern =
   /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])\S{8,}$/;
 
+const emailPattern = /^(\S+@)(gmail|outlook|campus)\.(com|ca)$/i;
+
 // Show the registration form
 function showRegister(req, res) {
   res.sendFile("register.html", { root: "./views" });
@@ -14,26 +16,38 @@ function showRegister(req, res) {
 // Handle registration form submission
 async function register(req, res) {
   const { firstName, lastName, email, password, role } = req.body;
+
+  //Checks
+  if (!firstName || !lastName || !email || !password) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
+
+  if (!emailPattern.test(email)) {
+    return res
+      .status(400)
+      .json({ error: "Please enter a valid email address." });
+  }
+
   // Check if the email is already registered
   const existingUser = User.findByEmail(email);
   if (existingUser) {
-    return res.send("Email is already registered.");
+    return res.status(400).json({ error: "Email is already registered." });
   }
 
   if (!passwordPattern.test(password)) {
-    return res.send(
-      "Password must be 8+ characters with a capital letter, lowercase letter, number, and special character.",
-    );
+    return res.status(400).json({
+      error:
+        "Password must be 8+ characters with a capital letter, lowercase letter, number, and special character.",
+    });
   }
 
   // Hash the password
   const hashedPassword = await bcrypt.hash(password, 10);
 
   // Create the new user
-  const newUser = User.create(firstName, lastName, email, hashedPassword, role);
+  User.create(firstName, lastName, email, hashedPassword, role);
 
-  // Redirect to the login page
-  res.redirect("/auth/login");
+  res.json({ success: true });
 }
 
 // Show the login page
@@ -48,25 +62,20 @@ async function login(req, res) {
   // Find the user by their email
   const user = User.findByEmail(email);
   if (!user) {
-    return res.send("Invalid email or password.");
+    return res.status(401).json({ error: "Invalid email or password." });
   }
 
   // Check the password
   const isMatch = await bcrypt.compare(password, user.password_hash);
   if (!isMatch) {
-    return res.send("Invalid email or password.");
+    return res.status(401).json({ error: "Invalid email or password." });
   }
 
   // Store the user in the session
   req.session.userId = user.id;
   req.session.role = user.role;
 
-  if (user.role === "admin") {
-    // Redirect to the admin dashboard
-    res.redirect("/admin-dashboard");
-  } else {
-    res.redirect("/student-dashboard");
-  }
+  res.json({ success: true, role: user.role });
 }
 
 // Handle logout and profile stubs

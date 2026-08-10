@@ -18,8 +18,8 @@
     />
     <link rel="stylesheet" href="../public/css/style.css" />
     <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
-    <script src="/public/js/main.js" defer></script>
     <script src="/public/js/formValidation.js" defer></script>
+    <script src="/public/js/main.js" defer></script>
   </head>
 
   <body>
@@ -56,7 +56,7 @@
       </div>
 
       <!-- Start of form -->
-      <form class="card" id="login-form" action="/auth/login" method="POST">
+      <form class="card" id="login-form">
         <!-- Title -->
         <h2>Log In</h2>
         <p>Enter your credentials to access your account</p>
@@ -89,7 +89,7 @@
         <!-- Option to sign up if user already has an account -->
         <p>
           Don't have an account?
-          <a href="register" style="color: maroon">Create one</a>
+          <a href="/auth/register" style="color: maroon">Create one</a>
         </p>
 
         <!-- Demo Accounts Information -->

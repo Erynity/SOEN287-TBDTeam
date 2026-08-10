@@ -18,8 +18,8 @@
     />
     <link rel="stylesheet" href="../public/css/style.css" />
     <link rel="icon" href="../public/images/favicon.svg" type="image/svg+xml" />
-    <script src="/public/js/main.js" defer></script>
     <script src="/public/js/formValidation.js" defer></script>
+    <script src="/public/js/main.js" defer></script>
   </head>
 
   <body>
@@ -52,12 +52,7 @@
       </section>
 
       <!-- Form to create an account -->
-      <form
-        class="card"
-        id="register-form"
-        action="/auth/register"
-        method="POST"
-      >
+      <form class="card" id="register-form">
         <!-- Title -->
         <h2>Register</h2>
         <p>Fill in the details below to create your account.</p>
@@ -131,7 +126,7 @@
         <!-- Option to log in if user already has an account -->
         <p>
           Already have an account?
-          <a href="login" style="color: maroon">Log In</a>
+          <a href="/auth/login" style="color: maroon">Log In</a>
         </p>
       </form>
       <!-- End of form -->

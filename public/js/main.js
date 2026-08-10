@@ -911,6 +911,97 @@ function setupEditEventButtons() {
 //  PROFILE
 // ============================================================
 
+function setupLoginForm() {
+  const form = document.getElementById("login-form");
+  if (!form) return;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const body = {
+      email: document.getElementById("email").value.trim(),
+      password: document.getElementById("password").value,
+    };
+
+    const result = await fetch("/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    }).then((r) => r.json());
+
+    if (result.success) {
+      window.location.href =
+        result.role === "admin" ? "/admin-dashboard" : "/student-dashboard";
+      return;
+    }
+
+    const msg = document.getElementById("login-error");
+    msg.hidden = false;
+    msg.textContent = result.error;
+    msg.style.color = "var(--status-cancelled)";
+  });
+}
+
+function setupRegisterForm() {
+  const form = document.getElementById("register-form");
+  if (!form) return;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const msg = document.getElementById("register-msg");
+    msg.hidden = false;
+
+    const body = {
+      firstName: document.getElementById("firstName").value.trim(),
+      lastName: document.getElementById("lastName").value.trim(),
+      email: document.getElementById("email").value.trim(),
+      password: document.getElementById("password").value,
+      role: document.getElementById("role").value,
+    };
+
+    if (!namePattern.test(body.firstName) || !namePattern.test(body.lastName)) {
+      msg.textContent =
+        "First and last name must be 2+ characters, letters/spaces/dashes only.";
+      msg.style.color = "var(--status-cancelled)";
+      return;
+    }
+    if (!emailPattern.test(body.email)) {
+      msg.textContent =
+        "Email must be a valid @gmail.com, @outlook.com, or @campus.ca address.";
+      msg.style.color = "var(--status-cancelled)";
+      return;
+    }
+
+    const confirmPassword = document.getElementById("confirmPassword").value;
+    if (body.password !== confirmPassword) {
+      msg.textContent = "Please make sure your passwords match.";
+      msg.style.color = "var(--status-cancelled)";
+      return;
+    }
+    if (body.role === "") {
+      msg.textContent = "Please select a role before registering.";
+      msg.style.color = "var(--status-cancelled)";
+      return;
+    }
+
+    const result = await fetch("/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    }).then((r) => r.json());
+
+    if (result.success) {
+      msg.textContent = "Account created! Redirecting to login...";
+      msg.style.color = "var(--status-open)";
+      setTimeout(() => (window.location.href = "/auth/login"), 1200);
+      return;
+    }
+
+    msg.textContent = result.error;
+    msg.style.color = "var(--status-cancelled)";
+  });
+}
+
 async function loadProfileDetails() {
   if (!document.getElementById("profileEmail")) return;
   const me = await fetch("/api/me").then((r) => r.json());
@@ -977,6 +1068,8 @@ if (EVENT_GRID) {
   loadEventsFromServer();
 }
 setupHomePage();
+setupLoginForm();
+setupRegisterForm();
 setupEventDetails();
 setupEditEventButtons();
 setupProfileUpdate();
