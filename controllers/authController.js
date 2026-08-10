@@ -17,6 +17,10 @@ async function register(req, res) {
     return res.send("Email is already registered.");
   }
 
+  if (!password || password.length < 8) {
+    return res.send("Password must be at least 8 characters.");
+  }
+
   // Hash the password
   const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -76,6 +80,49 @@ function showProfile(req, res) {
   res.sendFile("student-profile.html", { root: "./views" });
 }
 
+async function updateProfile(req, res) {
+  const userId = req.session.userId;
+  const firstName = req.body.firstname;
+  const lastName = req.body.lastname;
+  const email = req.body.email;
+  const currentPassword = req.body["current-password"];
+  const newPassword = req.body["new-password"];
+
+  const user = User.findById(userId);
+  if (!user) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  const isMatch = await bcrypt.compare(currentPassword, user.password_hash);
+  if (!isMatch) {
+    return res.status(403).json({ error: "Current password is incorrect" });
+  }
+
+  if (!firstName || !lastName || !email) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
+
+  const existing = User.findByEmail(email);
+  if (existing && existing.id !== userId) {
+    return res.status(400).json({ error: "Email already in use" });
+  }
+
+  User.updateProfile(userId, firstName, lastName, email);
+
+  if (newPassword && newPassword.length < 8) {
+    return res.status(400).json({
+      error: "New password must be at least 8 characters",
+    });
+  }
+
+  if (newPassword) {
+    const hash = await bcrypt.hash(newPassword, 10);
+    User.updatePassword(userId, hash);
+  }
+
+  res.json({ success: true });
+}
+
 // Export the functions so they can be used in routes
 module.exports = {
   showRegister,
@@ -84,4 +131,5 @@ module.exports = {
   login,
   logout,
   showProfile,
+  updateProfile,
 };

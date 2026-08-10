@@ -23,9 +23,26 @@ function create(firstName, lastName, email, password_hash, role) {
   return findById(result.lastInsertRowid);
 }
 
+//Update profile
+function updateProfile(id, firstName, lastName, email) {
+  const query = db.prepare(
+    "UPDATE users SET first_name = ?, last_name = ?, email = ? WHERE id = ?",
+  );
+  query.run(firstName, lastName, email, id);
+  return findById(id);
+}
+
+//Update password
+function updatePassword(id, passwordHash) {
+  const query = db.prepare("UPDATE users SET password_hash = ? WHERE id = ?");
+  query.run(passwordHash, id);
+}
+
 // Export the functions so they can be used in other files.
 module.exports = {
   findByEmail,
   findById,
   create,
+  updateProfile,
+  updatePassword,
 };
