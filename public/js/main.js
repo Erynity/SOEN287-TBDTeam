@@ -959,6 +959,7 @@ function setupProfileUpdate() {
       msg.style.color = "var(--status-open)";
       document.getElementById("current-password").value = "";
       document.getElementById("new-password").value = "";
+      setTimeout(() => window.location.reload(), 1200);
     } else {
       msg.textContent = result.error;
       msg.style.color = "var(--status-cancelled)";

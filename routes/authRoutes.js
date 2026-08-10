@@ -20,7 +20,6 @@ router.get("/logout", authController.logout);
 
 // View logged-in user's profile
 router.get("/profile", authController.showProfile);
-router.post("/profile", authController.showProfile);
 
 //Edit logged-in user's profile
 router.post("/profile", requireLogin, authController.updateProfile);
