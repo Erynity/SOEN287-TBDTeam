@@ -287,14 +287,66 @@ async function setupHomePage() {
   dashboardBtn.hidden = false;
 }
 
+let allPublicEvents = [];
+async function loadEventsFromServer() {
+  allPublicEvents = await fetchEvents();
+  populateOrganizerFilter();
+  attachEventFilterListeners();
+  applyEventFilters();
+}
+
+function applyEventFilters() {
+  const term = document.getElementById("searchInput").value.toLowerCase();
+  const category = document.getElementById("categoryFilter").value;
+  const organizer = document.getElementById("organizerFilter").value;
+  const status = document.getElementById("statusFilter").value;
+  const sort = document.getElementById("sortFilter").value;
+
+  let results = allPublicEvents.filter((e) => {
+    const matchesSearch = term === "" || e.title.toLowerCase().includes(term);
+    const matchesCategory = category === "" || e.category === category;
+    const matchesOrganizer = organizer === "" || e.organizer === organizer;
+    const matchesStatus = status === "" || e.status === status;
+
+    return (
+      matchesSearch && matchesCategory && matchesOrganizer && matchesStatus
+    );
+  });
+
+  if (sort === "title") {
+    results.sort((a, b) => a.title.localeCompare(b.title));
+  } else if (sort === "date") {
+    results.sort((a, b) => new Date(a.date) - new Date(b.date));
+  }
+
+  displayEventCards("EVENT_GRID", results);
+}
+
+function attachEventFilterListeners() {
+  [
+    "searchInput",
+    "categoryFilter",
+    "organizerFilter",
+    "statusFilter",
+    "sortFilter",
+  ].forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener("input", applyEventFilters);
+  });
+}
+
+function populateOrganizerFilter() {
+  const select = document.getElementById("organizerFilter");
+  if (!select) return;
+
+  const names = [...new Set(allPublicEvents.map((e) => e.organizer))];
+  select.innerHTML =
+    `<option value="">All Organizers</option>` +
+    names.map((n) => `<option value="${n}">${n}</option>`).join("");
+}
+
 //get container where all event cards are displayed
 const EVENT_GRID = document.getElementById("EVENT_GRID");
-
-// Fetch events from the server and render them
-async function loadEventsFromServer() {
-  const events = await fetchEvents();
-  displayEventCards("EVENT_GRID", events);
-}
 
 // Fills the event-details page with one event's information.
 function fillEventDetails(event) {
