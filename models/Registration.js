@@ -2,7 +2,7 @@ const db = require("../database/db");
 
 function countForEvent(eventId) {
   const query = db.prepare(
-    "SELECT COUNT(*) AS count FROM registrations WHERE event_id = ? AND status IN ('Registered', 'Attended', 'Missed')",
+    "SELECT COUNT(*) AS count FROM registrations WHERE event_id = ? AND status IN ('Registered', 'Attended')",
   );
   return query.get(eventId).count;
 }
@@ -11,7 +11,7 @@ function countByCategory() {
   const query = db.prepare(`SELECT e.category, COUNT(r.id) AS total
 FROM registrations r
 JOIN events e ON r.event_id = e.id
-WHERE r.status IN ('Registered', 'Attended', 'Missed')
+WHERE r.status IN ('Registered', 'Attended')
 GROUP BY e.category
 ORDER BY total DESC`);
   return query.all();
@@ -62,7 +62,7 @@ function countAttendance() {
        SUM(CASE WHEN r.status = 'Attended' THEN 1 ELSE 0 END) AS attended
      FROM registrations r
      JOIN events e ON e.id = r.event_id
-     WHERE r.status IN ('Registered', 'Attended', 'Missed')
+     WHERE r.status IN ('Registered', 'Attended')
        AND e.status NOT IN ('Cancelled', 'Disabled')`,
   );
   return query.get();
@@ -88,7 +88,7 @@ function findByEvent(eventId) {
   const query = db.prepare(`SELECT r.*, u.first_name, u.last_name, u.email
     FROM registrations r
     JOIN users u ON r.user_id = u.id
-    WHERE r.event_id = ? AND r.status IN ('Registered', 'Attended', 'Missed')`);
+    WHERE r.event_id = ? AND r.status IN ('Registered', 'Attended')`);
   return query.all(eventId);
 }
 
@@ -96,7 +96,7 @@ function mostPopularByCategory() {
   const query = db.prepare(`SELECT e.category, e.title, COUNT(r.id) AS total
 FROM registrations r
 JOIN events e ON r.event_id = e.id
-WHERE r.status IN ('Registered', 'Attended', 'Missed')
+WHERE r.status IN ('Registered', 'Attended')
 GROUP BY e.category, e.id
 ORDER BY e.category, total DESC`);
   return query.all();

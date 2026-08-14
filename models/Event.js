@@ -13,7 +13,7 @@ function getAllWithCounts() {
     `SELECT e.*, COUNT(r.id) AS registered,
        u.first_name || ' ' || u.last_name AS organizer
 FROM events e
-LEFT JOIN registrations r ON r.event_id = e.id AND r.status IN ('Registered', 'Attended', 'Missed')
+LEFT JOIN registrations r ON r.event_id = e.id AND r.status IN ('Registered', 'Attended')
 JOIN users u ON e.organizer_id = u.id
 GROUP BY e.id`,
   );
@@ -25,7 +25,7 @@ function getByIdWithCounts(id) {
     `SELECT e.*, COUNT(r.id) AS registered,
        u.first_name || ' ' || u.last_name AS organizer
 FROM events e
-LEFT JOIN registrations r ON r.event_id = e.id AND r.status IN ('Registered', 'Attended', 'Missed')
+LEFT JOIN registrations r ON r.event_id = e.id AND r.status IN ('Registered', 'Attended')
 JOIN users u ON e.organizer_id = u.id
 WHERE e.id = ?
 GROUP BY e.id`,
