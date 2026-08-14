@@ -19,6 +19,10 @@ app.use(
     secret: "campus-events-secret",
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      httpOnly: true, // JS in the browser can't read the session cookie (protects against XSS theft)
+      maxAge: 1000 * 60 * 60, // session lasts 1 hour
+    },
   }),
 );
 

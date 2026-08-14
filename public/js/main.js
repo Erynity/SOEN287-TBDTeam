@@ -494,6 +494,11 @@ async function loadStudentDashboard() {
   );
   const allEvents = await fetchEvents();
 
+  // fill in the student's name at the top of the dashboard
+  const me = await fetch("/api/me").then((r) => r.json());
+  document.getElementById("profileName").textContent =
+    me.firstName + " " + me.lastName;
+
   //stat cards for student dashboard
   document.getElementById("registeredCount").textContent =
     myRegistrations.length;
@@ -767,6 +772,19 @@ async function loadRegisteredStudents() {
   const params = new URLSearchParams(window.location.search);
   const eventId = Number(params.get("id"));
 
+  // get the event too, so we know if it's cancelled
+  const event = await fetch(`/api/events/${eventId}`).then((r) => r.json());
+  const isCancelled = ["Cancelled", "Disabled"].includes(event.status);
+
+  // hide the ATTENDANCE column header if the event is cancelled
+  const attendanceHeader = document
+    .querySelector("#registeredStudentsTable")
+    .closest("table")
+    .querySelector("thead th:nth-child(4)");
+  if (attendanceHeader) {
+    attendanceHeader.style.display = isCancelled ? "none" : "";
+  }
+
   const registeredStudents = await fetch(
     `/admin/events/${eventId}/registrations`,
   ).then((r) => r.json());
@@ -779,16 +797,21 @@ async function loadRegisteredStudents() {
   if (registeredStudents.length === 0) {
     studentsTable.innerHTML = `
         <tr>
-          <td colspan="3" style="text-align:center;">No students registered for this event.</td>
+          <td colspan="4" style="text-align:center;">No students registered for this event.</td>
         </tr>`;
   } else {
     registeredStudents.forEach((student) => {
+      // only show the attendance checkbox cell if the event isn't cancelled
+      const attendanceCell = isCancelled
+        ? ""
+        : `<td><input type="checkbox" id="attended-${student.id}" name="attended-${student.id}" ${student.attended ? "checked" : ""} onchange="markAttendance(${student.id}, this.checked)"></td>`;
+
       studentsTable.innerHTML += `
           <tr>
             <td>${student.first_name}</td>
             <td>${student.last_name}</td>
             <td>${student.email}</td>
-            <td><input type="checkbox" id="attended-${student.id}" name="attended-${student.id}" ${student.attended ? "checked" : ""} onchange="markAttendance(${student.id}, this.checked)" ></td>
+            ${attendanceCell}
           </tr>
         `;
     });

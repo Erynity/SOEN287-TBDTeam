@@ -58,10 +58,12 @@ function setAttendance(id, attended) {
 function countAttendance() {
   const query = db.prepare(
     `SELECT
-  COUNT(*) AS total,
-  SUM(CASE WHEN status = 'Attended' THEN 1 ELSE 0 END) AS attended
-FROM registrations
-WHERE status IN ('Registered', 'Attended', 'Missed')`,
+       COUNT(*) AS total,
+       SUM(CASE WHEN r.status = 'Attended' THEN 1 ELSE 0 END) AS attended
+     FROM registrations r
+     JOIN events e ON e.id = r.event_id
+     WHERE r.status IN ('Registered', 'Attended', 'Missed')
+       AND e.status NOT IN ('Cancelled', 'Disabled')`,
   );
   return query.get();
 }

@@ -50,17 +50,18 @@
       <!-- Page heading: eyebrow label, admin/organizer name, and a short intro -->
       <span class="eyebrow">ADMIN DASHBOARD</span>
       <h1><span id="profileName"></span></h1>
-      <p class="muted">Here you can find all your events and statistics!</p>
 
       <!-- Admin quick actions: create an event, manage events, edit profile -->
       <div class="quick-actions">
+        <a href="admin-profile" class="btn btn-secondary">My Profile</a>
+        <a href="/events" class="btn btn-secondary">Events</a>
         <a href="create-event" class="btn">+ Create Event</a>
         <a href="manage-events" class="btn">+ Manage events</a>
-        <a href="admin-profile" class="btn btn-secondary">My Profile</a>
       </div>
 
       <!-- Quick stats: two summary cards filled from our data -->
       <h2>Quick recap!</h2>
+      <p class="muted">Here you can find all your events and statistics</p>
 
       <!-- Stat cards. The numbers have ids (statUpcomingSoon, statTotalEvents)
      so JavaScript can update them from the events data -->

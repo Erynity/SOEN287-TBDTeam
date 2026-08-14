@@ -71,11 +71,15 @@ async function login(req, res) {
     return res.status(401).json({ error: "Invalid email or password." });
   }
 
-  // Store the user in the session
-  req.session.userId = user.id;
-  req.session.role = user.role;
-
-  res.json({ success: true, role: user.role });
+  // Regenerate the session ID after login (prevents session fixation)
+  req.session.regenerate((err) => {
+    if (err) {
+      return res.status(500).json({ error: "Login failed, please try again." });
+    }
+    req.session.userId = user.id;
+    req.session.role = user.role;
+    res.json({ success: true, role: user.role });
+  });
 }
 
 // Handle logout and profile stubs
