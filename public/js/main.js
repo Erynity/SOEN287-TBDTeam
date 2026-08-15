@@ -849,6 +849,27 @@ async function loadAdminStatistics() {
     stats.attendanceRate + "%";
 }
 
+// Fill a <select> with categories from the database
+async function loadCategories(selectId, isFilter) {
+  const select = document.getElementById(selectId);
+  if (!select) return;
+
+  const categories = await fetch("/api/categories").then((r) => r.json());
+
+  // the first option depends on whether it's a filter or a form
+  const first = isFilter
+    ? '<option value="">All Categories</option>'
+    : '<option value="">Select the event category</option>';
+
+  select.innerHTML =
+    first +
+    categories
+      .map(
+        (c) => `<option value="${c.category_name}">${c.category_name}</option>`,
+      )
+      .join("");
+}
+
 // EDIT EVENT page - load the chosen event into the form, then handle save
 async function setupEditEvent() {
   const form = document.querySelector("#edit-event-form");
@@ -1115,3 +1136,7 @@ loadEventTable(
 );
 loadEventTable(pasteventOverviewTable, (e) => e.status === "Completed");
 loadEventTable(cancelledEventsTable, (e) => e.status === "Cancelled");
+
+// load categories on the pages that have these dropdowns
+loadCategories("event-category", false); // create + edit event forms
+loadCategories("categoryFilter", true); // events page filter

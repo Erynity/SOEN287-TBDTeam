@@ -1,7 +1,25 @@
 const Event = require("../models/Event");
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
+const db = require("./db");
 
+const categories = [
+  "Academic workshops",
+  "Career events",
+  "Club activities",
+  "Sports events",
+  "Cultural events",
+  "Volunteering events",
+  "Social events",
+  "Guest lectures",
+  "Networking events",
+  "Other",
+];
+const insertCat = db.prepare(
+  "INSERT OR IGNORE INTO categories (category_name) VALUES (?)",
+);
+categories.forEach((c) => insertCat.run(c));
+console.log("Categories seeded");
 User.create(
   "Admin",
   "User",

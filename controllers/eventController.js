@@ -2,6 +2,7 @@
 // and creating/editing/deleting events.
 // Uses the Event model to talk to the database.
 const Event = require("../models/Event");
+const Category = require("../models/Category");
 
 // Send every event as JSON. The frontend fetches this to fill the events grid.
 function listEvents(req, res) {
@@ -38,18 +39,27 @@ function createEvent(req, res) {
     return res.send("Event date cannot be in the past.");
   }
 
+  // ---- STEP 5: handle a new "Other" category ----
+  let finalCategory = category; // start with the dropdown value
+  const otherCategory = req.body["other-category"]; // the text box
+  if (category === "Other" && otherCategory && otherCategory.trim() !== "") {
+    finalCategory = otherCategory.trim(); // use what they typed
+    Category.add(finalCategory); // save it so it appears everywhere later
+  }
+  // ------------------------------------------------
+
   Event.create(
     title,
     description,
-    category,
+    finalCategory, // ← use finalCategory, NOT category
     event_date,
     start_time,
     end_time,
     location,
     capacity,
     organizer_id,
-    "Open", //new events start open
-    null, //no image
+    "Open", // event open
+    null, // no image
   );
   res.redirect("/manage-events");
 }

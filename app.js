@@ -32,6 +32,7 @@ const eventRoutes = require("./routes/eventRoutes");
 const { requireLogin, requireAdmin } = require("./middleware/auth");
 const registrationRoutes = require("./routes/registrationRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+const Category = require("./models/Category");
 
 app.use("/auth", authRoutes);
 app.use("/api/events", eventRoutes);
@@ -70,6 +71,11 @@ app.get("/api/me", (req, res) => {
 // Events page (the styled page; its data comes from /api/events)
 app.get("/events", (req, res) => {
   res.sendFile(path.join(__dirname, "views", "events.html"));
+});
+
+// Send all categories as JSON (for dropdowns + filter)
+app.get("/api/categories", (req, res) => {
+  res.json(Category.getAll());
 });
 
 // ---- Public pages ----

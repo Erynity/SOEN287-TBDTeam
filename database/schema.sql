@@ -24,6 +24,12 @@ CREATE TABLE events (
     created_on DATE DEFAULT CURRENT_DATE
 );
 
+CREATE TABLE categories (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  category_name VARCHAR(100) NOT NULL UNIQUE,
+  description TEXT
+);
+
 CREATE TABLE registrations (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
