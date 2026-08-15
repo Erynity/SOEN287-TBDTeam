@@ -1,6 +1,9 @@
+// Database functions for the registrations table.
+// A "registration" links one user to one event, with a status and attendance.
 const db = require("../database/db");
 
-//count registrations for an event
+// Count active registrations for an event (used for the capacity/full check).
+// Cancelled registrations don't count toward a full event.
 function countForEvent(eventId) {
   const query = db.prepare(
     "SELECT COUNT(*) AS count FROM registrations WHERE event_id = ? AND status IN ('Registered', 'Attended')",
@@ -8,7 +11,7 @@ function countForEvent(eventId) {
   return query.get(eventId).count;
 }
 
-//count events by category
+// How many active registrations each category has (for popularity stats).
 function countByCategory() {
   const query = db.prepare(`SELECT e.category, COUNT(r.id) AS total
 FROM registrations r

@@ -1,15 +1,16 @@
-//required models
+// Admin-only actions: list the admin's events, view an event's registrations,
+// mark attendance, and build the statistics for the admin dashboard.
 const Registration = require("../models/Registration");
 const Event = require("../models/Event");
 
-//list events for Admin user
+// List only the events created by the logged-in admin.
 function listMyEvents(req, res) {
   const adminId = req.session.userId;
   const events = Event.getAllWithCounts();
   res.json(events.filter((e) => e.organizer_id === adminId));
 }
 
-//list registrations for events 
+// List the students registered for one event (admin must own the event).
 function listEventRegistrations(req, res) {
   const eventId = req.params.id;
   const adminId = req.session.userId;
@@ -26,7 +27,7 @@ function listEventRegistrations(req, res) {
   res.json(Registration.findByEvent(eventId));
 }
 
-//mark attendance
+// Mark a student present/absent for an event (admin must own the event).
 function markAttendance(req, res) {
   const registrationId = req.params.id;
   const attended = req.body.attended;
@@ -43,7 +44,7 @@ function markAttendance(req, res) {
   if (event.organizer_id !== adminId) {
     return res.status(403).json({ error: "This is not your Attendance" });
   }
-//sets attendance to attended for a specific registrationID
+  //sets attendance to attended for a specific registrationID
   Registration.setAttendance(registrationId, attended);
   res.json({ success: true });
 }
@@ -51,10 +52,12 @@ function markAttendance(req, res) {
 //get admin stats: total events, full events, total registrations, attendance rate, most registered and least registered
 function getStats(req, res) {
   const adminId = req.session.userId;
+  // only this admin's events count toward their stats
   const events = Event.getAllWithCounts().filter(
     (e) => e.organizer_id === adminId,
   );
   const attendance = Registration.countAttendance();
+  // sort a copy by registration count (most registered first)
   const sorted = [...events].sort((a, b) => b.registered - a.registered);
   const perCategory = Registration.mostPopularByCategory();
   const topPerCategory = [];

@@ -15,6 +15,7 @@ const categories = [
   "Networking events",
   "Other",
 ];
+
 const insertCat = db.prepare(
   "INSERT OR IGNORE INTO categories (category_name) VALUES (?)",
 );
@@ -60,7 +61,7 @@ Event.create(
   "H-20",
   10,
   1,
-  "Open",
+  "Cancelled",
   null,
 );
 
