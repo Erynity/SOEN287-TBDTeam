@@ -3,9 +3,11 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 
+//password regex
 const passwordPattern =
   /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])\S{8,}$/;
 
+//email regex
 const emailPattern = /^(\S+@)(gmail|outlook|campus)\.(com|ca)$/i;
 
 // Show the registration form
@@ -17,11 +19,12 @@ function showRegister(req, res) {
 async function register(req, res) {
   const { firstName, lastName, email, password, role } = req.body;
 
-  //Checks
+  //Checks required fields
   if (!firstName || !lastName || !email || !password) {
     return res.status(400).json({ error: "All fields are required" });
   }
 
+  //checks email regex
   if (!emailPattern.test(email)) {
     return res
       .status(400)
@@ -33,7 +36,7 @@ async function register(req, res) {
   if (existingUser) {
     return res.status(400).json({ error: "Email is already registered." });
   }
-
+//checks password regex
   if (!passwordPattern.test(password)) {
     return res.status(400).json({
       error:
@@ -97,7 +100,7 @@ function showProfile(req, res) {
   // This is a stub for showing the profile page and edit it.
   res.sendFile("student-profile.html", { root: "./views" });
 }
-
+//update profile with new info
 async function updateProfile(req, res) {
   const userId = req.session.userId;
   const firstName = req.body.firstname;
@@ -115,25 +118,25 @@ async function updateProfile(req, res) {
   if (!isMatch) {
     return res.status(403).json({ error: "Current password is incorrect" });
   }
-
+//checks all required fields
   if (!firstName || !lastName || !email) {
     return res.status(400).json({ error: "All fields are required" });
   }
-
+//checks if email is already used
   const existing = User.findByEmail(email);
   if (existing && existing.id !== userId) {
     return res.status(400).json({ error: "Email already in use" });
   }
 
   User.updateProfile(userId, firstName, lastName, email);
-
+//checks new password regex
   if (newPassword && !passwordPattern.test(newPassword)) {
     return res.status(400).json({
       error:
         "Password must be 8+ characters with a capital letter, lowercase letter, number, and special character.",
     });
   }
-
+//update with new hashed password
   if (newPassword) {
     const hash = await bcrypt.hash(newPassword, 10);
     User.updatePassword(userId, hash);
