@@ -1,20 +1,24 @@
+//required models
 const Registration = require("../models/Registration");
 const Event = require("../models/Event");
 
+//list events for Admin user
 function listMyEvents(req, res) {
   const adminId = req.session.userId;
   const events = Event.getAllWithCounts();
   res.json(events.filter((e) => e.organizer_id === adminId));
 }
 
+//list registrations for events 
 function listEventRegistrations(req, res) {
   const eventId = req.params.id;
   const adminId = req.session.userId;
   const event = Event.getById(eventId);
+  //error handling event not found
   if (!event) {
     return res.status(404).json({ error: "Event not found" });
   }
-
+  //error handling for event not owned by admin user
   if (event.organizer_id !== adminId) {
     return res.status(403).json({ error: "This is not your event" });
   }
@@ -22,25 +26,29 @@ function listEventRegistrations(req, res) {
   res.json(Registration.findByEvent(eventId));
 }
 
+//mark attendance
 function markAttendance(req, res) {
   const registrationId = req.params.id;
   const attended = req.body.attended;
   const adminId = req.session.userId;
 
   const registration = Registration.getById(registrationId);
+  //if not registered
   if (!registration) {
     return res.status(404).json({ error: "Attendance not found" });
   }
 
   const event = Event.getById(registration.event_id);
+  //if event not owned by admin user
   if (event.organizer_id !== adminId) {
     return res.status(403).json({ error: "This is not your Attendance" });
   }
-
+//sets attendance to attended for a specific registrationID
   Registration.setAttendance(registrationId, attended);
   res.json({ success: true });
 }
 
+//get admin stats: total events, full events, total registrations, attendance rate, most registered and least registered
 function getStats(req, res) {
   const adminId = req.session.userId;
   const events = Event.getAllWithCounts().filter(
@@ -72,6 +80,7 @@ function getStats(req, res) {
   });
 }
 
+//export
 module.exports = {
   listMyEvents,
   listEventRegistrations,

@@ -151,6 +151,7 @@ function showEditForm(req, res) {
   res.sendFile("edit-event.html", { root: "./views" });
 }
 
+//export functions
 module.exports = {
   listEvents,
   getEvent,
