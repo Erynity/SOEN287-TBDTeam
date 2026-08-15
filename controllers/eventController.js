@@ -57,6 +57,17 @@ function createEvent(req, res) {
 // Update an existing event from the edit-event form.
 function updateEvent(req, res) {
   const id = req.params.id;
+  const adminId = req.session.userId;
+
+  // only the admin who created the event can edit it
+  const event = Event.getById(id);
+  if (!event) {
+    return res.status(404).send("Event not found.");
+  }
+  if (event.organizer_id !== adminId) {
+    return res.status(403).send("You can only edit events you created.");
+  }
+
   const {
     title,
     description,
@@ -68,7 +79,6 @@ function updateEvent(req, res) {
     capacity,
     status,
   } = req.body;
-  const organizer_id = req.session.userId;
 
   Event.update(
     id,
@@ -80,7 +90,7 @@ function updateEvent(req, res) {
     end_time,
     location,
     capacity,
-    organizer_id,
+    event.organizer_id, // keep the ORIGINAL organizer, don't overwrite
     status,
     null,
   );
@@ -90,12 +100,28 @@ function updateEvent(req, res) {
 
 // Delete an event, then go back to manage events.
 function deleteEvent(req, res) {
+  const adminId = req.session.userId;
+  const event = Event.getById(req.params.id);
+  if (!event) {
+    return res.status(404).send("Event not found.");
+  }
+  if (event.organizer_id !== adminId) {
+    return res.status(403).send("You can only delete events you created.");
+  }
   Event.remove(req.params.id);
   res.redirect("/manage-events");
 }
 
 // Cancel an event (marks it Cancelled, keeps it in the database).
 function cancelEvent(req, res) {
+  const adminId = req.session.userId;
+  const event = Event.getById(req.params.id);
+  if (!event) {
+    return res.status(404).send("Event not found.");
+  }
+  if (event.organizer_id !== adminId) {
+    return res.status(403).send("You can only cancel events you created.");
+  }
   Event.cancel(req.params.id);
   res.redirect("/manage-events");
 }
@@ -107,6 +133,11 @@ function showCreateForm(req, res) {
 
 // Show the edit-event page (the data is fetched by the frontend via ?id=)
 function showEditForm(req, res) {
+  const adminId = req.session.userId;
+  const event = Event.getById(req.params.id);
+  if (!event || event.organizer_id !== adminId) {
+    return res.status(403).send("You can only edit events you created.");
+  }
   res.sendFile("edit-event.html", { root: "./views" });
 }
 
